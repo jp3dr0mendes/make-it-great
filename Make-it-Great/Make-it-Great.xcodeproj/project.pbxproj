@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		270914652CAC1BE400814654 /* MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270914642CAC1BE400814654 /* MainScreenView.swift */; };
+		270914672CAC1E8200814654 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270914662CAC1E8200814654 /* SegmentedControl.swift */; };
+		270914692CAC205800814654 /* SegmentedControlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270914682CAC205800814654 /* SegmentedControlModel.swift */; };
 		D8E010A52CAAF06D00B3DD9F /* Make_it_GreatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E010A42CAAF06D00B3DD9F /* Make_it_GreatApp.swift */; };
 		D8E010A72CAAF06D00B3DD9F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E010A62CAAF06D00B3DD9F /* ContentView.swift */; };
 		D8E010A92CAAF06D00B3DD9F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E010A82CAAF06D00B3DD9F /* Item.swift */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		270914642CAC1BE400814654 /* MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenView.swift; sourceTree = "<group>"; };
+		270914662CAC1E8200814654 /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		270914682CAC205800814654 /* SegmentedControlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlModel.swift; sourceTree = "<group>"; };
 		D8E010A12CAAF06D00B3DD9F /* Make-it-Great.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Make-it-Great.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E010A42CAAF06D00B3DD9F /* Make_it_GreatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Make_it_GreatApp.swift; sourceTree = "<group>"; };
 		D8E010A62CAAF06D00B3DD9F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -37,6 +43,7 @@
 		270914592CAC18A800814654 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				270914682CAC205800814654 /* SegmentedControlModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -44,6 +51,8 @@
 		2709145A2CAC18B400814654 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2709146A2CAC2A6900814654 /*  Components */,
+				270914642CAC1BE400814654 /* MainScreenView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -53,6 +62,14 @@
 			children = (
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		2709146A2CAC2A6900814654 /*  Components */ = {
+			isa = PBXGroup;
+			children = (
+				270914662CAC1E8200814654 /* SegmentedControl.swift */,
+			);
+			path = " Components";
 			sourceTree = "<group>";
 		};
 		D8E010982CAAF06D00B3DD9F = {
@@ -164,9 +181,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				270914692CAC205800814654 /* SegmentedControlModel.swift in Sources */,
 				D8E010A72CAAF06D00B3DD9F /* ContentView.swift in Sources */,
 				D8E010A92CAAF06D00B3DD9F /* Item.swift in Sources */,
 				D8E010A52CAAF06D00B3DD9F /* Make_it_GreatApp.swift in Sources */,
+				270914672CAC1E8200814654 /* SegmentedControl.swift in Sources */,
+				270914652CAC1BE400814654 /* MainScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
