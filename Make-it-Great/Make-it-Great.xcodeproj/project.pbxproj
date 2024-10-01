@@ -34,6 +34,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270914592CAC18A800814654 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2709145A2CAC18B400814654 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2709145B2CAC18C400814654 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		D8E010982CAAF06D00B3DD9F = {
 			isa = PBXGroup;
 			children = (
@@ -53,6 +74,9 @@
 		D8E010A32CAAF06D00B3DD9F /* Make-it-Great */ = {
 			isa = PBXGroup;
 			children = (
+				2709145B2CAC18C400814654 /* Resources */,
+				2709145A2CAC18B400814654 /* Views */,
+				270914592CAC18A800814654 /* Models */,
 				D8E010A42CAAF06D00B3DD9F /* Make_it_GreatApp.swift */,
 				D8E010A62CAAF06D00B3DD9F /* ContentView.swift */,
 				D8E010A82CAAF06D00B3DD9F /* Item.swift */,
