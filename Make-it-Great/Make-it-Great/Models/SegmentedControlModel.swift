@@ -15,7 +15,6 @@ enum TaskCategory: String, CaseIterable, Identifiable {
     case refrigerator
     case cabinet
 
-
     var id: String { self.rawValue }
 
     var description: String {
