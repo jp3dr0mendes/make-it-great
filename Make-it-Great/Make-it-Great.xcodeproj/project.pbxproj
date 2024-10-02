@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2728ABC12CAD6B8E0070E11D /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2728ABC02CAD6B8E0070E11D /* SegmentedControl.swift */; };
+		2728ABC32CAD6BD80070E11D /* MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2728ABC22CAD6BD80070E11D /* MainScreenView.swift */; };
+		2728ABC52CAD6C190070E11D /* SegmentedControlComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2728ABC42CAD6C190070E11D /* SegmentedControlComponent.swift */; };
 		D8017D7D2CAC175100DF28A0 /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D7C2CAC175100DF28A0 /* FoodModel.swift */; };
 		D8017D802CAC1D6D00DF28A0 /* AddItemSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */; };
 		D8017D822CAC261100DF28A0 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D812CAC261100DF28A0 /* Enums.swift */; };
@@ -18,6 +21,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2728ABC02CAD6B8E0070E11D /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		2728ABC22CAD6BD80070E11D /* MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenView.swift; sourceTree = "<group>"; };
+		2728ABC42CAD6C190070E11D /* SegmentedControlComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlComponent.swift; sourceTree = "<group>"; };
 		D8017D7C2CAC175100DF28A0 /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
 		D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemSheet.swift; sourceTree = "<group>"; };
 		D8017D812CAC261100DF28A0 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -40,11 +46,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2728ABBF2CAD6B010070E11D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2728ABC22CAD6BD80070E11D /* MainScreenView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		D8017D7B2CAC15C000DF28A0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				D8017D7C2CAC175100DF28A0 /* FoodModel.swift */,
 				D8017D812CAC261100DF28A0 /* Enums.swift */,
+				2728ABC02CAD6B8E0070E11D /* SegmentedControl.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -52,6 +67,7 @@
 		D8017D7E2CAC1D4C00DF28A0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				2728ABC42CAD6C190070E11D /* SegmentedControlComponent.swift */,
 				D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */,
 			);
 			path = Components;
@@ -76,6 +92,7 @@
 		D8E010A32CAAF06D00B3DD9F /* Make-it-Great */ = {
 			isa = PBXGroup;
 			children = (
+				2728ABBF2CAD6B010070E11D /* Views */,
 				D8017D7E2CAC1D4C00DF28A0 /* Components */,
 				D8017D7B2CAC15C000DF28A0 /* Models */,
 				D8E010A42CAAF06D00B3DD9F /* Make_it_GreatApp.swift */,
@@ -167,10 +184,13 @@
 			files = (
 				D8E010A72CAAF06D00B3DD9F /* ContentView.swift in Sources */,
 				D8E010A92CAAF06D00B3DD9F /* Item.swift in Sources */,
+				2728ABC12CAD6B8E0070E11D /* SegmentedControl.swift in Sources */,
 				D8E010A52CAAF06D00B3DD9F /* Make_it_GreatApp.swift in Sources */,
 				D8017D7D2CAC175100DF28A0 /* FoodModel.swift in Sources */,
 				D8017D822CAC261100DF28A0 /* Enums.swift in Sources */,
+				2728ABC52CAD6C190070E11D /* SegmentedControlComponent.swift in Sources */,
 				D8017D802CAC1D6D00DF28A0 /* AddItemSheet.swift in Sources */,
+				2728ABC32CAD6BD80070E11D /* MainScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -49,6 +49,7 @@ struct AddItem: View {
             }
 
             HStack{
+
                 Text("Tipo de Contagem:")
                 Picker("Tipo de Contagem", selection: $tipoQuantidade){
                     ForEach(CountType.allCases, id: \.self){
