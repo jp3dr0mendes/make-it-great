@@ -10,23 +10,27 @@ import Foundation
 
 @Model
 class Food{
+    var nome: String
     var storage: String
-    var weight: Int?
-    var quantity: Int?
+    var units: Int?
+    var weight: Float?
     var type: String
-    var consumirAte: Date?
+    var consumirAte: Date
     
-    private let FoodTypes:[String] = ["Fruta","Verdura","Carne","Carne","Biscoito","Snack"]
-    private let StorageType: [String] = ["Cabinet","Fridge"]
+//    private let FoodTypes:[String] = ["Fruta","Verdura","Carne","Carne","Biscoito","Snack"]
+//    private let StorageType: [String] = ["Cabinet","Fridge"]
     
-    init(storage: StorageType, quantity: Int, type: FoodType, consumirAte: Date?) {
+    init(nome: String, storage: StorageType, type: FoodType, consumirAte: Date, units: Int?, weight: Float?) {
+        self.nome = nome
         self.storage = ""
-        self.quantity = quantity
         self.type = ""
+        self.consumirAte = consumirAte
         
-        if let data = consumirAte {
-            self.consumirAte = consumirAte
-        } else { }
+        if let peso = weight{
+            self.weight = peso
+        } else if let unidades = units{
+            self.units = unidades
+        }
         
         self.storage = checkStorage(storage: storage)
         self.type = checkFoodType(foodType: type)
