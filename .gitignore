@@ -92,3 +92,6 @@ xcuserdata
 
 
 # End of https://www.toptal.com/developers/gitignore/api/swift,swiftpackagemanager
+
+# Ignorar arquivos de sistema macOS
+.DS_Store
