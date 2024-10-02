@@ -36,4 +36,7 @@ struct TaskView: View {
 //        TaskView(selectedCategory: Binding<TaskCategory>)
 //    }
 //}
-
+//#Preview {
+//    
+//    TaskView(selectedCategory: TaskCategory.refrigerator)
+//}

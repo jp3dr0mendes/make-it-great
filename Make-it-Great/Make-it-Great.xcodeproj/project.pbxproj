@@ -50,7 +50,6 @@
 			isa = PBXGroup;
 			children = (
 				2728ABC22CAD6BD80070E11D /* MainScreenView.swift */,
-				2728ABC42CAD6C190070E11D /* SegmentedControlComponent.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -68,6 +67,7 @@
 		D8017D7E2CAC1D4C00DF28A0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				2728ABC42CAD6C190070E11D /* SegmentedControlComponent.swift */,
 				D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */,
 			);
 			path = Components;
