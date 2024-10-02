@@ -39,7 +39,7 @@ class Food{
         switch storage {
         case .cabinet:
             return "Armário"
-        case .fridge:
+        case .refrigerator:
             return "Geladeira"
         }
     }

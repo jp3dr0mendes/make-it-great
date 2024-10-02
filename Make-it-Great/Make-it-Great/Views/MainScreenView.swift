@@ -9,16 +9,21 @@ import SwiftUI
 
 struct MainScreenView: View {
     
-    @State private var selectedCategory: TaskCategory = .refrigerator
+    @State private var selectedCategory: StorageType = .refrigerator
+    @State var isPresented: Bool = false
     
     var body: some View {
         
         VStack {
             
-            TaskView(selectedCategory: $selectedCategory)
+            SegmentedControlComponent(selectedCategory: $selectedCategory)
             
+            Button("Adicionar Item"){
+                isPresented = true            }
         }
-            
+        .sheet(isPresented: $isPresented, content: {
+            AddItem(isPresented: $isPresented)
+        })
     }
 }
 
