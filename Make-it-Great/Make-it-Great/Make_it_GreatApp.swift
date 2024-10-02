@@ -26,11 +26,11 @@ struct Make_it_GreatApp: App {
     var body: some Scene {
         WindowGroup {
             if firstUse {
-                ContentView() //substituir para a tela de onboarding
+                AddItem(isPresented: true) //substituir para a tela de onboarding
             } else {
-                ContentView()
+                AddItem(isPresented: true)
             }
         }
-        .modelContainer(for: [Food.self])
+//        .modelContainer(for: [Food.self])
     }
 }
