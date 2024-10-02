@@ -15,28 +15,36 @@ struct AddItem: View {
 //    @State var contagem: CountType = .Unit
 
     var body: some View {
-        Text("Nome")
-        TextField("Teste", text: $nome)
-        
-        Text("Quantidade")
-        
-        Text("Tipo de Contagem")
-//        Picker("Tipo de Contagem", selection: $contagem){
-//            ForEach(CountType.allCases, id: \.self){
-//                cont in
-//                Text(verbatim: "\(cont)")
-//            }
-//        }
-        
-        Text("Categoria")
-        Picker("Categoria", selection: $categoria){
-            ForEach(FoodType.allCases, id: \.self) {
-                food in
-                Text(verbatim: "\(food)")
+        VStack{
+            Text("Adicionar Item")
+            
+            HStack{
+                Text("Nome")
+                TextField("nome", text: $nome)
+                    .background(Color.gray)
+                .            }
+            TextField("Teste", text: $nome)
+            
+            Text("Quantidade")
+            
+            Text("Tipo de Contagem")
+            //        Picker("Tipo de Contagem", selection: $contagem){
+            //            ForEach(CountType.allCases, id: \.self){
+            //                cont in
+            //                Text(verbatim: "\(cont)")
+            //            }
+            //        }
+            
+            Text("Categoria")
+            Picker("Categoria", selection: $categoria){
+                ForEach(FoodType.allCases, id: \.self) {
+                    food in
+                    Text(verbatim: "\(food)")
+                }
             }
+            
+            DatePicker("Consumir até", selection: $data, displayedComponents: .date)
         }
-        
-        DatePicker("Consumir até", selection: $data, displayedComponents: .date)
     }
 }
 
