@@ -22,7 +22,7 @@ struct AddItem: View {
                 Text("Nome")
                 TextField("nome", text: $nome)
                     .background(Color.gray)
-                .            }
+                            }
             TextField("Teste", text: $nome)
             
             Text("Quantidade")
