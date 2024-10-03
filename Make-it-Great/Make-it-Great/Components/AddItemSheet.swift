@@ -10,10 +10,12 @@ import SwiftUI
 struct AddItem: View {
     @Environment(\.modelContext) var context
     
+
+
+
     @Binding var isPresented: Bool
     @Binding var storage: StorageType
     
-
     @State var nome: String = ""
     @State var data: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     @State var categoria: FoodType = .Bebida
@@ -21,6 +23,7 @@ struct AddItem: View {
     
     @State var peso: Float = 0
     @State var unidades: Int = 0
+
 
     var body: some View {
         
@@ -52,6 +55,7 @@ struct AddItem: View {
                     Text("Nome")
                     TextField("nome", text: $nome)
 
+
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
                     
@@ -62,7 +66,6 @@ struct AddItem: View {
 
             HStack{
 
-
                 Text("Tipo de Contagem:")
                 Picker("Tipo de Contagem", selection: $tipoQuantidade){
                     ForEach(CountType.allCases, id: \.self){
@@ -70,6 +73,54 @@ struct AddItem: View {
                         Text(verbatim: "\(contType)")
                     }
 
+                }
+            }
+            
+            
+//            TextField("Contador", value: $count, formatter: NumberFormatter())
+//                            .textFieldStyle(.roundedBorder)
+            
+            VStack{
+                
+                switch tipoQuantidade {
+                case .Peso:
+                    HStack{
+                        
+                        Text("Quantidade")
+                        
+                        TextField("Contador", value: $peso, formatter: NumberFormatter())
+                            .textFieldStyle(.roundedBorder)
+                        Text("kg")
+                    }
+                case .Unidade:
+                    HStack{
+                        
+                        Text("Quantidade")
+                        
+                        Button("-") {
+                            unidades -= 1
+                        }
+
+                        TextField("Contador", value: $unidades, formatter: NumberFormatter())
+                            .textFieldStyle(.roundedBorder)
+                            .keyboardType(.numberPad)
+                            .disabled(unidades == 0)
+                        
+                        Button("+") {
+                            unidades += 1
+                        }
+
+                    }
+                }
+            }
+            
+            HStack{
+                Text("Categoria")
+                Picker("Categoria", selection: $categoria){
+                    ForEach(FoodType.allCases, id: \.self) {
+                        food in
+                        Text(verbatim: "\(food)")
+                    }
                 }
             }
             
