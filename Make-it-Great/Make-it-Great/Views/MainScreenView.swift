@@ -30,11 +30,22 @@ struct MainScreenView: View {
             }
             
             Button("Adicionar Item"){
-                isPresented = true            }
+                isPresented = true
+            }
+            
+            NavigationView {
+                
+                NavigationLink(destination: ScreenScan()) {
+                    Text("Ir para Scan (Apenas teste)")
+                }
+            }
+            
         }
         .sheet(isPresented: $isPresented, content: {
             AddItem(isPresented: $isPresented, storage: $selectedCategory)
         })
+        
+        
     }
 }
 

@@ -29,6 +29,7 @@
 		2728ABC42CAD6C190070E11D /* SegmentedControlComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlComponent.swift; sourceTree = "<group>"; };
 		277903A42CAEBC0700C57A2E /* ScreenScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenScan.swift; sourceTree = "<group>"; };
 		277903A92CAEC27400C57A2E /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		27F1E26B2CAEE14F00D9DE88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D8017D7C2CAC175100DF28A0 /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
 		D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemSheet.swift; sourceTree = "<group>"; };
 		D8017D812CAC261100DF28A0 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -109,6 +110,7 @@
 		D8E010A32CAAF06D00B3DD9F /* Make-it-Great */ = {
 			isa = PBXGroup;
 			children = (
+				27F1E26B2CAEE14F00D9DE88 /* Info.plist */,
 				2728ABBF2CAD6B010070E11D /* Views */,
 				D8017D7E2CAC1D4C00DF28A0 /* Components */,
 				D8017D7B2CAC15C000DF28A0 /* Models */,
@@ -344,8 +346,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Make-it-Great/Preview Content\"";
+				DEVELOPMENT_TEAM = 2GUQ3BYP7T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Make-it-Great/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -372,8 +377,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Make-it-Great/Preview Content\"";
+				DEVELOPMENT_TEAM = 2GUQ3BYP7T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Make-it-Great/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
