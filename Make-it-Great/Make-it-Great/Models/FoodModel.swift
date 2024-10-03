@@ -17,9 +17,6 @@ class Food{
     var type: String
     var consumirAte: Date
     
-//    private let FoodTypes:[String] = ["Fruta","Verdura","Carne","Carne","Biscoito","Snack"]
-//    private let StorageType: [String] = ["Cabinet","Fridge"]
-    
     init(nome: String, storage: StorageType, type: FoodType, consumirAte: Date, units: Int?, weight: Float?) {
         self.nome = nome
         self.storage = ""

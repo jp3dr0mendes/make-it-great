@@ -10,16 +10,29 @@ import SwiftData
 
 struct MainScreenView: View {
     
-    @Query(sort: \Food.consumirAte) var foods: [Food]
     @Environment(\.modelContext) var context
-//    @Query(filter: #Predicate { $0.storage == "Geladeira" }) var food: [Food]
+    
+    @Query(sort: \Food.consumirAte) var foods: [Food]
+    
+    @Query(
+        filter: #Predicate<Food> { food in
+            food.storage ==  "Geladeira"
+        }
+    )
+    var foodGeladeira: [Food]
+    
+    @Query(
+        filter: #Predicate<Food> { food in
+            food.storage ==  "Armário"
+        }
+    )
+    var foodArmario: [Food]
+    
     @State private var selectedCategory: StorageType = .refrigerator
     @State var isPresentedSheet: Bool = false
     @State var isPresentedMenu: Bool = false
-//    let container = ModelContainer(for: Food.self)
     
-    var foodFridge: [Food] = []
-    var foodCabinet: [Food] = []
+
     
     
     var body: some View {
@@ -27,11 +40,6 @@ struct MainScreenView: View {
         VStack {
             
             SegmentedControlComponent(selectedCategory: $selectedCategory)
-            
-            ForEach(foods){
-                food in
-                ListFood(comida: food)
-            }
             
             Menu("Adicionar Item"){
                 Button("Adicionar Manualmente"){
@@ -44,12 +52,28 @@ struct MainScreenView: View {
                 }
             }
             
+            VStack{
+                switch selectedCategory {
+                    case .refrigerator:
+                        ForEach(foodGeladeira){
+                            food in
+                            ListFood(comida: food)
+                        }
+                    case .cabinet:
+                        ForEach(foodArmario){
+                            food in
+                            ListFood(comida: food)
+                        }
+                }
+            }
+            
         }
         .sheet(isPresented: $isPresentedSheet, content: {
             AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
         })
     }
 }
+
 
 #Preview {
     MainScreenView()
