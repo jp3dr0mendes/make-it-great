@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct AddItem: View {
-    
     @Environment(\.modelContext) var context
+    
+
+
 
     @Binding var isPresented: Bool
     @Binding var storage: StorageType
@@ -21,12 +23,13 @@ struct AddItem: View {
     
     @State var peso: Float = 0
     @State var unidades: Int = 0
-//    @State var contagem: CountType = .Unit
+
 
     var body: some View {
         
         HStack{
             Button("Adicionar"){
+
                 switch tipoQuantidade {
                 case .Peso:
                     context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: data, units: nil, weight: peso))
@@ -45,20 +48,21 @@ struct AddItem: View {
         VStack{
             Text("Adicionar Item")
             
-            
+
             VStack{
                 
                 HStack{
                     Text("Nome")
                     TextField("nome", text: $nome)
 
-                        .textFieldStyle(.roundedBorder)
+
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
                     
                 }
                 
             }
+
 
             HStack{
 
@@ -67,6 +71,55 @@ struct AddItem: View {
                     ForEach(CountType.allCases, id: \.self){
                         contType in
                         Text(verbatim: "\(contType)")
+                    }
+
+                }
+            }
+            
+            
+//            TextField("Contador", value: $count, formatter: NumberFormatter())
+//                            .textFieldStyle(.roundedBorder)
+            
+            VStack{
+                
+                switch tipoQuantidade {
+                case .Peso:
+                    HStack{
+                        
+                        Text("Quantidade")
+                        
+                        TextField("Contador", value: $peso, formatter: NumberFormatter())
+                            .textFieldStyle(.roundedBorder)
+                        Text("kg")
+                    }
+                case .Unidade:
+                    HStack{
+                        
+                        Text("Quantidade")
+                        
+                        Button("-") {
+                            unidades -= 1
+                        }
+
+                        TextField("Contador", value: $unidades, formatter: NumberFormatter())
+                            .textFieldStyle(.roundedBorder)
+                            .keyboardType(.numberPad)
+                            .disabled(unidades == 0)
+                        
+                        Button("+") {
+                            unidades += 1
+                        }
+
+                    }
+                }
+            }
+            
+            HStack{
+                Text("Categoria")
+                Picker("Categoria", selection: $categoria){
+                    ForEach(FoodType.allCases, id: \.self) {
+                        food in
+                        Text(verbatim: "\(food)")
                     }
                 }
             }
@@ -119,11 +172,66 @@ struct AddItem: View {
                 }
             }
             
-            DatePicker("Consumir até", selection: $data, displayedComponents: .date)
+            
+            //            TextField("Contador", value: $count, formatter: NumberFormatter())
+            //                            .textFieldStyle(.roundedBorder)
+            
+            VStack{
+                
+                switch tipoQuantidade {
+                case .Peso:
+                    HStack{
+                        
+                        Text("Quantidade")
+                        
+                        TextField("Contador", value: $peso, formatter: NumberFormatter())
+                            .textFieldStyle(.roundedBorder)
+                        Text("kg")
+                    }
+                case .Unidade:
+                    HStack{
+                        
+                        Text("Quantidade")
+                        
+                        Button("-") {
+                            unidades -= 1
+                        }
+                            .keyboardType(.numberPad)
+                            
+                            Button("+") {
+                                unidades -= 1
+                            }
+                            
+                            TextField("Contador", value: $unidades, formatter: NumberFormatter())
+                                .textFieldStyle(.roundedBorder)
+                                .keyboardType(.numberPad)
+                                .disabled(unidades == 0)
+                            
+                            Button("+") {
+                                unidades += 1
+                            }
+                            
+                        }
+                    }
+                }
+                
+                HStack{
+                    Text("Categoria")
+                    Picker("Categoria", selection: $categoria){
+                        ForEach(FoodType.allCases, id: \.self) {
+                            food in
+                            Text(verbatim: "\(food)")
+                        }
+                    }
+                }
+                
+                DatePicker("Consumir até", selection: $data, displayedComponents: .date)
+            }
         }
     }
-}
+    
+    //#Preview {
+    //    AddItem(isPresented: true)
+    //}
 
-//#Preview {
-//    AddItem(isPresented: true)
-//}
+
