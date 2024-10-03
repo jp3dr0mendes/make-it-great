@@ -7,9 +7,22 @@
 
 import Foundation
 
-enum StorageType: CaseIterable {
+enum StorageType: String, CaseIterable, Identifiable {
+    
+    case refrigerator
     case cabinet
-    case fridge
+
+    var id: String { self.rawValue }
+
+    var description: String {
+        switch self {
+        case .refrigerator:
+            return "Refrigerator"
+        case .cabinet:
+            return "Cabinet"
+       
+        }
+    }
 }
 
 enum FoodType: CaseIterable {
