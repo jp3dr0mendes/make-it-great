@@ -48,6 +48,13 @@ struct MainScreenView: View {
                 
                 Button("Scannear") {
                     //Logica para passar para a tela da camera
+                    
+                    NavigationView {
+                        
+                        NavigationLink(destination: ScreenScan()) {
+                            Text("Ir para Scan (Apenas teste)")
+                        }
+                    }
                     isPresentedMenu = false
                 }
             }
@@ -67,10 +74,17 @@ struct MainScreenView: View {
                 }
             }
             
+            Button("Adicionar Item"){
+                isPresentedSheet = true
+            }
+            
+            
         }
         .sheet(isPresented: $isPresentedSheet, content: {
             AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
         })
+        
+        
     }
 }
 
