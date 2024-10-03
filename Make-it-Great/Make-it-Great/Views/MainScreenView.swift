@@ -12,11 +12,15 @@ struct MainScreenView: View {
     
     @Query(sort: \Food.consumirAte) var foods: [Food]
     @Environment(\.modelContext) var context
-    
+//    @Query(filter: #Predicate { $0.storage == "Geladeira" }) var food: [Food]
     @State private var selectedCategory: StorageType = .refrigerator
-    @State var isPresented: Bool = false
-    
+    @State var isPresentedSheet: Bool = false
+    @State var isPresentedMenu: Bool = false
 //    let container = ModelContainer(for: Food.self)
+    
+    var foodFridge: [Food] = []
+    var foodCabinet: [Food] = []
+    
     
     var body: some View {
         
@@ -26,14 +30,23 @@ struct MainScreenView: View {
             
             ForEach(foods){
                 food in
-                Text(verbatim: "\(food.nome)")
+                ListFood(comida: food)
             }
             
-            Button("Adicionar Item"){
-                isPresented = true            }
+            Menu("Adicionar Item"){
+                Button("Adicionar Manualmente"){
+                    isPresentedSheet = true
+                }
+                
+                Button("Scannear") {
+                    //Logica para passar para a tela da camera
+                    isPresentedMenu = false
+                }
+            }
+            
         }
-        .sheet(isPresented: $isPresented, content: {
-            AddItem(isPresented: $isPresented, storage: $selectedCategory)
+        .sheet(isPresented: $isPresentedSheet, content: {
+            AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
         })
     }
 }

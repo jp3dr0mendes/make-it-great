@@ -13,8 +13,12 @@ struct ListFood: View {
     @Environment(\.modelContext) var context
     var comida: Food
     var body: some View {
+        
         HStack{
             Text(comida.nome)
+            Button("Apagar"){
+                context.delete(comida)
+            }
         }
     }
 }
