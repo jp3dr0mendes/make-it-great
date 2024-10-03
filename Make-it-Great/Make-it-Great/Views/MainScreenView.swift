@@ -6,23 +6,53 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MainScreenView: View {
     
-    @State private var selectedCategory: TaskCategory = .refrigerator
+    @Query(sort: \Food.consumirAte) var foods: [Food]
+    @Environment(\.modelContext) var context
+//    @Query(filter: #Predicate { $0.storage == "Geladeira" }) var food: [Food]
+    @State private var selectedCategory: StorageType = .refrigerator
+    @State var isPresentedSheet: Bool = false
+    @State var isPresentedMenu: Bool = false
+//    let container = ModelContainer(for: Food.self)
+    
+    var foodFridge: [Food] = []
+    var foodCabinet: [Food] = []
+    
     
     var body: some View {
         
         VStack {
             
-            TaskView(selectedCategory: $selectedCategory)
+            SegmentedControlComponent(selectedCategory: $selectedCategory)
+            
+            ForEach(foods){
+                food in
+                ListFood(comida: food)
+            }
+            
+            Menu("Adicionar Item"){
+                Button("Adicionar Manualmente"){
+                    isPresentedSheet = true
+                }
+                
+                Button("Scannear") {
+                    //Logica para passar para a tela da camera
+                    isPresentedMenu = false
+                }
+            }
             
         }
-            
+        .sheet(isPresented: $isPresentedSheet, content: {
+            AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
+        })
     }
 }
 
 #Preview {
     MainScreenView()
+        .modelContainer(for: [Food.self])
 }
 

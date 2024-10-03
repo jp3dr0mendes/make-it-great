@@ -8,20 +8,32 @@
 import SwiftUI
 
 struct AddItem: View {
+    
+    @Environment(\.modelContext) var context
+
     @Binding var isPresented: Bool
+    @Binding var storage: StorageType
     
     @State var nome: String = ""
     @State var data: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     @State var categoria: FoodType = .Bebida
     @State var tipoQuantidade: CountType = .Unidade
     
-    @State var count = 0
+    @State var peso: Float = 0
+    @State var unidades: Int = 0
 //    @State var contagem: CountType = .Unit
 
     var body: some View {
         
         HStack{
             Button("Adicionar"){
+                switch tipoQuantidade {
+                case .Peso:
+                    context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: data, units: nil, weight: peso))
+                case .Unidade:
+                    context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: data, units: unidades, weight: nil))
+                }
+                
                 isPresented = false
             }
             
@@ -33,6 +45,7 @@ struct AddItem: View {
         VStack{
             Text("Adicionar Item")
             
+            
             VStack{
                 
                 HStack{
@@ -40,7 +53,6 @@ struct AddItem: View {
                     TextField("nome", text: $nome)
 
                         .textFieldStyle(.roundedBorder)
-//                        .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
                     
@@ -71,7 +83,7 @@ struct AddItem: View {
                         
                         Text("Quantidade")
                         
-                        TextField("Contador", value: $count, formatter: NumberFormatter())
+                        TextField("Contador", value: $peso, formatter: NumberFormatter())
                             .textFieldStyle(.roundedBorder)
                         Text("kg")
                     }
@@ -81,16 +93,16 @@ struct AddItem: View {
                         Text("Quantidade")
                         
                         Button("-") {
-                            count -= 1
+                            unidades -= 1
                         }
 
-                        TextField("Contador", value: $count, formatter: NumberFormatter())
+                        TextField("Contador", value: $unidades, formatter: NumberFormatter())
                             .textFieldStyle(.roundedBorder)
                             .keyboardType(.numberPad)
-                            .disabled(count <= 0)
+                            .disabled(unidades == 0)
                         
                         Button("+") {
-                            count += 1
+                            unidades += 1
                         }
 
                     }

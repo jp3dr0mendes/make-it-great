@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct TaskView: View {
-    @Binding var selectedCategory: TaskCategory
+struct SegmentedControlComponent: View {
+    @Binding var selectedCategory: StorageType
     /*@State private var selectedCategory: TaskCategory = .refrigerator*/ // Define a categoria inicial
 
     var body: some View {
@@ -17,7 +17,7 @@ struct TaskView: View {
 //                .font(.headline)
             
             Picker("Category", selection: $selectedCategory) {
-                ForEach(TaskCategory.allCases) { category in
+                ForEach(StorageType.allCases) { category in
                     Text(category.description)
                         .tag(category)
                 }
