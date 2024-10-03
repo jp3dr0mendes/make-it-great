@@ -82,6 +82,7 @@ struct AddItem: View {
                     }
                 }
             }
+
             
             
 //            TextField("Contador", value: $count, formatter: NumberFormatter())
