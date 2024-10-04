@@ -36,31 +36,26 @@ struct MainScreenView: View {
     
     
     var body: some View {
-        
-        VStack {
+        NavigationStack{
             
-            SegmentedControlComponent(selectedCategory: $selectedCategory)
-            
-            Menu("Adicionar Item"){
-                Button("Adicionar Manualmente"){
-                    isPresentedSheet = true
+            VStack {
+                
+                SegmentedControlComponent(selectedCategory: $selectedCategory)
+                
+                Menu("Adicionar Item"){
+                    Button("Adicionar Manualmente"){
+                        isPresentedSheet = true
+                    }
+                    //                    NavigationView {
+//                    Button("Scannear"){
+                    NavigationLink(destination: ScreenScan(isPresentedMenu: $isPresentedMenu)) {
+                        Text("Scannear")
+                    }
+                    //
                 }
                 
-                Button("Scannear") {
-                    //Logica para passar para a tela da camera
-                    
-                    NavigationView {
-                        
-                        NavigationLink(destination: ScreenScan()) {
-                            Text("Ir para Scan (Apenas teste)")
-                        }
-                    }
-                    isPresentedMenu = false
-                }
-            }
-            
-            VStack{
-                switch selectedCategory {
+                VStack{
+                    switch selectedCategory {
                     case .refrigerator:
                         ForEach(foodGeladeira){
                             food in
@@ -71,20 +66,20 @@ struct MainScreenView: View {
                             food in
                             ListFood(comida: food)
                         }
+                    }
                 }
+                
+                Button("Adicionar Item"){
+                    isPresentedSheet = true
+                }
+                
+                
             }
-            
-            Button("Adicionar Item"){
-                isPresentedSheet = true
-            }
-            
+            .sheet(isPresented: $isPresentedSheet, content: {
+                AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
+            })
             
         }
-        .sheet(isPresented: $isPresentedSheet, content: {
-            AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
-        })
-        
-        
     }
 }
 

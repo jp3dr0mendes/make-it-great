@@ -9,6 +9,10 @@ import SwiftUI
 import AVFoundation
 
 struct ScreenScan: View {
+    
+    @Binding var isPresentedMenu: Bool
+    
+    
     var body: some View {
         
         NavigationView {
@@ -32,8 +36,4 @@ struct ScreenScan: View {
             }
         }
     }
-}
-    
-#Preview {
-    ScreenScan()
 }

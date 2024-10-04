@@ -9,7 +9,6 @@ import SwiftUI
 import AVFoundation
 
 class CameraViewController: UIViewController {
-    
     var captureSession: AVCaptureSession?
     var previewLayer: AVCaptureVideoPreviewLayer?
     
