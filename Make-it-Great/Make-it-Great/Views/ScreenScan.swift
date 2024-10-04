@@ -10,16 +10,30 @@ import AVFoundation
 
 struct ScreenScan: View {
     var body: some View {
-        Text("Screen Scan")
         
-        //Aqui Chama a camera que foi convertida para SwiftUI
-        CameraView()
-            .edgesIgnoringSafeArea(.all)
-            .border(.blue)
-        
+        NavigationView {
+            
+            VStack {
+                Text("Screen Scan")
+                
+                //Aqui Chama a camera que foi convertida para SwiftUI
+                CameraView()
+                    .edgesIgnoringSafeArea(.all)
+                    .border(.blue)
+                
+                NavigationLink(destination: IdentifiedFoodScreen()) {
+                    Text("Confirm Itens")
+                        .font(.title2)
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
+        }
     }
 }
-
+    
 #Preview {
     ScreenScan()
 }
