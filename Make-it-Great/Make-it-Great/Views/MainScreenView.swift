@@ -69,10 +69,10 @@ struct MainScreenView: View {
                     }
                 }
                 
-                Button("Adicionar Item"){
-                    isPresentedSheet = true
-                }
-                
+//                Button("Adicionar Item"){
+//                    isPresentedSheet = true
+//                }
+                ButtonView()
                 
             }
             .sheet(isPresented: $isPresentedSheet, content: {
