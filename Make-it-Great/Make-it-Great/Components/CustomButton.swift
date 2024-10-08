@@ -12,7 +12,7 @@ struct AddButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .background(configuration.isPressed ? Color.green : Color.red)
+            .background(configuration.isPressed ? Color.red : Color.gray)
             .animation(Animation.easeIn(duration: 0.5))
 //            .onLongPressGesture {
 //                withAnimation(.easeIn(duration: 0.5)) {
@@ -20,6 +20,7 @@ struct AddButtonStyle: ButtonStyle {
 //                }
 //            }
             .cornerRadius(8)
+        
     }
 }
 
@@ -35,11 +36,13 @@ struct ButtonView: View {
             Button(action: {
                 isPresentedSheet = true
             }) {
-                Text("Add Food")
+                Text("Remove From Food")
                     .font(.system(size: 14))
                     .foregroundColor(.white)
             }
+//            .disabled(true)
             .buttonStyle(AddButtonStyle())
+          
        
             
 //            Button( action: {
