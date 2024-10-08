@@ -31,6 +31,7 @@ struct MainScreenView: View {
     @State private var selectedCategory: StorageType = .refrigerator
     @State var isPresentedSheet: Bool = false
     @State var isPresentedMenu: Bool = false
+//    @State var isAnimating: Bool = false
     
 
     
@@ -72,7 +73,9 @@ struct MainScreenView: View {
 //                Button("Adicionar Item"){
 //                    isPresentedSheet = true
 //                }
-                ButtonView()
+                
+                ButtonView(isPresentedSheet: $isPresentedSheet)
+                    
                 
             }
             .sheet(isPresented: $isPresentedSheet, content: {

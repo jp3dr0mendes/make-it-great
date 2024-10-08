@@ -8,32 +8,59 @@
 import SwiftUI
 
 struct AddButtonStyle: ButtonStyle {
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .background(configuration.isPressed ? Color.green : Color.blue)
-            .animation(Animation.easeIn(duration: 1))
+            .background(configuration.isPressed ? Color.green : Color.red)
+            .animation(Animation.easeIn(duration: 0.5))
+//            .onLongPressGesture {
+//                withAnimation(.easeIn(duration: 0.5)) {
+//                    
+//                }
+//            }
             .cornerRadius(8)
-            
     }
-    
 }
 
-struct ButtonView: View {
 
+struct ButtonView: View {
+    
+@Binding var isPresentedSheet: Bool
+    
+//    @Binding var isAnimating: Bool
+    
     var body: some View {
         ZStack {
-            Button {} label: {
+            Button(action: {
+                isPresentedSheet = true
+            }) {
                 Text("Add Food")
-                    .font(.system(size: 32))
+                    .font(.system(size: 14))
                     .foregroundColor(.white)
             }
             .buttonStyle(AddButtonStyle())
+       
+            
+//            Button( action: {
+//        
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                    withAnimation(.easeIn(duration: 0.5)) {
+//                        isPresentedSheet = true
+//                    }
+//                }
+//                
+//            }) {
+//                Text("Remove Food")
+//                    .font(.system(size: 14))
+//                    .foregroundColor(.white)
+//            }
             
         }
     }
 }
 
 #Preview {
-    ButtonView()
+    @Previewable @State var isPresentedSheet: Bool = false
+    ButtonView(isPresentedSheet: $isPresentedSheet)
 }
