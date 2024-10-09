@@ -14,13 +14,13 @@ struct ListFood: View {
     var comida: Food
     var body: some View {
         
-        VStack{
+        VStack {
         
-            HStack () {
+            HStack {
                 
                 //Spacer()
                 
-                Image(systemName: "cup.and.saucer.fill") //Preciso fazer um model para colocar a imagem certa aqui
+                Image("imageTest") //Preciso fazer um model para colocar a imagem certa aqui
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 40, height: 40)
@@ -29,26 +29,29 @@ struct ListFood: View {
                     .overlay(Circle().stroke(Color.blue, lineWidth: 2))
                     .shadow(radius: 10)
                     
-                
+                //Nome da Comida e Quantidade:
                 VStack (alignment: .leading) {
                     Text(comida.nome)
-                        .font(.headline)
+                        .font(.callout)
+                        .multilineTextAlignment(.leading)
                     
                     Text("1x")
                         .font(.subheadline)
                         .foregroundColor(.gray)
+                    
+                    Button("Apagar"){
+                        context.delete(comida)
+                    }
                         
                 }
                 
-//                Button("Apagar"){
-//                    context.delete(comida)
-//                }
                 
                 Spacer()
                 
                 Text("30 dias para o consumo") //Isso aqui pode mudar muito, deve haver um tratamento no que o sua
                     .font(.caption)
                     .multilineTextAlignment(.trailing)
+                    .foregroundColor(.gray)
                 //Spacer()
             }
             
@@ -59,6 +62,6 @@ struct ListFood: View {
 }
 
 #Preview {
-    ListFood(comida: Food(nome: "Visualização do item", storage: .refrigerator, type: .Bebida, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 2, weight: nil))
+    ListFood(comida: Food(nome: "Item food visualization Named", storage: .refrigerator, type: .Bebida, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 2, weight: nil))
         .modelContainer(for: [Food.self])
 }

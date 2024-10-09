@@ -33,14 +33,13 @@ struct MainScreenView: View {
     @State var isPresentedMenu: Bool = false
 //    @State var isAnimating: Bool = false
     
-
-    
-    
     var body: some View {
+        
         NavigationStack{
             
             VStack {
                 
+                //Menu para adicionar via Scan e Manualmente:
                 Menu("", systemImage: "plus.circle.fill") {
                     
                     Button("Adicionar Manualmente"){
@@ -56,7 +55,9 @@ struct MainScreenView: View {
                 
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
                 
-                VStack{
+                
+                VStack {
+            
                     switch selectedCategory {
                     case .refrigerator:
                         ForEach(foodGeladeira){
