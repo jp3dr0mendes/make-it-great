@@ -41,9 +41,8 @@ struct MainScreenView: View {
             
             VStack {
                 
-                SegmentedControlComponent(selectedCategory: $selectedCategory)
-                
-                Menu("Adicionar Item"){
+                Menu("", systemImage: "plus.circle.fill") {
+                    
                     Button("Adicionar Manualmente"){
                         isPresentedSheet = true
                     }
@@ -54,6 +53,8 @@ struct MainScreenView: View {
                     }
                     //
                 }
+                
+                SegmentedControlComponent(selectedCategory: $selectedCategory)
                 
                 VStack{
                     switch selectedCategory {
