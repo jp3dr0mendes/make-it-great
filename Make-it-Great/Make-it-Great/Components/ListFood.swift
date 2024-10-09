@@ -18,7 +18,7 @@ struct ListFood: View {
         
             HStack () {
                 
-                Spacer()
+                //Spacer()
                 
                 Image(systemName: "cup.and.saucer.fill") //Preciso fazer um model para colocar a imagem certa aqui
                     .resizable()
@@ -49,7 +49,7 @@ struct ListFood: View {
                 Text("30 dias para o consumo") //Isso aqui pode mudar muito, deve haver um tratamento no que o sua
                     .font(.caption)
                     .multilineTextAlignment(.trailing)
-                Spacer()
+                //Spacer()
             }
             
             Divider() //Linha horizontal que divide os elementos
@@ -59,6 +59,6 @@ struct ListFood: View {
 }
 
 #Preview {
-    ListFood(comida: Food(nome: "Visualização do Item", storage: .refrigerator, type: .Bebida, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 2, weight: nil))
+    ListFood(comida: Food(nome: "Visualização do item", storage: .refrigerator, type: .Bebida, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 2, weight: nil))
         .modelContainer(for: [Food.self])
 }
