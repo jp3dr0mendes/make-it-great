@@ -21,19 +21,20 @@ struct ListFood: View {
         
         VStack {
             
-            Divider()
+           
             ForEach(comidas) { comida in
+                Divider()
                 HStack {
                     
                     //Checkbox personalizado:
                     Button (action: {
-                        //toggleSelection(of: comida)
+                        toggleSelection(of: comida)
                     }) {
-                        Image(systemName: selectedItems.contains(comida) ? "checkmark.circle.fill" : "checkmark.circle" )
+                        Image(systemName: selectedItems.contains(comida) ? "checkmark.circle.fill" : "poweroff" )
                             .resizable()
                             .frame(width: 24, height: 24)
                             .foregroundColor(selectedItems.contains(comida) ? .green : .gray)
-                    }
+                    }.padding(.leading, 10) //Afasta o checkbox da imagem
                     
                     //Spacer()
                     
@@ -71,10 +72,10 @@ struct ListFood: View {
                         .font(.caption)
                         .multilineTextAlignment(.trailing)
                         .foregroundColor(.gray)
-                        .padding(.trailing, 10)
+                        .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
                     //Spacer()
                 }
-                .padding(.leading, 40) //Esse pading afasta o 30 dias... da extremidade direita
+                .padding(.leading, 10)
                 
                 Divider() //Linha horizontal que divide os elementos
             }
