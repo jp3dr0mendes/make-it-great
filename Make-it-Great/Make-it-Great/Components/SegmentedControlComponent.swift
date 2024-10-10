@@ -13,21 +13,39 @@ struct SegmentedControlComponent: View {
 
     var body: some View {
         VStack {
-//            Text("Select a Category:")
-//                .font(.headline)
-            
-            Picker("Category", selection: $selectedCategory) {
+            //            Text("Select a Category:")
+            //                .font(.headline)
+            HStack(spacing: 20) {
+                //Picker(selection: $selectedCategory, label: Text("Category")) {
                 ForEach(StorageType.allCases) { category in
-                    Text(category.description)
-                        .tag(category)
+                    VStack(spacing: 4) {
+                        Image(category.image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 83)
+                        Text(category.description)
+                            .foregroundStyle(category.color)
+                        // .tag(category)
+                    }
+                    .onTapGesture {
+                        selectedCategory = category
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 20)
+                        .stroke(selectedCategory == category ? selectedCategory.color: .white, lineWidth: 1.5)
+                        .frame(width: 115)
+                    )
                 }
+                
             }
-            .pickerStyle(SegmentedPickerStyle()) // Aplica o estilo segmentado
-
+            //.pickerStyle(SegmentedPickerStyle()) // Aplica o estilo segmentado
+            
+            
             Text("Place: \(selectedCategory.description)")
                 .padding()
+            //}
+                //.padding()
         }
-        .padding()
     }
 }
 
