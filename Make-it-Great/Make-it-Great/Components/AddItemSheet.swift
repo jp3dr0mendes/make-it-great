@@ -22,7 +22,15 @@ struct AddItem: View {
     
     @State var peso: Float = 0
     @State var unidades: Int = 0
+    @State var errorMessage: String = ""
 //    @State var contagem: CountType = .Unit
+    let numberFormatter: NumberFormatter = {
+                let formatter = NumberFormatter()
+                formatter.numberStyle = .decimal
+                formatter.minimumFractionDigits = 1  // Mínimo de 1 casa decimal
+                formatter.maximumFractionDigits = 2  // Máximo de 2 casas decimais (ou ajuste conforme necessário)
+                return formatter
+    }()
 
     var body: some View {
         
@@ -39,14 +47,18 @@ struct AddItem: View {
         
         HStack{
             Button("Adicionar"){
-                switch tipoQuantidade {
-                case .Peso:
-                    context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: data, units: nil, weight: peso))
-                case .Unidade:
-                    context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: data, units: unidades, weight: nil))
+                if ((tipoQuantidade == .Peso && peso != 0) || tipoQuantidade == .Unidade && unidades > 0) {
+                    switch tipoQuantidade {
+                    case .Peso:
+                        context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: data, units: nil, weight: peso))
+                    case .Unidade:
+                        context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: data, units: unidades, weight: nil))
+                    }
+                    
+                    isPresented = false
+                } else {
+                    errorMessage = "Valor inválido!"
                 }
-                
-                isPresented = false
             }
             
             Button("Cancelar"){
@@ -91,13 +103,19 @@ struct AddItem: View {
                 
                 switch tipoQuantidade {
                 case .Peso:
-                    HStack{
-                        
-                        Text("Quantidade")
-                        
-                        TextField("Contador", value: $peso, formatter: NumberFormatter())
-                            .textFieldStyle(.roundedBorder)
-                        Text("kg")
+                    VStack(alignment: .leading) {
+                        HStack{
+                            
+                            Text("Quantidade")
+                            TextField("Contador", value: $peso, formatter: numberFormatter, onCommit: {
+                                unidades = 0
+                            })
+                                .textFieldStyle(.roundedBorder)
+                                .keyboardType(.decimalPad)
+                            Text("kg")
+                        }
+                        Text(errorMessage)
+                            .foregroundStyle(.red)
                     }
                 case .Unidade:
                     HStack{
@@ -105,7 +123,10 @@ struct AddItem: View {
                         Text("Quantidade")
                         
                         Button("-") {
-                            unidades -= 1
+                            if unidades != 0 {
+                                unidades -= 1
+                            }
+                            peso = 0
                         }
 
                         TextField("Contador", value: $unidades, formatter: NumberFormatter())
@@ -115,6 +136,7 @@ struct AddItem: View {
                         
                         Button("+") {
                             unidades += 1
+                            peso = 0
                         }
 
                     }
