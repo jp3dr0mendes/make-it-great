@@ -4,7 +4,6 @@
 //
 //  Created by João Pedro Albuquerque on 02/10/24.
 //
-
 import Foundation
 import SwiftUI
 import SwiftData
@@ -14,8 +13,11 @@ struct ListFood: View {
     var comida: Food
     var body: some View {
         
-        VStack {
         
+        VStack {
+            
+            Divider()
+            
             HStack {
                 
                 //Spacer()
@@ -26,7 +28,7 @@ struct ListFood: View {
                     .frame(width: 40, height: 40)
                     .clipShape(Circle())
                     //.foregroundColor(.yellow)
-                    .overlay(Circle().stroke(Color.blue, lineWidth: 2))
+                    .overlay(Circle().stroke(Color.blue, lineWidth: 1))
                     .shadow(radius: 10)
                     
                 //Nome da Comida e Quantidade:
@@ -34,6 +36,8 @@ struct ListFood: View {
                     Text(comida.nome)
                         .font(.callout)
                         .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
                     
                     Text("1x")
                         .font(.subheadline)
@@ -43,17 +47,19 @@ struct ListFood: View {
                         context.delete(comida)
                     }
                         
-                }
+                }.padding(.leading, 10)
                 
                 
-                Spacer()
+                Spacer(minLength: 10) //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
                 
                 Text("30 dias para o consumo") //Isso aqui pode mudar muito, deve haver um tratamento no que o sua
                     .font(.caption)
                     .multilineTextAlignment(.trailing)
                     .foregroundColor(.gray)
+                    .padding(.trailing, 10)
                 //Spacer()
             }
+            .padding(.leading, 40) //Esse pading afasta o 30 dias... da extremidade direita
             
             Divider() //Linha horizontal que divide os elementos
             
@@ -62,6 +68,6 @@ struct ListFood: View {
 }
 
 #Preview {
-    ListFood(comida: Food(nome: "Item food visualization Named", storage: .refrigerator, type: .Bebida, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 2, weight: nil))
+    ListFood(comida: Food(nome: "Item food visualization Named sdfads dsf asd fads dafs adf", storage: .refrigerator, type: .Bebida, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 2, weight: nil))
         .modelContainer(for: [Food.self])
 }

@@ -56,18 +56,20 @@ struct MainScreenView: View {
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
                 
                 
-                VStack {
-            
-                    switch selectedCategory {
-                    case .refrigerator:
-                        ForEach(foodGeladeira){
-                            food in
-                            ListFood(comida: food)
-                        }
-                    case .cabinet:
-                        ForEach(foodArmario){
-                            food in
-                            ListFood(comida: food)
+                ScrollView {
+                    VStack {
+                        
+                        switch selectedCategory {
+                        case .refrigerator:
+                            ForEach(foodGeladeira){
+                                food in
+                                ListFood(comida: food)
+                            }
+                        case .cabinet:
+                            ForEach(foodArmario){
+                                food in
+                                ListFood(comida: food)
+                            }
                         }
                     }
                 }
