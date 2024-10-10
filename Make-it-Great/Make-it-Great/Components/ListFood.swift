@@ -23,7 +23,7 @@ struct ListFood: View {
             
            
             ForEach(comidas) { comida in
-                Divider()
+//                Divider()
                 HStack {
                     
                     //Checkbox personalizado:
@@ -34,7 +34,7 @@ struct ListFood: View {
                             .resizable()
                             .frame(width: 24, height: 24)
                             .foregroundColor(selectedItems.contains(comida) ? .green : .gray)
-                    }.padding(.leading, 10) //Afasta o checkbox da imagem
+                    }/*.padding(.leading, 10)*/ //Afasta o checkbox da imagem, acho que esse padding é desnecessario
                     
                     //Spacer()
                     
@@ -58,10 +58,10 @@ struct ListFood: View {
                         Text("1x")
                             .font(.subheadline)
                             .foregroundColor(.gray)
-                        
-                        Button("Apagar"){
-                            context.delete(comida)
-                        }
+                        //Preciso colocar a lógica de deletar
+//                        Button("Apagar"){
+//                            context.delete(comida)
+//                        }
                         
                     }.padding(.leading, 10)
                     
@@ -97,10 +97,14 @@ struct ListFood: View {
 //    ListFood(comida: Food(nome: "Item food visualization Named sdfads dsf asd fads dafs adf", storage: .refrigerator, type: .Bebida, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 2, weight: nil))
 //        .modelContainer(for: [Food.self])
 //}
+//#Preview {
+//    ListFood(comida: Food, comidas: [
+//        Food(nome: "Banana", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 3, weight: nil),
+//        Food(nome: "Maçã", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 1, weight: nil)
+//    ])
+//    .modelContainer(for: [Food.self])
+//}
+
 #Preview {
-    ListFood(comidas: [
-        Food(nome: "Banana", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 3, weight: nil),
-        Food(nome: "Maçã", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 1, weight: nil)
-    ])
-    .modelContainer(for: [Food.self])
+    ListFood(comidas: [Food(nome: "Banana", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 3, weight: nil)])
 }

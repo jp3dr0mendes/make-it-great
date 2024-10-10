@@ -33,6 +33,8 @@ struct MainScreenView: View {
     @State var isPresentedMenu: Bool = false
 //    @State var isAnimating: Bool = false
     
+
+    
     var body: some View {
         
         NavigationStack{
@@ -56,28 +58,30 @@ struct MainScreenView: View {
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
                 
                 //Lista personalizada de comidas a ScroolView torna a ListFood uma lista scrolável
-//                ScrollView {
-//                    VStack {
-//                        
-//                        switch selectedCategory {
-//                        case .refrigerator:
-//                            ForEach(foodGeladeira){
-//                                food in
-//                                ListFood(comida: food)
-//
-//                            }
-//                        case .cabinet:
-//                            ForEach(foodArmario){
-//                                food in
-//                                ListFood(comida: food)
-//                            }
-//                        }
-//                    }
-//                }
+                ScrollView {
+                    VStack {
+                        
+                        switch selectedCategory {
+                        case .refrigerator:
+                            ForEach(foodGeladeira){
+                                food in
+                                //ListFood(comida: food)
+                                ListFood(comidas: foodGeladeira)
+
+                            }
+                        case .cabinet:
+                            ForEach(foodArmario){
+                                food in
+                                //ListFood(comida: food)
+                                ListFood(comidas: foodArmario)
+                            }
+                        }
+                    }
+                }
                 
-//                Button("Adicionar Item"){
-//                    isPresentedSheet = true
-//                }
+                Button("Adicionar Item"){
+                    isPresentedSheet = true
+                }
                 
                 ButtonView(isPresentedSheet: $isPresentedSheet)
                     
