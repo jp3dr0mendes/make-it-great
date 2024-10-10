@@ -55,30 +55,32 @@ struct MainScreenView: View {
                 
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
                 
-                
-                ScrollView {
-                    VStack {
-                        
-                        switch selectedCategory {
-                        case .refrigerator:
-                            ForEach(foodGeladeira){
-                                food in
-                                ListFood(comida: food)
-                            }
-                        case .cabinet:
-                            ForEach(foodArmario){
-                                food in
-                                ListFood(comida: food)
-                            }
-                        }
-                    }
-                }
+                //Lista personalizada de comidas a ScroolView torna a ListFood uma lista scrolável
+//                ScrollView {
+//                    VStack {
+//                        
+//                        switch selectedCategory {
+//                        case .refrigerator:
+//                            ForEach(foodGeladeira){
+//                                food in
+//                                ListFood(comida: food)
+//
+//                            }
+//                        case .cabinet:
+//                            ForEach(foodArmario){
+//                                food in
+//                                ListFood(comida: food)
+//                            }
+//                        }
+//                    }
+//                }
                 
 //                Button("Adicionar Item"){
 //                    isPresentedSheet = true
 //                }
                 
                 ButtonView(isPresentedSheet: $isPresentedSheet)
+                    
                   
                     
                 
