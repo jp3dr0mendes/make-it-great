@@ -6,20 +6,39 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum StorageType: String, CaseIterable, Identifiable {
     
     case refrigerator
     case cabinet
-
+    
     var id: String { self.rawValue }
+    
+    var color: Color {
+        switch self {
+        case .refrigerator:
+            return Color("BrownFruits")
+        case .cabinet:
+            return Color("GreenVegetables")
+        }
+    }
+    
+    var image: String {
+        switch self {
+        case .refrigerator:
+            return "Fruits"
+        case .cabinet:
+            return "Vegetables"
+        }
+    }
 
     var description: String {
         switch self {
         case .refrigerator:
-            return "Refrigerator"
+            return "Frutas"
         case .cabinet:
-            return "Cabinet"
+            return "Hortaliças"
        
         }
     }
