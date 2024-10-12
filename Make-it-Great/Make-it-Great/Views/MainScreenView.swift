@@ -34,7 +34,7 @@ struct MainScreenView: View {
 //    @State var isAnimating: Bool = false
     
 
-    
+
     var body: some View {
         
         NavigationStack{
@@ -65,9 +65,6 @@ struct MainScreenView: View {
                     }.padding()
                 }
                 
-
-                
-                
                 //Lista personalizada de comidas a ScroolView torna a ListFood uma lista scrolável
                 ScrollView {
                     VStack {
@@ -95,10 +92,7 @@ struct MainScreenView: View {
 //                }
                 
                 ButtonView(isPresentedSheet: $isPresentedSheet)
-                    
-                  
-                    
-                
+            
             }
             .sheet(isPresented: $isPresentedSheet, content: {
                 AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
