@@ -43,7 +43,7 @@ struct MainScreenView: View {
                 
                 Text("My Items")
                     .foregroundColor(.blue)
-                    .padding()
+                    .padding(.trailing)
                 
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
                 
