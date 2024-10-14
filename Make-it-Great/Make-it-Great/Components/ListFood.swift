@@ -68,7 +68,7 @@ struct ListFood: View {
                     
                     Spacer(minLength: 10) //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
                     
-                    Text("30 dias para o consumo") //Isso aqui pode mudar muito, deve haver um tratamento no que o sua
+                    Text("30 dias para o consumo")
                         .font(.caption)
                         .multilineTextAlignment(.trailing)
                         .foregroundColor(.gray)
