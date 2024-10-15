@@ -32,7 +32,7 @@ struct MainScreenView: View {
     @State var isPresentedSheet: Bool = false
     @State var isPresentedMenu: Bool = false
 //    @State var isAnimating: Bool = false
-    
+   @State private var showingButton: Bool = false
 
 
     var body: some View {
@@ -46,6 +46,23 @@ struct MainScreenView: View {
                     .padding(.trailing)
                 
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
+                
+                //Ztack para desenhar botoes na mesma linha
+                ZStack {
+                    SelectButton(showingButton: $showingButton)
+                        .opacity(showingButton ? 0 : 1)
+                        
+                        
+                    
+                    if showingButton {
+                        CancelAndSelectAllButton(showingButton: $showingButton)
+                
+                    }
+                }
+                
+                //Condição para mostrar outros botoes:
+                
+                
                 
                 //Menu para adicionar via Scan e Manualmente:
                 HStack {

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct CancelAndSelectAllButton: View {
+    
+    @Binding var showingButton: Bool
+    
     var body: some View {
         
         //Cancel Button:
@@ -15,7 +18,8 @@ struct CancelAndSelectAllButton: View {
             
             Button(action: {
                 
-                //Navegar para alguma tela
+                showingButton.toggle()
+                
                 
             }) {
                 Text("Cancel")
@@ -54,6 +58,6 @@ struct CancelAndSelectAllButton: View {
     }
 }
 
-#Preview {
-    CancelAndSelectAllButton()
-}
+//#Preview {
+//    CancelAndSelectAllButton()
+//}
