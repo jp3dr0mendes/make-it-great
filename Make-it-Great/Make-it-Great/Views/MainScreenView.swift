@@ -31,49 +31,68 @@ struct MainScreenView: View {
     @State private var selectedCategory: StorageType = .refrigerator
     @State var isPresentedSheet: Bool = false
     @State var isPresentedMenu: Bool = false
+//    @State var isAnimating: Bool = false
     
 
-    
-    
+
     var body: some View {
+        
         NavigationStack{
             
             VStack {
                 
+                Text("My Items")
+                    .foregroundColor(.blue)
+                    .padding(.trailing)
+                
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
                 
-                Menu("Adicionar Item"){
-                    Button("Adicionar Manualmente"){
-                        isPresentedSheet = true
-                    }
-                    //                    NavigationView {
-//                    Button("Scannear"){
-                    NavigationLink(destination: ScreenScan(isPresentedMenu: $isPresentedMenu)) {
-                        Text("Scannear")
-                    }
-                    //
-                }
-                
-                VStack{
-                    switch selectedCategory {
-                    case .refrigerator:
-                        ForEach(foodGeladeira){
-                            food in
-                            ListFood(comida: food)
+                //Menu para adicionar via Scan e Manualmente:
+                HStack {
+                    Spacer()
+                    Menu {
+                        NavigationLink(destination: ScreenScan(isPresentedMenu: $isPresentedMenu)) {
+                            Text("Scannear")
+                            Image(systemName: "camera.viewfinder")
                         }
-                    case .cabinet:
-                        ForEach(foodArmario){
-                            food in
-                            ListFood(comida: food)
+                        
+                        Button("Adicionar Manualmente", systemImage: "pencil") {
+                            isPresentedSheet = true
+                        }
+                    } label: {
+                        Label("", systemImage: "plus.circle.fill")
+                            .font(.system(size: 25)) // Ajuste o tamanho do ícone aqui
+                    }.padding()
+                }
+                
+                //Lista personalizada de comidas a ScroolView torna a ListFood uma lista scrolável
+                ScrollView {
+                    VStack {
+                        
+                        switch selectedCategory {
+                        case .refrigerator:
+                            ForEach(foodGeladeira){
+                                food in
+                                //ListFood(comida: food)
+                                ListFood(comidas: foodGeladeira)
+
+                            }
+                        case .cabinet:
+                            ForEach(foodArmario){
+                                food in
+                                //ListFood(comida: food)
+                                ListFood(comidas: foodArmario)
+                            }
                         }
                     }
                 }
                 
-                Button("Adicionar Item"){
-                    isPresentedSheet = true
-                }
+//                Button("Adicionar Item"){
+//                    isPresentedSheet = true
+//                }
                 
-                
+                ButtonView(isPresentedSheet: $isPresentedSheet)
+            
             }
             .sheet(isPresented: $isPresentedSheet, content: {
                 AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
