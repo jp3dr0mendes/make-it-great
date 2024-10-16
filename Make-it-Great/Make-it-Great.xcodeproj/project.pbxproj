@@ -11,6 +11,7 @@
 		2728ABC32CAD6BD80070E11D /* MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2728ABC22CAD6BD80070E11D /* MainScreenView.swift */; };
 		2728ABC52CAD6C190070E11D /* SegmentedControlComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2728ABC42CAD6C190070E11D /* SegmentedControlComponent.swift */; };
 		274DC0712CB01626009BDC93 /* IdentifiedFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274DC0702CB01626009BDC93 /* IdentifiedFoodScreen.swift */; };
+		275041F52CBFE1F200267C04 /* AddMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275041F42CBFE1F200267C04 /* AddMenu.swift */; };
 		277903A52CAEBC0700C57A2E /* ScreenScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277903A42CAEBC0700C57A2E /* ScreenScan.swift */; };
 		277903AA2CAEC27400C57A2E /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277903A92CAEC27400C57A2E /* CameraViewController.swift */; };
 		2779D08D2CB422E500742DA7 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2779D08C2CB422E500742DA7 /* CustomButton.swift */; };
@@ -32,6 +33,7 @@
 		2728ABC22CAD6BD80070E11D /* MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenView.swift; sourceTree = "<group>"; };
 		2728ABC42CAD6C190070E11D /* SegmentedControlComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlComponent.swift; sourceTree = "<group>"; };
 		274DC0702CB01626009BDC93 /* IdentifiedFoodScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiedFoodScreen.swift; sourceTree = "<group>"; };
+		275041F42CBFE1F200267C04 /* AddMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMenu.swift; sourceTree = "<group>"; };
 		277903A42CAEBC0700C57A2E /* ScreenScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenScan.swift; sourceTree = "<group>"; };
 		277903A92CAEC27400C57A2E /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		2779D08C2CB422E500742DA7 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				2779D08C2CB422E500742DA7 /* CustomButton.swift */,
 				27E784FC2CBE931800837B8D /* SelectButton.swift */,
 				27E784FE2CBE9BC100837B8D /* CancelAndSelectAllButton.swift */,
+				275041F42CBFE1F200267C04 /* AddMenu.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				2728ABC12CAD6B8E0070E11D /* SegmentedControl.swift in Sources */,
 				27E784FF2CBE9BC100837B8D /* CancelAndSelectAllButton.swift in Sources */,
 				277903AA2CAEC27400C57A2E /* CameraViewController.swift in Sources */,
+				275041F52CBFE1F200267C04 /* AddMenu.swift in Sources */,
 				D8E010A52CAAF06D00B3DD9F /* Make_it_GreatApp.swift in Sources */,
 				27E784FD2CBE931800837B8D /* SelectButton.swift in Sources */,
 				D8017D7D2CAC175100DF28A0 /* FoodModel.swift in Sources */,

@@ -56,30 +56,20 @@ struct MainScreenView: View {
                         
                         SelectButton(showingButton: $showingButton)
                             .opacity(showingButton ? 0 : 1)
-                           
-                            
-
+                        
                         if showingButton {
                             
                             CancelAndSelectAllButton(showingButton: $showingButton)
                     
+                        }else {
+                            
+                            AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet)
                         }
                     }
                     
                     //Spacer()
-                    Menu {
-                        NavigationLink(destination: ScreenScan(isPresentedMenu: $isPresentedMenu)) {
-                            Text("Scannear")
-                            Image(systemName: "camera.viewfinder")
-                        }
-                        
-                        Button("Adicionar Manualmente", systemImage: "pencil") {
-                            isPresentedSheet = true
-                        }
-                    } label: {
-                        Label("", systemImage: "plus.circle.fill")
-                            .font(.system(size: 25)) // Ajuste o tamanho do ícone aqui
-                    }.padding()
+                    
+                
                 }
                 
                 //Lista personalizada de comidas a ScroolView torna a ListFood uma lista scrolável
