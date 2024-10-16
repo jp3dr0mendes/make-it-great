@@ -51,10 +51,11 @@ struct MainScreenView: View {
                 ZStack {
                     SelectButton(showingButton: $showingButton)
                         .opacity(showingButton ? 0 : 1)
+                       
                         
-                        
-                    
+
                     if showingButton {
+                        
                         CancelAndSelectAllButton(showingButton: $showingButton)
                 
                     }

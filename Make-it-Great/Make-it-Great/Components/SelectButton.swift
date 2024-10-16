@@ -28,14 +28,14 @@ struct SelectButton: View {
                 //.background(Color.white)
                     .font(.system(size: 15))
                     .foregroundColor(.purpleItens)
-                
             }
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.purpleItens, lineWidth: 1)
                     .frame(width: 72, height: 36)
             )
-        }.padding(.trailing, 300)
+            Spacer()
+        }.padding(.leading, 22)
         
     }
 }

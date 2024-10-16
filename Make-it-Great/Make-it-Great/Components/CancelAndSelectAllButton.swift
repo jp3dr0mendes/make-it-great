@@ -32,7 +32,7 @@ struct CancelAndSelectAllButton: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.purpleItens, lineWidth: 1)
-                    .frame(width: 68, height: 36)
+                    .frame(width: 72, height: 36)
             )
             Spacer()
             //Select All button
@@ -55,9 +55,12 @@ struct CancelAndSelectAllButton: View {
             )
             
         }
+        .padding(.trailing, 20)
+        .padding(.leading, 20)
     }
 }
 
-//#Preview {
-//    CancelAndSelectAllButton()
-//}
+#Preview {
+    @Previewable @State var showignButton: Bool = false
+    CancelAndSelectAllButton(showingButton: $showignButton)
+}
