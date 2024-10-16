@@ -47,27 +47,26 @@ struct MainScreenView: View {
                 
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
                 
-                //Ztack para desenhar botoes na mesma linha
-                ZStack {
-                    SelectButton(showingButton: $showingButton)
-                        .opacity(showingButton ? 0 : 1)
-                       
-                        
-
-                    if showingButton {
-                        
-                        CancelAndSelectAllButton(showingButton: $showingButton)
-                
-                    }
-                }
-                
-                //Condição para mostrar outros botoes:
-                
-                
-                
+               
                 //Menu para adicionar via Scan e Manualmente:
                 HStack {
-                    Spacer()
+                    
+                    //Ztack para desenhar botoes na mesma linha
+                    ZStack {
+                        
+                        SelectButton(showingButton: $showingButton)
+                            .opacity(showingButton ? 0 : 1)
+                           
+                            
+
+                        if showingButton {
+                            
+                            CancelAndSelectAllButton(showingButton: $showingButton)
+                    
+                        }
+                    }
+                    
+                    //Spacer()
                     Menu {
                         NavigationLink(destination: ScreenScan(isPresentedMenu: $isPresentedMenu)) {
                             Text("Scannear")
