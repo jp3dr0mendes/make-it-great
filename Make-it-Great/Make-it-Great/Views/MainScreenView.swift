@@ -32,7 +32,11 @@ struct MainScreenView: View {
     @State var isPresentedSheet: Bool = false
     @State var isPresentedMenu: Bool = false
 //    @State var isAnimating: Bool = false
-   @State private var showingButton: Bool = false
+    @State private var showingButton: Bool = false
+    @State var comidas: [Food] = []
+    @State var selectedItems: Set<Food> = []
+    @State private var filteredFoods: [Food] = []
+
 
 
     var body: some View {
@@ -46,6 +50,10 @@ struct MainScreenView: View {
                     .padding(.trailing)
                 
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
+                    .onChange(of: selectedCategory) { newValue in
+                        // Atualiza a lista filtrada de acordo com a categoria selecionada:
+                        updateFilteredFoods()
+                    }
                 
                
                 //Menu para adicionar via Scan e Manualmente:
@@ -69,28 +77,21 @@ struct MainScreenView: View {
                     
                     //Spacer()
                     
-                
                 }
                 
                 //Lista personalizada de comidas a ScroolView torna a ListFood uma lista scrolável
+//                ScrollView {
+//                    VStack {
+//                        // Usar o estado filtrado na lista
+//                        ForEach(filteredFoods, id: \.self) { food in
+//                            ListFood(comidas: $filteredFoods, selectedItems: $selectedItems)
+//                        }
+//                    }
+//                }
                 ScrollView {
                     VStack {
-                        
-                        switch selectedCategory {
-                        case .refrigerator:
-                            ForEach(foodGeladeira){
-                                food in
-                                //ListFood(comida: food)
-                                ListFood(comidas: foodGeladeira)
-
-                            }
-                        case .cabinet:
-                            ForEach(foodArmario){
-                                food in
-                                //ListFood(comida: food)
-                                ListFood(comidas: foodArmario)
-                            }
-                        }
+                        // Passando diretamente filteredFoods para ListFood
+                        ListFood(comidas: $filteredFoods, selectedItems: $selectedItems)
                     }
                 }
                 
@@ -98,16 +99,45 @@ struct MainScreenView: View {
 //                    isPresentedSheet = true
 //                }
                 
-                ButtonView(isPresentedSheet: $isPresentedSheet)
+                ButtonView(deleteAction: {
+                    // Chama a função de deletar diretamente da ListFood
+                    deleteSelectedItems()
+                })
+                
+                
             
             }
             .sheet(isPresented: $isPresentedSheet, content: {
                 AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
             })
-            
+            .onAppear {
+                // Inicializa a lista filtrada ao aparecer
+                updateFilteredFoods()
+            }
         }
     }
+    
+    private func updateFilteredFoods() {
+            // Atualiza a lista filtrada com base na categoria selecionada
+            switch selectedCategory {
+            case .refrigerator:
+                filteredFoods = foodGeladeira
+            case .cabinet:
+                filteredFoods = foodArmario
+            }
+        }
+    
+    private func deleteSelectedItems() {
+            // Remove os itens selecionados do contexto
+            for comida in selectedItems {
+                context.delete(comida)
+            }
+            selectedItems.removeAll() // Limpa os itens selecionados
+            updateFilteredFoods() // Atualiza a lista filtrada após a deleção
+        }
+
 }
+
 
 
 #Preview {
