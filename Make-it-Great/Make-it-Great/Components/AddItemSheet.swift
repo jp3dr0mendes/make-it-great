@@ -19,8 +19,8 @@ struct AddItem: View {
     @State var nome: String = ""
     @State var emoji: String = ""
     @State var isEmojiPickerShowing = false
-    @State var dataInicio: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
-    @State var dataFim: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
+    @State var dataInicio: Date = Date()
+    @State var dataFim: Date = Date()
     @State var categoria: FoodType = .Bebida
     @State var tipoQuantidade: CountType = .Unidade
     
@@ -122,7 +122,7 @@ struct AddItem: View {
                     Button {
                         
                     } label: {
-                        let diffInDays = Calendar.current.dateComponents([.day], from: dataInicio, to: dataFim).day ?? 0
+                        let diffInDays = Calendar.current.dateComponents([.day], from: self.dataInicio, to: self.dataFim).day ?? 0
                         if diffInDays > 0 {
                             if diffInDays == 1 {
                                 Text("Amanhã")
@@ -132,7 +132,7 @@ struct AddItem: View {
                         } else if diffInDays < 0 {
                             Text("Data inconsistente!")
                         } else {
-                            Text("Today")
+                            Text("Hoje")
                         }
                     }
                     .foregroundStyle(.purpleItens)
