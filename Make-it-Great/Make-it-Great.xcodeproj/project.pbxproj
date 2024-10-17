@@ -24,6 +24,8 @@
 		D8017D822CAC261100DF28A0 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D812CAC261100DF28A0 /* Enums.swift */; };
 		D8017D842CAD8A4500DF28A0 /* ListFood.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D832CAD8A4500DF28A0 /* ListFood.swift */; };
 		D8550DC32CC00AD2002D1A50 /* MyImageClassifier-Test3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D8550DC22CC00AD2002D1A50 /* MyImageClassifier-Test3.mlmodel */; };
+		D8550DC52CC130A6002D1A50 /* FruitClassifier-V1.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D8550DC42CC130A6002D1A50 /* FruitClassifier-V1.mlmodel */; };
+		D8550DC72CC143A4002D1A50 /* VegClassifier-1.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D8550DC62CC143A4002D1A50 /* VegClassifier-1.mlmodel */; };
 		D8E010A52CAAF06D00B3DD9F /* Make_it_GreatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E010A42CAAF06D00B3DD9F /* Make_it_GreatApp.swift */; };
 		D8E010A72CAAF06D00B3DD9F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E010A62CAAF06D00B3DD9F /* ContentView.swift */; };
 		D8E010A92CAAF06D00B3DD9F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E010A82CAAF06D00B3DD9F /* Item.swift */; };
@@ -50,6 +52,8 @@
 		D8017D812CAC261100DF28A0 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		D8017D832CAD8A4500DF28A0 /* ListFood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFood.swift; sourceTree = "<group>"; };
 		D8550DC22CC00AD2002D1A50 /* MyImageClassifier-Test3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "MyImageClassifier-Test3.mlmodel"; sourceTree = "<group>"; };
+		D8550DC42CC130A6002D1A50 /* FruitClassifier-V1.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = "FruitClassifier-V1.mlmodel"; path = "Make-it-Great/Models/FruitClassifier-V1.mlmodel"; sourceTree = SOURCE_ROOT; };
+		D8550DC62CC143A4002D1A50 /* VegClassifier-1.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "VegClassifier-1.mlmodel"; sourceTree = "<group>"; };
 		D8E010A12CAAF06D00B3DD9F /* Make-it-Great.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Make-it-Great.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E010A42CAAF06D00B3DD9F /* Make_it_GreatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Make_it_GreatApp.swift; sourceTree = "<group>"; };
 		D8E010A62CAAF06D00B3DD9F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -85,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				277903A92CAEC27400C57A2E /* CameraViewController.swift */,
+				D8550DC42CC130A6002D1A50 /* FruitClassifier-V1.mlmodel */,
 				2E1D7F6E2CBFF05F00B8C9AE /* GridCollectionViewController.swift */,
 			);
 			path = ViewControllers;
@@ -93,6 +98,7 @@
 		D8017D7B2CAC15C000DF28A0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D8550DC62CC143A4002D1A50 /* VegClassifier-1.mlmodel */,
 				D8017D7C2CAC175100DF28A0 /* FoodModel.swift */,
 				D8017D812CAC261100DF28A0 /* Enums.swift */,
 				2728ABC02CAD6B8E0070E11D /* SegmentedControl.swift */,
@@ -230,6 +236,7 @@
 				277903A52CAEBC0700C57A2E /* ScreenScan.swift in Sources */,
 				D8E010A92CAAF06D00B3DD9F /* Item.swift in Sources */,
 				2779D08D2CB422E500742DA7 /* CustomButton.swift in Sources */,
+				D8550DC52CC130A6002D1A50 /* FruitClassifier-V1.mlmodel in Sources */,
 				2E1D7F6F2CBFF05F00B8C9AE /* GridCollectionViewController.swift in Sources */,
 				274DC0712CB01626009BDC93 /* IdentifiedFoodScreen.swift in Sources */,
 				2728ABC12CAD6B8E0070E11D /* SegmentedControl.swift in Sources */,
@@ -244,6 +251,7 @@
 				2728ABC52CAD6C190070E11D /* SegmentedControlComponent.swift in Sources */,
 				2E1D7F732CBFF33F00B8C9AE /* EmojiPickerView.swift in Sources */,
 				D8017D802CAC1D6D00DF28A0 /* AddItemSheet.swift in Sources */,
+				D8550DC72CC143A4002D1A50 /* VegClassifier-1.mlmodel in Sources */,
 				2728ABC32CAD6BD80070E11D /* MainScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,7 +417,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Make-it-Great/Preview Content\"";
-				DEVELOPMENT_TEAM = SC39NXXQ99;
+				DEVELOPMENT_TEAM = Z2HSR7Z5HL;
+
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Make-it-Great/Info.plist";
