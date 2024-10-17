@@ -56,7 +56,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            self.classification = classification_object
             
             //CASO SEJA FRUTA OU VERDURA EXECUTA OUTRA REQUISICAO PARA DETERMINAR QUAL CLASSE REPRESENTA
-            if (classification_object == "Verdura") || (classification_object == "Fruta") {
+            if classification_object == "Fruta" {
                 guard let model_fruit = try? VNCoreMLModel(for: FruitClassifier_V1().model) else {
                             print("Erro ao carregar o modelo")
                             return
@@ -77,6 +77,27 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
                 
                 try! handler_object.perform([request_fruit])
+            } else if classification_object == "Verdura" {
+                guard let model_veg = try? VNCoreMLModel(for: VegClassifier_1().model) else {
+                            print("Erro ao carregar o modelo")
+                            return
+                        }
+                
+                var request_veg = VNCoreMLRequest(model: model_veg){ request, error in
+                    print(request)
+                    guard let results = request.results as? [VNClassificationObservation] else {
+                        return
+                    }
+                     guard let classification_veg = results.first?.identifier else {
+                        return
+                    }
+                    
+                    self.classification = classification_veg
+                }
+                
+                let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
+                
+                try! handler_object.perform([request_veg])
             }
         }
         
