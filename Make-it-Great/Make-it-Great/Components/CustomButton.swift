@@ -27,14 +27,16 @@ struct AddButtonStyle: ButtonStyle {
 
 struct ButtonView: View {
     
-@Binding var isPresentedSheet: Bool
+    var deleteAction: () -> Void
+//    @Binding var isPresentedSheet: Bool
     
 //    @Binding var isAnimating: Bool
     
     var body: some View {
         ZStack {
             Button(action: {
-                isPresentedSheet = true
+                deleteAction()
+//                isPresentedSheet = true
             }) {
                 Text("Remove From Food")
                     .font(.system(size: 14))
