@@ -35,7 +35,7 @@ struct SelectButton: View {
                     .frame(width: 72, height: 36)
             )
             Spacer()
-        }.padding(.leading, 22)
+        }.padding(.leading, 16)
         
     }
 }

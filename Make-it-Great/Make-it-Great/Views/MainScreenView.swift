@@ -36,6 +36,7 @@ struct MainScreenView: View {
     @State var comidas: [Food] = []
     @State var selectedItems: Set<Food> = []
     @State private var filteredFoods: [Food] = []
+    
 
 
 
@@ -50,7 +51,7 @@ struct MainScreenView: View {
                     .padding(.trailing)
                 
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
-                    .onChange(of: selectedCategory) { newValue in
+                    .onChange(of: selectedCategory) {
                         // Atualiza a lista filtrada de acordo com a categoria selecionada:
                         updateFilteredFoods()
                     }
@@ -111,9 +112,18 @@ struct MainScreenView: View {
                 AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
             })
             .onAppear {
-                // Inicializa a lista filtrada ao aparecer
-                updateFilteredFoods()
+                updateFilteredFoods() // Inicializa a lista filtrada ao aparecer
             }
+            .onChange(of: foods) {
+                updateFilteredFoods() // Atualiza quando a lista de alimentos mudar
+            }
+//            .onAppear {
+//                // Inicializa a lista filtrada ao aparecer
+//                updateFilteredFoods()
+//            }
+//            .onChange(of: context) {
+//                updateFilteredFoods()
+//            }
         }
     }
     
@@ -132,8 +142,18 @@ struct MainScreenView: View {
             for comida in selectedItems {
                 context.delete(comida)
             }
-            selectedItems.removeAll() // Limpa os itens selecionados
-            updateFilteredFoods() // Atualiza a lista filtrada após a deleção
+        
+        
+            //Salva o contexto após deletar
+        do {
+            try context.save()
+        } catch {
+            print("Erro ao sarvar o contexto")
+        }
+        
+        selectedItems.removeAll() // Limpa os itens selecionados
+        updateFilteredFoods() // Atualiza a lista filtrada após a deleção
+        
         }
 
 }

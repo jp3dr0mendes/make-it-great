@@ -55,8 +55,8 @@ struct CancelAndSelectAllButton: View {
             )
             
         }
-        .padding(.trailing, 20)
-        .padding(.leading, 20)
+        .padding(.trailing, 16)
+        .padding(.leading, 16)
     }
 }
 

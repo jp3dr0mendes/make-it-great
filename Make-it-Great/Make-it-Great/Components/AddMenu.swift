@@ -30,7 +30,9 @@ struct AddMenu: View {
             } label: {
                 Label("", systemImage: "plus.circle.fill")
                     .font(.system(size: 25)) // Ajuste o tamanho do ícone aqui
-            }.padding()
+            }
+            .padding(.trailing, 16)
+                //.border(.black)
         }
         
     }
