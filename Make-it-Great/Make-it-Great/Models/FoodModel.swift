@@ -9,7 +9,8 @@ import SwiftData
 import Foundation
 
 @Model
-class Food{
+class Food {
+    
     var nome: String
     var storage: String
     var units: Int?
@@ -22,6 +23,7 @@ class Food{
         self.storage = ""
         self.type = ""
         self.consumirAte = consumirAte
+        
         
         if let peso = weight{
             self.weight = peso

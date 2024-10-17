@@ -11,7 +11,9 @@ import AVFoundation
 struct ScreenScan: View {
     
     @Binding var isPresentedMenu: Bool
+    @State var food: Food?
     
+    @State var classification: String = ""
     
     var body: some View {
         
@@ -19,9 +21,15 @@ struct ScreenScan: View {
             
             VStack {
                 Text("Screen Scan")
+                Text(classification)
                 
+//                if  CameraView().classification != ""{
+//                    if CameraView().classification == ""{
+//                        self.food = nil
+//                    }
+//                }
                 //Aqui Chama a camera que foi convertida para SwiftUI
-                CameraView()
+                CameraView(classification: $classification)
                     .edgesIgnoringSafeArea(.all)
                     .border(.blue)
                 

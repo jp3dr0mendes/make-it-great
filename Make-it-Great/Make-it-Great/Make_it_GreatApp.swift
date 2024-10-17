@@ -15,10 +15,12 @@ struct Make_it_GreatApp: App {
     var body: some Scene {
         WindowGroup {
             if firstUse {
-
                 MainScreenView() //substituir para a tela de onboarding
+                
             } else {
                 MainScreenView()
+//
+                    
             }
         }
         .modelContainer(for: [Food.self])

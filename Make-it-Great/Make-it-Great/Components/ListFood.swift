@@ -12,9 +12,13 @@ struct ListFood: View {
     @Environment(\.modelContext) var context
 //    var comida: Food
     //Lista de alimentos:
-    @State var comidas: [Food]
+//    @State var comidas: [Food]
     //Armazena alimetos selecionados:
-    @State var selectedItems: Set<Food> = []
+//    @State var selectedItems: Set<Food> = []
+    // Lista de alimentos (agora um binding)
+    @Binding var comidas: [Food]
+    // Armazena alimentos selecionados (agora um binding)
+    @Binding var selectedItems: Set<Food>
     
     var body: some View {
         
@@ -91,6 +95,17 @@ struct ListFood: View {
         }
     }
     
+    //Funcao que é chamada quando aperta o botao para deletar os itens:
+//    func deleteSelectedItems() {
+//        for comida in selectedItems {
+//            if let index = comidas.firstIndex(of: comida) {
+//                
+//                comidas.remove(at: index)
+//                context.delete(comida)
+//            }
+//        }
+//        selectedItems.removeAll()
+//    }
 }
 
 //#Preview {
@@ -104,7 +119,7 @@ struct ListFood: View {
 //    ])
 //    .modelContainer(for: [Food.self])
 //}
-
-#Preview {
-    ListFood(comidas: [Food(nome: "Banana", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 3, weight: nil)])
-}
+//
+//#Preview {
+//    ListFood(comidas: [Food(nome: "Banana", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 3, weight: nil)])
+//}
