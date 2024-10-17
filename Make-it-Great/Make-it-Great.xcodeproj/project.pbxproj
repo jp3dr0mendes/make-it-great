@@ -21,6 +21,7 @@
 		D8017D802CAC1D6D00DF28A0 /* AddItemSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */; };
 		D8017D822CAC261100DF28A0 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D812CAC261100DF28A0 /* Enums.swift */; };
 		D8017D842CAD8A4500DF28A0 /* ListFood.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D832CAD8A4500DF28A0 /* ListFood.swift */; };
+		D8550DC32CC00AD2002D1A50 /* MyImageClassifier-Test3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D8550DC22CC00AD2002D1A50 /* MyImageClassifier-Test3.mlmodel */; };
 		D8E010A52CAAF06D00B3DD9F /* Make_it_GreatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E010A42CAAF06D00B3DD9F /* Make_it_GreatApp.swift */; };
 		D8E010A72CAAF06D00B3DD9F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E010A62CAAF06D00B3DD9F /* ContentView.swift */; };
 		D8E010A92CAAF06D00B3DD9F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E010A82CAAF06D00B3DD9F /* Item.swift */; };
@@ -44,6 +45,7 @@
 		D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemSheet.swift; sourceTree = "<group>"; };
 		D8017D812CAC261100DF28A0 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		D8017D832CAD8A4500DF28A0 /* ListFood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFood.swift; sourceTree = "<group>"; };
+		D8550DC22CC00AD2002D1A50 /* MyImageClassifier-Test3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "MyImageClassifier-Test3.mlmodel"; sourceTree = "<group>"; };
 		D8E010A12CAAF06D00B3DD9F /* Make-it-Great.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Make-it-Great.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E010A42CAAF06D00B3DD9F /* Make_it_GreatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Make_it_GreatApp.swift; sourceTree = "<group>"; };
 		D8E010A62CAAF06D00B3DD9F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 		D8E010A32CAAF06D00B3DD9F /* Make-it-Great */ = {
 			isa = PBXGroup;
 			children = (
+				D8550DC22CC00AD2002D1A50 /* MyImageClassifier-Test3.mlmodel */,
 				27F1E26B2CAEE14F00D9DE88 /* Info.plist */,
 				2728ABBF2CAD6B010070E11D /* Views */,
 				D8017D7E2CAC1D4C00DF28A0 /* Components */,
@@ -228,6 +231,7 @@
 				275041F52CBFE1F200267C04 /* AddMenu.swift in Sources */,
 				D8E010A52CAAF06D00B3DD9F /* Make_it_GreatApp.swift in Sources */,
 				27E784FD2CBE931800837B8D /* SelectButton.swift in Sources */,
+				D8550DC32CC00AD2002D1A50 /* MyImageClassifier-Test3.mlmodel in Sources */,
 				D8017D7D2CAC175100DF28A0 /* FoodModel.swift in Sources */,
 				D8017D822CAC261100DF28A0 /* Enums.swift in Sources */,
 				2728ABC52CAD6C190070E11D /* SegmentedControlComponent.swift in Sources */,
