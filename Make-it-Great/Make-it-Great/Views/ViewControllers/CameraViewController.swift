@@ -20,6 +20,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     @Binding var classification: String
     
+    @State var object: String = ""
+    
+    
     init(classification: Binding<String>) {
         self._classification = classification
         super.init(nibName: nil, bundle: nil)
@@ -30,29 +33,83 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     func imageClassifier(frame: CVPixelBuffer) {
+        
         //CVPixelBuffer
-        guard let model = try? VNCoreMLModel(for: MyImageClassifier_Test3().model) else {
+        guard let model_object = try? VNCoreMLModel(for: MyImageClassifier_Test3().model) else {
+        //guard let model_object = try? VNCoreMLModel(for: FruitClassifier_V1().model) else {
                     print("Erro ao carregar o modelo")
                     return
                 }
         
-        var request = VNCoreMLRequest(model: model){ request, error in
+        var request_object = VNCoreMLRequest(model: model_object){ request, error in
             print(request)
+            
+            //EXECURTANDO UMA REQUISICAO PARA O MODELO DETERMINAR SE A IMAGEM E UMA FRUTA OU VERDURA
             guard let results = request.results as? [VNClassificationObservation] else {
                 return
             }
-             guard let classification = results.first?.identifier else {
+             guard let classification_object = results.first?.identifier else {
                 return
             }
+//            self.object = classification_object
+            print("passando aqui: \(classification_object) \(self.object)")
+//            self.classification = classification_object
             
-            self.classification = classification
+            //CASO SEJA FRUTA OU VERDURA EXECUTA OUTRA REQUISICAO PARA DETERMINAR QUAL CLASSE REPRESENTA
+            if (classification_object == "Verdura") || (classification_object == "Fruta") {
+                guard let model_fruit = try? VNCoreMLModel(for: FruitClassifier_V1().model) else {
+                            print("Erro ao carregar o modelo")
+                            return
+                        }
+                
+                var request_fruit = VNCoreMLRequest(model: model_fruit){ request, error in
+                    print(request)
+                    guard let results = request.results as? [VNClassificationObservation] else {
+                        return
+                    }
+                     guard let classification_fruit = results.first?.identifier else {
+                        return
+                    }
+                    
+                    self.classification = classification_fruit
+                }
+                
+                let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
+                
+                try! handler_object.perform([request_fruit])
+            }
         }
         
+        let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
+        
+        try! handler_object.perform([request_object])
+        
+        print("passando aqui")
+        
+//        if (self.object == "Verdura") || (self.object == "Fruta") {
+//            guard let model_fruit = try? VNCoreMLModel(for: FruitClassifier_V1().model) else {
+//                        print("Erro ao carregar o modelo")
+//                        return
+//                    }
+//            
+//            var request_fruit = VNCoreMLRequest(model: model_fruit){ request, error in
+//                print(request)
+//                guard let results = request.results as? [VNClassificationObservation] else {
+//                    return
+//                }
+//                 guard let classification_fruit = results.first?.identifier else {
+//                    return
+//                }
+//                
+//                self.classification = classification_fruit
+//            }
+//            
+//            let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
+//            
+//            try! handler_object.perform([request_fruit])
+//        }
         
         
-        let handler = VNImageRequestHandler(cvPixelBuffer: frame)
-        
-        try! handler.perform([request])
     }
     
     override func viewDidLoad() {
@@ -128,7 +185,6 @@ struct CameraView: UIViewControllerRepresentable {
     @Binding var classification: String
     
     func makeUIViewController(context: Context) -> CameraViewController{
-        print("sldkfsd")
         return CameraViewController(classification: $classification)
     }
     
