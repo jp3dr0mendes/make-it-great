@@ -10,6 +10,7 @@ import SwiftUI
 struct SelectButton: View {
     
     @Binding var showingButton: Bool
+    @Binding var selected: Bool
     
     var body: some View {
         
@@ -19,6 +20,7 @@ struct SelectButton: View {
                 
                 withAnimation {
                     showingButton.toggle()
+                    selected.toggle()
                     //print("toggle")
                 }
                 
@@ -42,6 +44,7 @@ struct SelectButton: View {
 
 #Preview {
     @Previewable @State var showignButton: Bool = false
-    SelectButton(showingButton: $showignButton)
+    @Previewable @State var selected: Bool = false
+    SelectButton(showingButton: $showignButton, selected: $selected)
 }
 

@@ -19,6 +19,7 @@ struct ListFood: View {
     @Binding var comidas: [Food]
     // Armazena alimentos selecionados (agora um binding)
     @Binding var selectedItems: Set<Food>
+    @Binding var selected: Bool
     
     var body: some View {
         
@@ -34,10 +35,12 @@ struct ListFood: View {
                     Button (action: {
                         toggleSelection(of: comida)
                     }) {
-                        Image(systemName: selectedItems.contains(comida) ? "checkmark.circle.fill" : "poweroff" )
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(selectedItems.contains(comida) ? .green : .gray)
+                        if selected == true {
+                            Image(systemName: selectedItems.contains(comida) ? "checkmark.circle.fill" : "poweroff" )
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .foregroundColor(selectedItems.contains(comida) ? .green : .gray)
+                        }
                     }/*.padding(.leading, 10)*/ //Afasta o checkbox da imagem, acho que esse padding é desnecessario
                     
                     //Spacer()
