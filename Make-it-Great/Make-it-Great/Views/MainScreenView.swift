@@ -78,7 +78,7 @@ struct MainScreenView: View {
                     
                         } else {
                             
-                            AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, storageType: $selectedCategory)
+                            AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet)
                         }
                     }
                     
