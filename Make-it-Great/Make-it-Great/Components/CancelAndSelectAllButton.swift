@@ -9,7 +9,13 @@ import SwiftUI
 
 struct CancelAndSelectAllButton: View {
     
+    @Environment(\.modelContext) var context
+    
+    @State var selectAll: Bool = false
     @Binding var showingButton: Bool
+    @Binding var selected: Bool
+    @Binding var selectedItems: Set<Food>
+    @Binding var comidas: [Food]
     
     var body: some View {
         
@@ -17,10 +23,14 @@ struct CancelAndSelectAllButton: View {
         HStack {
             
             Button(action: {
+                selectAll.toggle()
+                selectedItems.removeAll()
                 
-                showingButton.toggle()
-                
-                
+                withAnimation {
+                    showingButton.toggle()
+                    selected.toggle()
+                    
+                }
             }) {
                 Text("Cancel")
                     .padding()
@@ -38,6 +48,9 @@ struct CancelAndSelectAllButton: View {
             //Select All button
             Button(action: {
                 
+                selectAll.toggle()
+                toggleSelectionAll(comida: comidas)
+               
                 //Navegar para alguma tela
                 
             }) {
@@ -58,9 +71,21 @@ struct CancelAndSelectAllButton: View {
         .padding(.trailing, 16)
         .padding(.leading, 16)
     }
+    
+    private func toggleSelectionAll(comida: [Food]) {
+        if selectAll == true {
+            selectedItems.removeAll()
+            for comida in comidas {
+                selectedItems.insert(comida)
+            }
+        } else {
+            selectedItems.removeAll()
+        }
+    }
 }
 
-#Preview {
-    @Previewable @State var showignButton: Bool = false
-    CancelAndSelectAllButton(showingButton: $showignButton)
-}
+//#Preview {
+//    @Previewable @State var showignButton: Bool = false
+//    @Previewable @State var selected: Bool = false
+//    CancelAndSelectAllButton(showingButton: $showignButton, selected: $selected, comidas: .constant([""]))
+//}
