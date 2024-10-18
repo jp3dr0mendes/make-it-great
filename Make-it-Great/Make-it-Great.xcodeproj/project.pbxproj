@@ -15,6 +15,7 @@
 		277903A52CAEBC0700C57A2E /* ScreenScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277903A42CAEBC0700C57A2E /* ScreenScan.swift */; };
 		277903AA2CAEC27400C57A2E /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277903A92CAEC27400C57A2E /* CameraViewController.swift */; };
 		2779D08D2CB422E500742DA7 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2779D08C2CB422E500742DA7 /* CustomButton.swift */; };
+		27DB0BFB2CC1573700357162 /* EditItemSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DB0BFA2CC1573700357162 /* EditItemSheet.swift */; };
 		27E784FD2CBE931800837B8D /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E784FC2CBE931800837B8D /* SelectButton.swift */; };
 		27E784FF2CBE9BC100837B8D /* CancelAndSelectAllButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E784FE2CBE9BC100837B8D /* CancelAndSelectAllButton.swift */; };
 		2E1D7F6F2CBFF05F00B8C9AE /* GridCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D7F6E2CBFF05F00B8C9AE /* GridCollectionViewController.swift */; };
@@ -42,6 +43,7 @@
 		277903A42CAEBC0700C57A2E /* ScreenScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenScan.swift; sourceTree = "<group>"; };
 		277903A92CAEC27400C57A2E /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		2779D08C2CB422E500742DA7 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		27DB0BFA2CC1573700357162 /* EditItemSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemSheet.swift; sourceTree = "<group>"; };
 		27E784FC2CBE931800837B8D /* SelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButton.swift; sourceTree = "<group>"; };
 		27E784FE2CBE9BC100837B8D /* CancelAndSelectAllButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelAndSelectAllButton.swift; sourceTree = "<group>"; };
 		27F1E26B2CAEE14F00D9DE88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				27E784FC2CBE931800837B8D /* SelectButton.swift */,
 				27E784FE2CBE9BC100837B8D /* CancelAndSelectAllButton.swift */,
 				275041F42CBFE1F200267C04 /* AddMenu.swift */,
+				27DB0BFA2CC1573700357162 /* EditItemSheet.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 			files = (
 				D8E010A72CAAF06D00B3DD9F /* ContentView.swift in Sources */,
 				D8017D842CAD8A4500DF28A0 /* ListFood.swift in Sources */,
+				27DB0BFB2CC1573700357162 /* EditItemSheet.swift in Sources */,
 				277903A52CAEBC0700C57A2E /* ScreenScan.swift in Sources */,
 				D8E010A92CAAF06D00B3DD9F /* Item.swift in Sources */,
 				2779D08D2CB422E500742DA7 /* CustomButton.swift in Sources */,
@@ -386,7 +390,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Make-it-Great/Preview Content\"";
-				DEVELOPMENT_TEAM = Z2HSR7Z5HL;
+				DEVELOPMENT_TEAM = 2GUQ3BYP7T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Make-it-Great/Info.plist";
@@ -417,7 +421,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Make-it-Great/Preview Content\"";
-				DEVELOPMENT_TEAM = Z2HSR7Z5HL;
+				DEVELOPMENT_TEAM = 2GUQ3BYP7T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Make-it-Great/Info.plist";

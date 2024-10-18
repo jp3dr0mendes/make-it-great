@@ -43,6 +43,7 @@ struct MainScreenView: View {
         
         NavigationStack{
             
+
             VStack(spacing: 20) {
                 
                 HStack {
