@@ -18,6 +18,7 @@ struct ListFood: View {
     // Lista de alimentos (agora um binding)
     @Binding var comidas: [Food]
     // Armazena alimentos selecionados (agora um binding)
+    @Binding var selectedCategory: StorageType
     @Binding var selectedItems: Set<Food>
     @Binding var selected: Bool
     
@@ -51,7 +52,7 @@ struct ListFood: View {
                         .frame(width: 40, height: 40)
                         .clipShape(Circle())
                     //.foregroundColor(.yellow)
-                        .overlay(Circle().stroke(Color.blue, lineWidth: 1))
+                        .overlay(Circle().stroke(selectedCategory == .refrigerator ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1))
                         .shadow(radius: 10)
                     
                     //Nome da Comida e Quantidade:
@@ -70,7 +71,7 @@ struct ListFood: View {
 //                            context.delete(comida)
 //                        }
                         
-                    }.padding(.leading, 10)
+                    }//.padding(.leading, 10)
                     
                     
                     Spacer(minLength: 10) //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
@@ -79,10 +80,10 @@ struct ListFood: View {
                         .font(.caption)
                         .multilineTextAlignment(.trailing)
                         .foregroundColor(.gray)
-                        .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
+                       // .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
                     //Spacer()
                 }
-                .padding(.leading, 10)
+                //.padding(.leading, 10)
                 
                 Divider() //Linha horizontal que divide os elementos
             }

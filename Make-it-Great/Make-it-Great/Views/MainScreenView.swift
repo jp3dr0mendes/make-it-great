@@ -43,11 +43,17 @@ struct MainScreenView: View {
         
         NavigationStack{
             
-            VStack {
+            VStack(spacing: 20) {
                 
-                Text("My Items")
-                    .foregroundColor(.blue)
-                    .padding(.trailing)
+                HStack {
+                    Text("Meus Itens")
+                        .foregroundStyle(.purpleItens)
+                        .font(.system(.title2))
+                        .fontDesign(.rounded)
+                        
+                    Spacer()
+                }
+                    
                 
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
                     .onChange(of: selectedCategory) {
@@ -91,7 +97,7 @@ struct MainScreenView: View {
                 ScrollView {
                     VStack {
                         // Passando diretamente filteredFoods para ListFood
-                        ListFood(comidas: $filteredFoods, selectedItems: $selectedItems, selected: $selected)
+                        ListFood(comidas: $filteredFoods, selectedCategory: $selectedCategory, selectedItems: $selectedItems, selected: $selected)
                     }
                 }
                 
@@ -103,9 +109,6 @@ struct MainScreenView: View {
                     // Chama a função de deletar diretamente da ListFood
                     deleteSelectedItems()
                 })
-                
-                
-            
             }
             .sheet(isPresented: $isPresentedSheet, content: {
                 AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
@@ -116,6 +119,7 @@ struct MainScreenView: View {
             .onChange(of: foods) {
                 updateFilteredFoods() // Atualiza quando a lista de alimentos mudar
             }
+            .padding()
 //            .onAppear {
 //                // Inicializa a lista filtrada ao aparecer
 //                updateFilteredFoods()
