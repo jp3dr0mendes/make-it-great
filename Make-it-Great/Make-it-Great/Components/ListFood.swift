@@ -120,4 +120,6 @@ struct ListFood: View {
 //    .modelContainer(for: [Food.self])
 //}
 //
-
+#Preview {
+    MainScreenView()
+}

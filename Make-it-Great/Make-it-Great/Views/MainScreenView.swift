@@ -46,9 +46,9 @@ struct MainScreenView: View {
             
             VStack {
                 //Remover depois:
-                NavigationLink(destination: EditItemSheet(isPresented: $isPresentedSheet, storage: $selectedCategory)) {
-                    Text("Edit Test")
-                }
+//                NavigationLink(destination: EditItemSheet(isPresented: $isPresentedSheet, storage: $selectedCategory, item: Food()) {
+//                    Text("Edit Test")
+//                }
                 
                 Text("My Items")
                     .foregroundColor(.blue)

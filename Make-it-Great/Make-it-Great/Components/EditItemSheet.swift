@@ -19,7 +19,7 @@ struct EditItemSheet: View {
     @Binding var storage: StorageType
     
     // Aqui, recebemos o item existente (se for edição), caso contrário, será um novo item
-    @State var item: Food?
+    @Binding var item: Food
     
     @State var nome: String = ""
     @State var emoji: String = ""
@@ -47,55 +47,74 @@ struct EditItemSheet: View {
                 isPresented = false
             }
             Spacer()
-            Button(item != nil ? "Salvar" : "Adicionar") {
-                // Verifica se os valores são válidos
-                if ((tipoQuantidade == .Peso && peso != 0) || tipoQuantidade == .Unidade && unidades > 0) {
+            Button("Save") {
+                Task{
                     
-                    if let item = item {
-                        
-                        let newItem = Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: unidades, weight: peso)
-                        
-                        
-                        
-                        
-                        // Atualizar item existente
-//                        item.nome = nome
-//                        item.storage = storage
-//                        item.type = categoria // Atribuindo diretamente como FoodType
-//                        item.consumirAte = dataInicio
-                        
-                        switch tipoQuantidade {
-                        case .Peso:
-                            item.weight = peso
-                            item.units = nil
-                        case .Unidade:
-                            item.units = unidades
-                            item.weight = nil
-                        }
-                        
-                        // Salvar as mudanças no contexto
-                        do {
-                            context.insert(newItem)
-                            try context.save()
-                        } catch {
-                            print("Erro ao salvar as mudanças: \(error)")
-                        }
-                    } else {
-                        // Criar novo item
-                        switch tipoQuantidade {
-                        case .Peso:
-                            context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: nil, weight: peso))
-                        case .Unidade:
-                            context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: unidades, weight: nil))
-                        }
+                    item.nome = nome
+                    item.consumirAte = dataFim
+                    
+                    switch tipoQuantidade{
+                    case .Peso:
+                        item.weight = peso
+                        item.units = nil
+                    case .Unidade:
+                        item.units = unidades
+                        item.weight = nil
                     }
                     
-                    isPresented = false
-                } else {
-                    errorMessage = "Valor inválido!"
+                    try context.save()
                 }
             }
         }
+                // Verifica se os valores são válidos
+//                if ((item.weight != nil && item.weight != 0) || item.units != nil && item.units > 0) {
+//                    
+//                    if let item = item {
+//                        
+//                        let newItem = Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: unidades, weight: peso)
+//                        
+//                        
+//                        
+//                        
+//                        // Atualizar item existente
+////                        item.nome = nome
+////                        item.storage = storage
+////                        item.type = categoria // Atribuindo diretamente como FoodType
+////                        item.consumirAte = dataInicio
+//                        
+//                        switch tipoQuantidade {
+//                        case .Peso:
+//                            item.weight = peso
+//                            item.units = nil
+//                        case .Unidade:
+//                            item.units = unidades
+//                            item.weight = nil
+//                        }
+//                        
+//                        // Salvar as mudanças no contexto
+//                        do {
+//                            context.insert(newItem)
+//                            try context.save()
+//                        } catch {
+//                            print("Erro ao salvar as mudanças: \(error)")
+//                        }
+//                    } else {
+//                        // Criar novo item
+//                        switch tipoQuantidade {
+//                        case .Peso:
+//                            context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: nil, weight: peso))
+//                        case .Unidade:
+//                            context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: unidades, weight: nil))
+//                        }
+//                    }
+                    
+                    
+//                    isPresented = false
+//                } else {
+//                    errorMessage = "Valor inválido!"
+//                }
+//            }
+//        }
         .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
         
         VStack(alignment: .leading) {
@@ -214,17 +233,19 @@ struct EditItemSheet: View {
         .padding()
         .onAppear {
             // Se for edição, carrega os valores existentes do item
-            if let item = item {
-                
-                
-//                nome = item.nome ?? ""
-//                storage = item.storage
-//                categoria = item.type // Assume que tipo é FoodType
-//                dataInicio = item.consumirAte ?? Date()
-//                tipoQuantidade = item.units != nil ? .Unidade : .Peso
-//                peso = item.weight ?? 0
-//                unidades = item.units ?? 0
-            }
+//            if let item = item {
+//                
+//    
+//                
+//                
+////                nome = item.nome ?? ""
+////                storage = item.storage
+////                categoria = item.type // Assume que tipo é FoodType
+////                dataInicio = item.consumirAte ?? Date()
+////                tipoQuantidade = item.units != nil ? .Unidade : .Peso
+////                peso = item.weight ?? 0
+////                unidades = item.units ?? 0
+//            }
         }
         .sheet(isPresented: $isEmojiPickerShowing) {
             EmojiPickerView(selected: $emoji)
@@ -232,11 +253,12 @@ struct EditItemSheet: View {
     }
 }
 
-#Preview {
-    @Previewable @State var isPresented: Bool = false
-    @Previewable @State var storage: StorageType = .cabinet
-    EditItemSheet(isPresented: $isPresented, storage: $storage) // Corrigido para EditItemSheet
-}
+//#Preview {
+//    @Previewable @State var isPresented: Bool = false
+//    @Previewable @State var storage: StorageType = .cabinet
+//    @Previewable @State var comida: Food = Food(nome: "maca", storage: storage, type: .Fruta, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 1, weight: nil)
+//    EditItemSheet(isPresented: $isPresented, storage: $storage, item: $comida) // Corrigido para EditItemSheet
+//}
 
 //struct FormView_Previews: PreviewProvider {
 //  static var previews: some View {
