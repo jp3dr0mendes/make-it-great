@@ -16,12 +16,22 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     private var captureSession: AVCaptureSession?
     private var previewLayer: AVCaptureVideoPreviewLayer?
     private var previewFrame: CVPixelBuffer?
+    private var food: Food?
+    
     var imageBuffer: CVImageBuffer?
     
     @Binding var classification: String
+    @Binding var foods: [Food]
+    @Binding var storageType: StorageType
     
-    init(classification: Binding<String>) {
+    @State var object: String = ""
+    
+    
+    init(classification: Binding<String>, foods: Binding<[Food]>, storage: Binding<StorageType>) {
         self._classification = classification
+        self._foods = foods
+        self._storageType = storage
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,29 +40,118 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     func imageClassifier(frame: CVPixelBuffer) {
+        
         //CVPixelBuffer
-        guard let model = try? VNCoreMLModel(for: MyImageClassifier_Test3().model) else {
+        guard let model_object = try? VNCoreMLModel(for: MyImageClassifier_Test3().model) else {
+        //guard let model_object = try? VNCoreMLModel(for: FruitClassifier_V1().model) else {
                     print("Erro ao carregar o modelo")
                     return
                 }
         
-        var request = VNCoreMLRequest(model: model){ request, error in
+        var request_object = VNCoreMLRequest(model: model_object){ request, error in
             print(request)
+            
+            //EXECURTANDO UMA REQUISICAO PARA O MODELO DETERMINAR SE A IMAGEM E UMA FRUTA OU VERDURA
             guard let results = request.results as? [VNClassificationObservation] else {
                 return
             }
-             guard let classification = results.first?.identifier else {
+             guard let classification_object = results.first?.identifier else {
                 return
             }
+//            self.object = classification_object
+            print("passando aqui: \(classification_object) \(self.object)")
+//            self.classification = classification_object
             
-            self.classification = classification
+            //CASO SEJA FRUTA OU VERDURA EXECUTA OUTRA REQUISICAO PARA DETERMINAR QUAL CLASSE REPRESENTA
+            if classification_object == "Fruta" {
+                guard let model_fruit = try? VNCoreMLModel(for: FruitClassifier_V1().model) else {
+                            print("Erro ao carregar o modelo")
+                            return
+                        }
+                
+                var request_fruit = VNCoreMLRequest(model: model_fruit){ request, error in
+                    print(request)
+                    guard let results = request.results as? [VNClassificationObservation] else {
+                        return
+                    }
+                     guard let classification_fruit = results.first?.identifier else {
+                        return
+                    }
+                    
+                    self.classification = classification_fruit
+                    
+                    var detectedFood: Food = Food(nome: self.classification, storage: self.storageType, type: .Fruta, consumirAte: nil, units: 1, weight: nil)
+                    
+                    if !self.foods.contains(where: {$0.nome == detectedFood.nome}) {
+                        self.foods.append(detectedFood)
+                    }
+                }
+                
+                let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
+                
+                try! handler_object.perform([request_fruit])
+            } else if classification_object == "Verdura" {
+                guard let model_veg = try? VNCoreMLModel(for: VegClassifier_1().model) else {
+                            print("Erro ao carregar o modelo")
+                            return
+                        }
+                
+                var request_veg = VNCoreMLRequest(model: model_veg){ request, error in
+                    print(request)
+                    guard let results = request.results as? [VNClassificationObservation] else {
+                        return
+                    }
+                     guard let classification_veg = results.first?.identifier else {
+                        return
+                    }
+                    
+                    self.classification = classification_veg
+                    //aqui
+                    
+                    var detectedFood: Food = Food(nome: self.classification, storage: self.storageType, type: .Vegetal, consumirAte: nil, units: 1, weight: nil)
+                    
+                    if !self.foods.contains(where: {$0.nome == detectedFood.nome}) {
+                        self.foods.append(detectedFood)
+                    }
+                    
+                }
+                
+                let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
+                
+                try! handler_object.perform([request_veg])
+            }
         }
         
+        let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
+        
+        try! handler_object.perform([request_object])
+        
+        print("passando aqui")
+        
+//        if (self.object == "Verdura") || (self.object == "Fruta") {
+//            guard let model_fruit = try? VNCoreMLModel(for: FruitClassifier_V1().model) else {
+//                        print("Erro ao carregar o modelo")
+//                        return
+//                    }
+//            
+//            var request_fruit = VNCoreMLRequest(model: model_fruit){ request, error in
+//                print(request)
+//                guard let results = request.results as? [VNClassificationObservation] else {
+//                    return
+//                }
+//                 guard let classification_fruit = results.first?.identifier else {
+//                    return
+//                }
+//                
+//                self.classification = classification_fruit
+//            }
+//            
+//            let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
+//            
+//            try! handler_object.perform([request_fruit])
+//        }
         
         
-        let handler = VNImageRequestHandler(cvPixelBuffer: frame)
-        
-        try! handler.perform([request])
     }
     
     override func viewDidLoad() {
@@ -65,7 +164,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         captureSession.beginConfiguration()
         
         //Para escolher a câmera traseira:
-        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else { return }
+        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else { return }
         guard let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice) else { return }
         
         if captureSession.canAddInput(videoDeviceInput) {
@@ -126,10 +225,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 struct CameraView: UIViewControllerRepresentable {
     
     @Binding var classification: String
+    @Binding var foods: [Food]
+    @Binding var storage: StorageType
     
     func makeUIViewController(context: Context) -> CameraViewController{
-        print("sldkfsd")
-        return CameraViewController(classification: $classification)
+        return CameraViewController(classification: $classification, foods: $foods, storage: $storage)
     }
     
     func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {

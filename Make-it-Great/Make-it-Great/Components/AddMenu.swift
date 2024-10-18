@@ -13,13 +13,14 @@ struct AddMenu: View {
 //    @State var isPresentedMenu: Bool = false
     @Binding var isPresentedMenu: Bool
     @Binding var isPresentedSheet: Bool
+    @Binding var storageType: StorageType
     
     var body: some View {
        
         HStack {
             Spacer()
             Menu {
-                NavigationLink(destination: ScreenScan(isPresentedMenu: $isPresentedMenu)) {
+                NavigationLink(destination: ScreenScan(isPresentedMenu: $isPresentedMenu, storageType: $storageType)) {
                     Text("Scannear")
                     Image(systemName: "camera.viewfinder")
                 }
@@ -28,18 +29,21 @@ struct AddMenu: View {
                     isPresentedSheet = true
                 }
             } label: {
-                Label("", systemImage: "plus.circle.fill")
-                    .font(.system(size: 25)) // Ajuste o tamanho do ícone aqui
+                Image(systemName: "plus.circle")
+                    .font(.system(size: 25))
+                    .foregroundStyle(.purpleItens)
+//                Label("", systemImage: "plus.circle.fill")
+//                    .font(.system(size: 25)) // Ajuste o tamanho do ícone aqui
             }
-            .padding(.trailing, 16)
-                //.border(.black)
+            //.padding(.trailing, 16)
+//                .border(.black)
         }
         
     }
 }
 
-#Preview {
-    @Previewable @State var isPresentedMenu: Bool = false
-    @Previewable @State var isPresentedSheet: Bool = false
-    AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet)
-}
+//#Preview {
+//    @Previewable @State var isPresentedMenu: Bool = false
+//    @Previewable @State var isPresentedSheet: Bool = false
+//    AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet)
+//}
