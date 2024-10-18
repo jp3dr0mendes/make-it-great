@@ -120,6 +120,4 @@ struct ListFood: View {
 //    .modelContainer(for: [Food.self])
 //}
 //
-//#Preview {
-//    ListFood(comidas: [Food(nome: "Banana", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 3, weight: nil)])
-//}
+
