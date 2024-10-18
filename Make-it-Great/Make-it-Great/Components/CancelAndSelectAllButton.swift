@@ -60,7 +60,7 @@ struct CancelAndSelectAllButton: View {
     }
 }
 
-#Preview {
-    @Previewable @State var showignButton: Bool = false
-    CancelAndSelectAllButton(showingButton: $showignButton)
-}
+//#Preview {
+//    @Previewable @State var showignButton: Bool = false
+//    CancelAndSelectAllButton(showingButton: $showignButton)
+//}

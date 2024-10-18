@@ -16,15 +16,22 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     private var captureSession: AVCaptureSession?
     private var previewLayer: AVCaptureVideoPreviewLayer?
     private var previewFrame: CVPixelBuffer?
+    private var food: Food?
+    
     var imageBuffer: CVImageBuffer?
     
     @Binding var classification: String
+    @Binding var foods: [Food]
+    @Binding var storageType: StorageType
     
     @State var object: String = ""
     
     
-    init(classification: Binding<String>) {
+    init(classification: Binding<String>, foods: Binding<[Food]>, storage: Binding<StorageType>) {
         self._classification = classification
+        self._foods = foods
+        self._storageType = storage
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -72,6 +79,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     }
                     
                     self.classification = classification_fruit
+                    
+                    var detectedFood: Food = Food(nome: self.classification, storage: self.storageType, type: .Fruta, consumirAte: nil, units: 1, weight: nil)
+                    
+                    if !self.foods.contains(where: {$0.nome == detectedFood.nome}) {
+                        self.foods.append(detectedFood)
+                    }
                 }
                 
                 let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
@@ -93,6 +106,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     }
                     
                     self.classification = classification_veg
+                    //aqui
+                    
+                    var detectedFood: Food = Food(nome: self.classification, storage: self.storageType, type: .Vegetal, consumirAte: nil, units: 1, weight: nil)
+                    
+                    if !self.foods.contains(where: {$0.nome == detectedFood.nome}) {
+                        self.foods.append(detectedFood)
+                    }
+                    
                 }
                 
                 let handler_object = VNImageRequestHandler(cvPixelBuffer: frame)
@@ -143,7 +164,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         captureSession.beginConfiguration()
         
         //Para escolher a câmera traseira:
-        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else { return }
+        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else { return }
         guard let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice) else { return }
         
         if captureSession.canAddInput(videoDeviceInput) {
@@ -204,9 +225,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 struct CameraView: UIViewControllerRepresentable {
     
     @Binding var classification: String
+    @Binding var foods: [Food]
+    @Binding var storage: StorageType
     
     func makeUIViewController(context: Context) -> CameraViewController{
-        return CameraViewController(classification: $classification)
+        return CameraViewController(classification: $classification, foods: $foods, storage: $storage)
     }
     
     func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {
