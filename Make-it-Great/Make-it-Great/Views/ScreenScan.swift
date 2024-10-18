@@ -23,14 +23,14 @@ struct ScreenScan: View {
             
             VStack {
                 Text("Screen Scan")
-                Text(classification)
+//                Text(classification)
                 
-                List {
-                   ForEach(foods, id: \.self) { food in
-                       Text(food.nome)
-                   }
-               }
-                
+//                List {
+//                   ForEach(foods, id: \.self) { food in
+//                       Text(food.nome)
+//                   }
+//               }
+//                
                 
                 
 //                if  CameraView().classification != ""{
@@ -42,6 +42,14 @@ struct ScreenScan: View {
                 CameraView(classification: $classification, foods: $foods,storage: $storageType)
                     .edgesIgnoringSafeArea(.all)
                     .border(.blue)
+                
+                Text(classification)
+                
+//                List {
+//                   ForEach(foods, id: \.self) { food in
+//                       Text(food.nome)
+//                   }
+//               }
                 
                 NavigationLink(destination: IdentifiedFoodScreen(detectedFoods: $foods)) {
                     Text("Confirm Itens")

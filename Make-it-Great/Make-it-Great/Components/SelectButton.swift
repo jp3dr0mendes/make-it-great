@@ -45,8 +45,8 @@ struct SelectButton: View {
 }
 
 
-#Preview {
-    @Previewable @State var showignButton: Bool = false
-    @Previewable @State var selected: Bool = false
-    SelectButton(showingButton: $showignButton, selected: $selected)
-}
+//#Preview {
+//    @Previewable @State var showignButton: Bool = false
+//    @Previewable @State var selected: Bool = false
+//    SelectButton(showingButton: $showignButton, selected: $selected)
+//}
