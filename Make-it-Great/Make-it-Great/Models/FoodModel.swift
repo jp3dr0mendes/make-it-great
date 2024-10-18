@@ -16,19 +16,24 @@ class Food {
     var units: Int?
     var weight: Float?
     var type: String
-    var consumirAte: Date
+    var consumirAte: Date?
     
-    init(nome: String, storage: StorageType, type: FoodType, consumirAte: Date, units: Int?, weight: Float?) {
+    init(nome: String, storage: StorageType, type: FoodType, consumirAte: Date?, units: Int?, weight: Float?) {
         self.nome = nome
         self.storage = ""
         self.type = ""
-        self.consumirAte = consumirAte
         
         
         if let peso = weight{
             self.weight = peso
         } else if let unidades = units{
             self.units = unidades
+        }
+        
+        if let data = consumirAte {
+            self.consumirAte = data
+        } else {
+            self.consumirAte = Date(timeInterval: 7*60*60*24, since: Date.now)
         }
         
         self.storage = checkStorage(storage: storage)

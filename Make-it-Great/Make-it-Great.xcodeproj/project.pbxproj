@@ -15,10 +15,10 @@
 		277903A52CAEBC0700C57A2E /* ScreenScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277903A42CAEBC0700C57A2E /* ScreenScan.swift */; };
 		277903AA2CAEC27400C57A2E /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277903A92CAEC27400C57A2E /* CameraViewController.swift */; };
 		2779D08D2CB422E500742DA7 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2779D08C2CB422E500742DA7 /* CustomButton.swift */; };
-		2E1D7F6F2CBFF05F00B8C9AE /* GridCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D7F6E2CBFF05F00B8C9AE /* GridCollectionViewController.swift */; };
-		2E1D7F732CBFF33F00B8C9AE /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D7F722CBFF33F00B8C9AE /* EmojiPickerView.swift */; };
 		27E784FD2CBE931800837B8D /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E784FC2CBE931800837B8D /* SelectButton.swift */; };
 		27E784FF2CBE9BC100837B8D /* CancelAndSelectAllButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E784FE2CBE9BC100837B8D /* CancelAndSelectAllButton.swift */; };
+		2E1D7F6F2CBFF05F00B8C9AE /* GridCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D7F6E2CBFF05F00B8C9AE /* GridCollectionViewController.swift */; };
+		2E1D7F732CBFF33F00B8C9AE /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D7F722CBFF33F00B8C9AE /* EmojiPickerView.swift */; };
 		D8017D7D2CAC175100DF28A0 /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D7C2CAC175100DF28A0 /* FoodModel.swift */; };
 		D8017D802CAC1D6D00DF28A0 /* AddItemSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */; };
 		D8017D822CAC261100DF28A0 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D812CAC261100DF28A0 /* Enums.swift */; };
@@ -386,7 +386,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Make-it-Great/Preview Content\"";
-				DEVELOPMENT_TEAM = SC39NXXQ99;
+				DEVELOPMENT_TEAM = Z2HSR7Z5HL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Make-it-Great/Info.plist";
@@ -418,7 +418,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Make-it-Great/Preview Content\"";
 				DEVELOPMENT_TEAM = Z2HSR7Z5HL;
-
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Make-it-Great/Info.plist";

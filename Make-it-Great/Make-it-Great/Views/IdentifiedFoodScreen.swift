@@ -8,30 +8,24 @@
 import SwiftUI
 
 struct IdentifiedFoodScreen: View {
+    
+    @Binding var detectedFoods: [Food]
+    
     var body: some View {
         VStack {
             Text("Identified Food")
             
             List {
-                ForEach(0..<10) { index in
-                
-                    HStack {
-                        
-                        Image(systemName: "leaf.fill")
-//                            .resizable()
-//                            .frame(width: 40, height: 40)
-//                            .foregroundColor(.green)
-                        Text("Food \(index)")
-                            .font(.headline)
-                    }
-                    
-                }
-            }
+               ForEach(detectedFoods, id: \.self) { food in
+                   Text(food.nome)
+               }
+           }
+            
             
         }
     }
 }
 
-#Preview {
-    IdentifiedFoodScreen()
-}
+//#Preview {
+//    IdentifiedFoodScreen()
+//}
