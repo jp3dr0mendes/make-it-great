@@ -36,8 +36,7 @@ struct MainScreenView: View {
     @State var comidas: [Food] = []
     @State var selectedItems: Set<Food> = []
     @State private var filteredFoods: [Food] = []
-    
-
+    @State var selected: Bool = false
 
 
     var body: some View {
@@ -63,14 +62,14 @@ struct MainScreenView: View {
                     //Ztack para desenhar botoes na mesma linha
                     ZStack {
                         
-                        SelectButton(showingButton: $showingButton)
+                        SelectButton(showingButton: $showingButton, selected: $selected)
                             .opacity(showingButton ? 0 : 1)
                         
                         if showingButton {
                             
-                            CancelAndSelectAllButton(showingButton: $showingButton)
+                            CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
                     
-                        }else {
+                        } else {
                             
                             AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, storageType: $selectedCategory)
                         }
@@ -92,7 +91,7 @@ struct MainScreenView: View {
                 ScrollView {
                     VStack {
                         // Passando diretamente filteredFoods para ListFood
-                        ListFood(comidas: $filteredFoods, selectedItems: $selectedItems)
+                        ListFood(comidas: $filteredFoods, selectedItems: $selectedItems, selected: $selected)
                     }
                 }
                 
@@ -148,7 +147,7 @@ struct MainScreenView: View {
         do {
             try context.save()
         } catch {
-            print("Erro ao sarvar o contexto")
+            print("Erro ao salvar o contexto")
         }
         
         selectedItems.removeAll() // Limpa os itens selecionados
