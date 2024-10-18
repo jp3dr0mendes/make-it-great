@@ -27,6 +27,8 @@ struct AddButtonStyle: ButtonStyle {
 
 struct ButtonView: View {
     
+    @Binding var selectedItems: Set<Food>
+    
     var deleteAction: () -> Void
 //    @Binding var isPresentedSheet: Bool
     
@@ -44,6 +46,7 @@ struct ButtonView: View {
             }
 //            .disabled(true)
             .buttonStyle(AddButtonStyle())
+            .disabled(selectedItems.isEmpty)
           
        
             
