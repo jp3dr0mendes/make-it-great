@@ -28,11 +28,14 @@ struct AddMenu: View {
                     isPresentedSheet = true
                 }
             } label: {
-                Label("", systemImage: "plus.circle.fill")
-                    .font(.system(size: 25)) // Ajuste o tamanho do ícone aqui
+                Image(systemName: "plus.circle")
+                    .font(.system(size: 25))
+                    .foregroundStyle(.purpleItens)
+//                Label("", systemImage: "plus.circle.fill")
+//                    .font(.system(size: 25)) // Ajuste o tamanho do ícone aqui
             }
-            .padding(.trailing, 16)
-                //.border(.black)
+            //.padding(.trailing, 16)
+//                .border(.black)
         }
         
     }

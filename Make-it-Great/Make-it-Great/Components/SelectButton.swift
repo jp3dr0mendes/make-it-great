@@ -26,18 +26,20 @@ struct SelectButton: View {
                 
             }) {
                 Text("Select")
-                    .padding()
+                    .padding(EdgeInsets(top: 8, leading: 14, bottom: 8, trailing: 14))
                 //.background(Color.white)
                     .font(.system(size: 15))
                     .foregroundColor(.purpleItens)
+                    .background(RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.purpleItens, lineWidth: 1))
             }
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.purpleItens, lineWidth: 1)
-                    .frame(width: 72, height: 36)
-            )
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 10)
+//                    .stroke(Color.purpleItens, lineWidth: 1)
+//                    .frame(width: 72, height: 36)
+//            )
             Spacer()
-        }.padding(.leading, 16)
+        }//.padding(.leading, 16)
         
     }
 }
