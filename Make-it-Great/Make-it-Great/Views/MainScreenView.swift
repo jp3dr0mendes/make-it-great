@@ -43,6 +43,7 @@ struct MainScreenView: View {
         
         NavigationStack{
             
+
             VStack(spacing: 20) {
                 
                 HStack {
@@ -50,10 +51,10 @@ struct MainScreenView: View {
                         .foregroundStyle(.purpleItens)
                         .font(.system(.title2))
                         .fontDesign(.rounded)
-                        
+                    
                     Spacer()
                 }
-                    
+                
                 
                 SegmentedControlComponent(selectedCategory: $selectedCategory)
                     .onChange(of: selectedCategory) {
@@ -61,7 +62,7 @@ struct MainScreenView: View {
                         updateFilteredFoods()
                     }
                 
-               
+                
                 //Menu para adicionar via Scan e Manualmente:
                 HStack {
                     
@@ -74,10 +75,10 @@ struct MainScreenView: View {
                         if showingButton {
                             
                             CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
-                    
+                            
                         } else {
                             
-                            AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet)
+                            AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, storageType: $selectedCategory)
                         }
                     }
                     
@@ -86,14 +87,14 @@ struct MainScreenView: View {
                 }
                 
                 //Lista personalizada de comidas a ScroolView torna a ListFood uma lista scrolável
-//                ScrollView {
-//                    VStack {
-//                        // Usar o estado filtrado na lista
-//                        ForEach(filteredFoods, id: \.self) { food in
-//                            ListFood(comidas: $filteredFoods, selectedItems: $selectedItems)
-//                        }
-//                    }
-//                }
+                //                ScrollView {
+                //                    VStack {
+                //                        // Usar o estado filtrado na lista
+                //                        ForEach(filteredFoods, id: \.self) { food in
+                //                            ListFood(comidas: $filteredFoods, selectedItems: $selectedItems)
+                //                        }
+                //                    }
+                //                }
                 ScrollView {
                     VStack {
                         // Passando diretamente filteredFoods para ListFood
@@ -101,14 +102,15 @@ struct MainScreenView: View {
                     }
                 }
                 
-//                Button("Adicionar Item"){
-//                    isPresentedSheet = true
-//                }
-                
-                ButtonView(deleteAction: {
-                    // Chama a função de deletar diretamente da ListFood
-                    deleteSelectedItems()
-                })
+                //                Button("Adicionar Item"){
+                //                    isPresentedSheet = true
+                //                }
+                if selected {
+                    ButtonView(selectedItems: $selectedItems, deleteAction: {
+                        // Chama a função de deletar diretamente da ListFood
+                        deleteSelectedItems()
+                    })
+                }
             }
             .sheet(isPresented: $isPresentedSheet, content: {
                 AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)

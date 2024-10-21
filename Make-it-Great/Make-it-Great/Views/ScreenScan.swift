@@ -11,7 +11,9 @@ import AVFoundation
 struct ScreenScan: View {
     
     @Binding var isPresentedMenu: Bool
-    @State var food: Food?
+    @Binding var storageType: StorageType
+    
+    @State var foods: [Food] = []
     
     @State var classification: String = ""
     
@@ -23,17 +25,25 @@ struct ScreenScan: View {
                 Text("Screen Scan")
                 Text(classification)
                 
+                List {
+                   ForEach(foods, id: \.self) { food in
+                       Text(food.nome)
+                   }
+               }
+                
+                
+                
 //                if  CameraView().classification != ""{
 //                    if CameraView().classification == ""{
 //                        self.food = nil
 //                    }
 //                }
                 //Aqui Chama a camera que foi convertida para SwiftUI
-                CameraView(classification: $classification)
+                CameraView(classification: $classification, foods: $foods,storage: $storageType)
                     .edgesIgnoringSafeArea(.all)
                     .border(.blue)
                 
-                NavigationLink(destination: IdentifiedFoodScreen()) {
+                NavigationLink(destination: IdentifiedFoodScreen(detectedFoods: $foods)) {
                     Text("Confirm Itens")
                         .font(.title2)
                         .padding()

@@ -24,13 +24,13 @@ struct EmojiPickerView: UIViewControllerRepresentable {
     
 }
 
-#Preview {
-    @Previewable @State var isShowingEmojiPicker = false
-    @Previewable @State var selectedEmoji = ""
-    Button("Show Emoji Picker = \(selectedEmoji)") {
-        isShowingEmojiPicker = true
-    }
-    .sheet(isPresented: $isShowingEmojiPicker) {
-        EmojiPickerView(selected: $selectedEmoji, showingEmojiPicker: $isShowingEmojiPicker)
-    }
-}
+//#Preview {
+//    @Previewable @State var isShowingEmojiPicker = false
+//    @Previewable @State var selectedEmoji = ""
+//    Button("Show Emoji Picker = \(selectedEmoji)") {
+//        isShowingEmojiPicker = true
+//    }
+//    .sheet(isPresented: $isShowingEmojiPicker) {
+//        EmojiPickerView(selected: $selectedEmoji)
+//    }
+//}

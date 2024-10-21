@@ -13,13 +13,14 @@ struct AddMenu: View {
 //    @State var isPresentedMenu: Bool = false
     @Binding var isPresentedMenu: Bool
     @Binding var isPresentedSheet: Bool
+    @Binding var storageType: StorageType
     
     var body: some View {
        
         HStack {
             Spacer()
             Menu {
-                NavigationLink(destination: ScreenScan(isPresentedMenu: $isPresentedMenu)) {
+                NavigationLink(destination: ScreenScan(isPresentedMenu: $isPresentedMenu, storageType: $storageType)) {
                     Text("Scannear")
                     Image(systemName: "camera.viewfinder")
                 }
@@ -41,8 +42,8 @@ struct AddMenu: View {
     }
 }
 
-#Preview {
-    @Previewable @State var isPresentedMenu: Bool = false
-    @Previewable @State var isPresentedSheet: Bool = false
-    AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet)
-}
+//#Preview {
+//    @Previewable @State var isPresentedMenu: Bool = false
+//    @Previewable @State var isPresentedSheet: Bool = false
+//    AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet)
+//}

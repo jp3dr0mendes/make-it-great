@@ -92,6 +92,4 @@ struct CancelAndSelectAllButton: View {
 
 //#Preview {
 //    @Previewable @State var showignButton: Bool = false
-//    @Previewable @State var selected: Bool = false
-//    CancelAndSelectAllButton(showingButton: $showignButton, selected: $selected, comidas: .constant([""]))
 //}
