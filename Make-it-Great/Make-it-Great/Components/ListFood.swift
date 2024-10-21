@@ -44,15 +44,29 @@ struct ListFood: View {
                     }/*.padding(.leading, 10)*/ //Afasta o checkbox da imagem, acho que esse padding é desnecessario
                     
                     //Spacer()
-                    
-                    Image("imageTest") //Preciso fazer um model para colocar a imagem certa aqui
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                    //.foregroundColor(.yellow)
-                        .overlay(Circle().stroke(Color.blue, lineWidth: 1))
-                        .shadow(radius: 10)
+                    ZStack {
+                        Text("\(comida.emoji ?? "🍎")")
+                            .font(.system(size: 30))
+                        // .clipShape(Circle())
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.blue, lineWidth: 1)
+                                    .frame(width: 40, height: 40)
+                            }
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.blue, lineWidth: 1)
+                            .frame(width: 40, height: 40)
+                    }
+                        
+                        //.overlay(Circle().stroke(Color.blue, lineWidth: 1).frame(width: 40, height: 40))
+//                    Image("imageTest") //Preciso fazer um model para colocar a imagem certa aqui
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 40, height: 40)
+//                        .clipShape(Circle())
+//                    //.foregroundColor(.yellow)
+//                        .overlay(Circle().stroke(Color.blue, lineWidth: 1))
+//                        .shadow(radius: 10)
                     
                     //Nome da Comida e Quantidade:
                     VStack (alignment: .leading) {

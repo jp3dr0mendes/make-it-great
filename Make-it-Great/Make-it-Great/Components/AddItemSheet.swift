@@ -59,9 +59,9 @@ struct AddItem: View {
                 if ((tipoQuantidade == .Peso && peso != 0) || tipoQuantidade == .Unidade && unidades > 0) {
                     switch tipoQuantidade {
                     case .Peso:
-                        context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: diffInDays, units: nil, weight: peso))
+                        context.insert(Food(nome: nome, emoji: emoji, storage: storage, type: categoria, consumirAte: dataFim, units: nil, weight: peso))
                     case .Unidade:
-                        context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: diffInDays, units: unidades, weight: nil))
+                        context.insert(Food(nome: nome, emoji: emoji, storage: storage, type: categoria, consumirAte: dataFim, units: unidades, weight: nil))
                     }
                     
                     isPresented = false
