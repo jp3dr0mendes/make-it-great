@@ -248,7 +248,7 @@ struct EditItemSheet: View {
 //            }
         }
         .sheet(isPresented: $isEmojiPickerShowing) {
-            EmojiPickerView(selected: $emoji)
+            EmojiPickerView(selected: $emoji, showingEmojiPicker: $isEmojiPickerShowing)
         }
     }
 }
