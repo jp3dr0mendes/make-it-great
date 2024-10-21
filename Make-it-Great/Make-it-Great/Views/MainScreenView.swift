@@ -63,7 +63,7 @@ struct MainScreenView: View {
                         updateFilteredFoods()
                     }
                 
-                
+                //Branch...
                 //Menu para adicionar via Scan e Manualmente:
                 HStack {
                     
