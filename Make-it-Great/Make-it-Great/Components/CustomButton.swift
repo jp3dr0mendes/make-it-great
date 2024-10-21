@@ -44,7 +44,7 @@ struct ButtonView: View {
                 //Acho que posso usar isso aqui para fazer as listas desaparecerem quando aperta o botao:
 //                withAnimation(.easeInOut(duration: 4)) {
 //                    
-//                }
+//                }git 
                 
 //                isPresentedSheet = true
             }) {
