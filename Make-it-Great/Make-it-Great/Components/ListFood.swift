@@ -21,6 +21,7 @@ struct ListFood: View {
     @Binding var selectedCategory: StorageType
     @Binding var selectedItems: Set<Food>
     @Binding var selected: Bool
+
     
     @State var isPresentedSheet: Bool = false
     
@@ -31,6 +32,7 @@ struct ListFood: View {
             
            
             ForEach(comidas) { comida in
+               
 //                Divider()
                 HStack {
                     
@@ -104,6 +106,9 @@ struct ListFood: View {
                     .sheet(isPresented: $isPresentedSheet) {
                         EditItemSheet(isPresented: $isPresentedSheet, item: comida, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
                     }
+                    //vai fechar aqui
+                    //.transition(.move(edge: .trailing))
+                    //.animation(.easeIn(duration: 2))
                     
 //                    EditItemSheet(isPresented: $isPresentedSheet, storage: $selectedCategory, item: comida, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
                 }
