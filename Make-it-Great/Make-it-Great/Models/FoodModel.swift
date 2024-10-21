@@ -16,9 +16,9 @@ class Food {
     var units: Int?
     var weight: Float?
     var type: String
-    var consumirAte: Date
+    var consumirAte: Int
     
-    init(nome: String, storage: StorageType, type: FoodType, consumirAte: Date, units: Int?, weight: Float?) {
+    init(nome: String, storage: StorageType, type: FoodType, consumirAte: Int, units: Int?, weight: Float?) {
         self.nome = nome
         self.storage = ""
         self.type = ""

@@ -61,21 +61,55 @@ struct ListFood: View {
                             .multilineTextAlignment(.leading)
                             .lineLimit(1)
                             .truncationMode(.tail)
-                        
                         Text("1x")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        //Preciso colocar a lógica de deletar
-//                        Button("Apagar"){
-//                            context.delete(comida)
+                        //                                .font(.subheadline)
+                        //                                .foregroundColor(.gray)
+//                        if comida.units != 0 {
+//                            Text("\(comida.units ?? 0)x")
+//                                .font(.subheadline)
+//                                .foregroundColor(.gray)
+//                            //Preciso colocar a lógica de deletar
+//                            //                        Button("Apagar"){
+//                            //                            context.delete(comida)
+//                            //                        }
+//                            
+//                        } else {
+//                            Text("\(comida.weight ?? 0.0)kg")
+//                                .font(.subheadline)
+//                                .foregroundColor(.gray)
 //                        }
-                        
                     }.padding(.leading, 10)
                     
                     
                     Spacer(minLength: 10) //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
                     
-                    Text("30 dias para o consumo")
+//                    if comida.consumirAte == 1 {
+//                        Text("1 dia para consumo")
+//                            .font(.caption)
+//                            .multilineTextAlignment(.trailing)
+//                            .foregroundColor(.gray)
+//                            .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
+//                    } else if comida.consumirAte > 1 {
+//                        Text("\(comida.consumirAte) dias para consumo")
+//                            .font(.caption)
+//                            .multilineTextAlignment(.trailing)
+//                            .foregroundColor(.gray)
+//                            .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
+//                    } else if comida.consumirAte == 0 {
+//                        Text("Consumir até hoje")
+//                            .font(.caption)
+//                            .multilineTextAlignment(.trailing)
+//                            .foregroundColor(.gray)
+//                            .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
+//                    } else {
+//                        Text("Fora do prazo")
+//                            .font(.caption)
+//                            .multilineTextAlignment(.trailing)
+//                            .foregroundColor(.red)
+//                            .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
+//                    }
+                    
+                    Text("30 dias para consumo")
                         .font(.caption)
                         .multilineTextAlignment(.trailing)
                         .foregroundColor(.gray)
@@ -97,6 +131,8 @@ struct ListFood: View {
             selectedItems.insert(comida)
         }
     }
+    
+    //private func dateFormatter(dataInicio: Date, dataFim:)
     
     //Funcao que é chamada quando aperta o botao para deletar os itens:
 //    func deleteSelectedItems() {

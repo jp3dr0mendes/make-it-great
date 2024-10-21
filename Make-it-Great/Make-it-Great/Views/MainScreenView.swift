@@ -111,6 +111,9 @@ struct MainScreenView: View {
                 AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
             })
             .onAppear {
+                for filtered in filteredFoods {
+                    print(filtered.nome)
+                }
                 updateFilteredFoods() // Inicializa a lista filtrada ao aparecer
             }
             .onChange(of: foods) {

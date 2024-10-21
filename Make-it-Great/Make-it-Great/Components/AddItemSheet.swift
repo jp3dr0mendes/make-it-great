@@ -23,6 +23,7 @@ struct AddItem: View {
     @State var dataFim: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     @State var categoria: FoodType = .Bebida
     @State var tipoQuantidade: CountType = .Unidade
+    @State var diffInDays: Int = 0
     
     @State var peso: Float = 0
     @State var unidades: Int = 0
@@ -44,12 +45,23 @@ struct AddItem: View {
             }
             Spacer()
             Button("Adicionar"){
+                let diff = Calendar.current.dateComponents([.day], from: dataInicio, to: dataFim).day ?? 0
+                if diff > -1 && dataFim != dataInicio {
+                    if diff == 0 {
+                        diffInDays = 1
+                    } else {
+                        diffInDays = diff + 1
+                    }
+                } else {
+                    diffInDays = diff
+                }
+                print(diffInDays)
                 if ((tipoQuantidade == .Peso && peso != 0) || tipoQuantidade == .Unidade && unidades > 0) {
                     switch tipoQuantidade {
                     case .Peso:
-                        context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: nil, weight: peso))
+                        context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: diffInDays, units: nil, weight: peso))
                     case .Unidade:
-                        context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: unidades, weight: nil))
+                        context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: diffInDays, units: unidades, weight: nil))
                     }
                     
                     isPresented = false
@@ -120,6 +132,17 @@ struct AddItem: View {
                     Text("Período")
                     Spacer()
                     Button {
+                        let diff = Calendar.current.dateComponents([.day], from: dataInicio, to: dataFim).day ?? 0
+                        if diff > -1 && dataFim != dataInicio {
+                            if diff == 0 {
+                                diffInDays = 1
+                            } else {
+                                diffInDays = diff + 1
+                            }
+                        } else {
+                            diffInDays = diff
+                        }
+                        print(diffInDays)
                         
                     } label: {
                         let diffInDays = Calendar.current.dateComponents([.day], from: dataInicio, to: dataFim).day ?? 0
