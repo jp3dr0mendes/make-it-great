@@ -22,6 +22,8 @@ struct ListFood: View {
     @Binding var selectedItems: Set<Food>
     @Binding var selected: Bool
     
+    @State var isPresentedSheet: Bool = false
+    
     var body: some View {
         
         
@@ -46,42 +48,51 @@ struct ListFood: View {
                     
                     //Spacer()
                     
-                    Image("imageTest") //Preciso fazer um model para colocar a imagem certa aqui
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                    //.foregroundColor(.yellow)
-                        .overlay(Circle().stroke(selectedCategory == .refrigerator ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1))
-                        .shadow(radius: 10)
-                    
-                    //Nome da Comida e Quantidade:
-                    VStack (alignment: .leading) {
-                        Text(comida.nome)
-                            .font(.callout)
-                            .multilineTextAlignment(.leading)
-                            .lineLimit(1)
-                            .truncationMode(.tail)
+                    Button( action: { isPresentedSheet = true }) {
                         
-                        Text("1x")
-                            .font(.subheadline)
+                        Image("imageTest") //Preciso fazer um model para colocar a imagem certa aqui
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                        //.foregroundColor(.yellow)
+                            .overlay(Circle().stroke(selectedCategory == .refrigerator ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1))
+                            .shadow(radius: 10)
+                        
+                        //Nome da Comida e Quantidade:
+                        VStack (alignment: .leading) {
+                            Text(comida.nome)
+                                .font(.callout)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(1)
+                                .truncationMode(.tail)
+                            
+                            Text("1x")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            //Preciso colocar a lógica de deletar
+                            //                        Button("Apagar"){
+                            //                            context.delete(comida)
+                            //                        }
+                            
+                        }//.padding(.leading, 10)
+                        
+                        
+                        Spacer(minLength: 10) //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
+                        
+                        Text("30 dias para o consumo")
+                            .font(.caption)
+                            .multilineTextAlignment(.trailing)
                             .foregroundColor(.gray)
-                        //Preciso colocar a lógica de deletar
-//                        Button("Apagar"){
-//                            context.delete(comida)
-//                        }
+                        // .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
+                        //Spacer()
+                    }
+                    
+                    .sheet(isPresented: $isPresentedSheet){
                         
-                    }//.padding(.leading, 10)
-                    
-                    
-                    Spacer(minLength: 10) //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
-                    
-                    Text("30 dias para o consumo")
-                        .font(.caption)
-                        .multilineTextAlignment(.trailing)
-                        .foregroundColor(.gray)
-                       // .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
-                    //Spacer()
+//                        let food: Food = comida
+                        EditItemSheet(isPresented: $isPresentedSheet, item: comida, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
+                    }
                 }
                 //.padding(.leading, 10)
                 

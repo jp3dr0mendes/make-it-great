@@ -13,13 +13,12 @@ struct EditItemSheet: View {
     
     @Environment(\.modelContext) var context
     
-    @Query(sort: \Food.nome) var foods: [Food]
+//    @Query(sort: \Food.nome) var foods: [Food]
 
     @Binding var isPresented: Bool
-    @Binding var storage: StorageType
     
     // Aqui, recebemos o item existente (se for edição), caso contrário, será um novo item
-    @Binding var item: Food
+    var item: Food
     
     @State var nome: String = ""
     @State var emoji: String = ""
@@ -29,8 +28,8 @@ struct EditItemSheet: View {
     @State var categoria: FoodType = .Bebida
     @State var tipoQuantidade: CountType = .Unidade
     
-    @State var peso: Float = 0
-    @State var unidades: Int = 0
+    @State var peso: Float
+    @State var unidades: Int
     @State var errorMessage: String = ""
     
     let numberFormatter: NumberFormatter = {
@@ -40,8 +39,10 @@ struct EditItemSheet: View {
         formatter.maximumFractionDigits = 2
         return formatter
     }()
-    
+
+        
     var body: some View {
+        
         HStack {
             Button("Cancelar") {
                 isPresented = false
@@ -63,6 +64,8 @@ struct EditItemSheet: View {
                     }
                     
                     try context.save()
+                    
+                    isPresented = false
                 }
             }
         }
@@ -118,10 +121,11 @@ struct EditItemSheet: View {
         .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
         
         VStack(alignment: .leading) {
+            
             VStack {
                 HStack(spacing: 20) {
                     Text("Nome")
-                    TextField("Nome do alimento", text: $nome)
+                    TextField(item.nome, text: $nome)
                 }
                 .padding(.bottom, 11)
                 .overlay(
@@ -185,7 +189,9 @@ struct EditItemSheet: View {
             }
             .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
             
+            
             VStack {
+                
                 switch tipoQuantidade {
                 case .Peso:
                     VStack(alignment: .leading) {

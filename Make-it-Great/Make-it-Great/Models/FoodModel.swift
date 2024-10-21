@@ -10,18 +10,20 @@ import Foundation
 
 @Model
 class Food {
-    
+
     var nome: String
     var storage: String
     var units: Int?
     var weight: Float?
     var type: String
     var consumirAte: Date?
+//    var countType: String
     
     init(nome: String, storage: StorageType, type: FoodType, consumirAte: Date?, units: Int?, weight: Float?) {
         self.nome = nome
         self.storage = ""
         self.type = ""
+//        self.countType = ""
         
         
         if let peso = weight{
@@ -38,6 +40,7 @@ class Food {
         
         self.storage = checkStorage(storage: storage)
         self.type = checkFoodType(foodType: type)
+//        self.countType = checkUnityType(unit: countType)
     }
     
     private func checkStorage(storage: StorageType) -> String{
@@ -75,5 +78,18 @@ class Food {
         }
         
         return food
+    }
+    
+    private func checkUnityType(unit: CountType) -> String {
+        var count: String {
+            switch unit {
+            case .Peso:
+                return "Peso"
+            case .Unidade:
+                return "Unidade"
+            }
+        }
+        
+        return count
     }
 }
