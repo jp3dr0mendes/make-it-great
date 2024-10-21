@@ -45,15 +45,28 @@ struct ListFood: View {
                     }/*.padding(.leading, 10)*/ //Afasta o checkbox da imagem, acho que esse padding é desnecessario
                     
                     //Spacer()
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 30)
+                            .stroke(selectedCategory == .refrigerator ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1)
+                            .frame(width: 45, height: 45)
+                        if comida.emoji == "" {
+                            Text("\(comida.storage == "Geladeira" ? "🍎" : "🥕")")
+                                .font(.system(size: 30))
+                        } else {
+                            Text("\(comida.emoji ?? "")")
+                                .font(.system(size: 30))
+                        }
+                    }
+                    .padding(2)
                     
-                    Image("imageTest") //Preciso fazer um model para colocar a imagem certa aqui
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                    //.foregroundColor(.yellow)
-                        .overlay(Circle().stroke(selectedCategory == .refrigerator ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1))
-                        .shadow(radius: 10)
+//                    Image("imageTest") //Preciso fazer um model para colocar a imagem certa aqui
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 40, height: 40)
+//                        .clipShape(Circle())
+//                    //.foregroundColor(.yellow)
+//                        .overlay(Circle().stroke(selectedCategory == .refrigerator ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1))
+//                        .shadow(radius: 10)
                     
                     //Nome da Comida e Quantidade:
                     VStack (alignment: .leading) {
@@ -62,10 +75,15 @@ struct ListFood: View {
                             .multilineTextAlignment(.leading)
                             .lineLimit(1)
                             .truncationMode(.tail)
-                        
-                        Text("1x")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
+                        if comida.units != nil {
+                            Text("\(comida.units ?? 0)x")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        } else {
+                            Text("\(String(format: "%.2f", comida.weight ?? 0.0))kg")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
                         //Preciso colocar a lógica de deletar
 //                        Button("Apagar"){
 //                            context.delete(comida)
@@ -75,8 +93,7 @@ struct ListFood: View {
                     
                     
                     Spacer(minLength: 10) //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
-                    
-                    Text("30 dias para o consumo")
+                    Text(calculoDias(dataFim: comida.consumirAte ?? Date()))
                         .font(.caption)
                         .multilineTextAlignment(.trailing)
                         .foregroundColor(.gray)
@@ -88,6 +105,26 @@ struct ListFood: View {
                 Divider() //Linha horizontal que divide os elementos
             }
             
+        }
+    }
+    
+    private func calculoDias(dataFim: Date) -> String {
+        let dataInicio = Calendar.current.startOfDay(for: Date())
+        let dataDeFim = Calendar.current.startOfDay(for: dataFim)
+        var diffInDays: Int = 0
+        let diff = Calendar.current.dateComponents([.day], from: dataInicio, to: dataDeFim).day ?? 0
+        if diff > 0 {
+            if diff == 1 {
+                return "1 dia para consumo"
+            } else {
+                diffInDays = diff
+                return "\(diffInDays) dias para consumo"
+            }
+        } else if diff == 0 {
+            diffInDays = diff
+            return "Consumir hoje"
+        } else {
+            return "Fora do prazo para consumo"
         }
     }
     
