@@ -105,7 +105,7 @@ struct MainScreenView: View {
                             //.transition(.move(edge: .trailing))
                             //.animation(.easeIn(duration: 2), value: selectedItems)
                             //.transition(.move(edge: .trailing))
-                            .animation(.easeIn(duration: 0.5))
+                            .animation(.easeIn(duration: 0.4))
                   
                     }
                 }
