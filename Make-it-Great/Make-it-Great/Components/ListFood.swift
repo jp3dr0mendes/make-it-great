@@ -22,6 +22,8 @@ struct ListFood: View {
     @Binding var selectedItems: Set<Food>
     @Binding var selected: Bool
     
+    @State var isPresentedSheet: Bool = false
+    
     var body: some View {
         
         
@@ -43,7 +45,7 @@ struct ListFood: View {
                                 .foregroundColor(selectedItems.contains(comida) ? .green : .gray)
                         }
                     }/*.padding(.leading, 10)*/ //Afasta o checkbox da imagem, acho que esse padding é desnecessario
-                    
+                    Button( action: { isPresentedSheet = true }) {
                     //Spacer()
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
@@ -59,6 +61,7 @@ struct ListFood: View {
                     }
                     .padding(2)
                     
+
 //                    Image("imageTest") //Preciso fazer um model para colocar a imagem certa aqui
 //                        .resizable()
 //                        .aspectRatio(contentMode: .fit)
@@ -67,7 +70,6 @@ struct ListFood: View {
 //                    //.foregroundColor(.yellow)
 //                        .overlay(Circle().stroke(selectedCategory == .refrigerator ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1))
 //                        .shadow(radius: 10)
-                    
                     //Nome da Comida e Quantidade:
                     VStack (alignment: .leading) {
                         Text(comida.nome)
@@ -97,6 +99,9 @@ struct ListFood: View {
                         .font(.caption)
                         .multilineTextAlignment(.trailing)
                         .foregroundColor(.gray)
+                       }
+                   EditItemSheet(isPresented: $isPresentedSheet, item: comida, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
+                    }
                        // .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
                     //Spacer()
                 }

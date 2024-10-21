@@ -22,26 +22,20 @@ struct ScreenScan: View {
         NavigationView {
             
             VStack {
-                Text("Screen Scan")
-                Text(classification)
+                Text("Pass the food through the camera")
+                    .bold()
+//                Text(classification)
                 
-                List {
-                   ForEach(foods, id: \.self) { food in
-                       Text(food.nome)
-                   }
-               }
-                
-                
-                
-//                if  CameraView().classification != ""{
-//                    if CameraView().classification == ""{
-//                        self.food = nil
-//                    }
-//                }
+        
                 //Aqui Chama a camera que foi convertida para SwiftUI
                 CameraView(classification: $classification, foods: $foods,storage: $storageType)
                     .edgesIgnoringSafeArea(.all)
                     .border(.blue)
+                
+                Text("Identified food:")
+                
+                Text(foods.last?.nome ?? "")
+
                 
                 NavigationLink(destination: IdentifiedFoodScreen(detectedFoods: $foods)) {
                     Text("Confirm Itens")

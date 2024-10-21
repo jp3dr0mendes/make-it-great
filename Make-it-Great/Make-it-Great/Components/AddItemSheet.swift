@@ -26,7 +26,6 @@ struct AddItem: View {
     @State var diffInDays: Int = 0
     @State var categoria: FoodType = .Bebida
     @State var tipoQuantidade: CountType = .Unidade
-    
     @State var peso: Float = 0
     @State var unidades: Int = 0
     @State var errorMessage: String = ""
@@ -38,6 +37,7 @@ struct AddItem: View {
                 formatter.maximumFractionDigits = 2  // Máximo de 2 casas decimais (ou ajuste conforme necessário)
                 return formatter
     }()
+
     
     var body: some View {
         
