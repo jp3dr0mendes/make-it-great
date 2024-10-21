@@ -11,9 +11,10 @@ import SwiftUI
 struct EmojiPickerView: UIViewControllerRepresentable {
     
     @Binding var selected: String
+    @Binding var showingEmojiPicker: Bool
     
     func makeUIViewController(context: Context) -> UIViewController {
-        UINavigationController(rootViewController: GridCollectionControllerView(selected: $selected))
+        UINavigationController(rootViewController: GridCollectionControllerView(selected: $selected, showingEmojiPicker: $showingEmojiPicker))
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {

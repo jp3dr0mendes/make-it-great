@@ -19,8 +19,10 @@ struct AddItem: View {
     @State var nome: String = ""
     @State var emoji: String = ""
     @State var isEmojiPickerShowing = false
-    @State var dataInicio: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
-    @State var dataFim: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
+    @State var dataInicio = Date()
+    @State var dataFim = Date()
+//    @State var dataInicio: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
+//    @State var dataFim: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     @State var categoria: FoodType = .Bebida
     @State var tipoQuantidade: CountType = .Unidade
     
@@ -89,12 +91,27 @@ struct AddItem: View {
                     isEmojiPickerShowing = true
                 } label: {
                     if emoji == "" {
-                        Image(systemName: "carrot.fill")
+                        if storage == .refrigerator {
+                            Text("🍎")
+                                .font(.system(size: 40))
+                        } else if storage == .cabinet {
+                            Text("🥕")
+                                .font(.system(size: 40))
+                        }
                     } else {
-                        Image(systemName: emoji)
+                        Text("\(emoji)")
+                            .font(.system(size: 40))
                     }
                 }
             }
+            .padding(.top, 11)
+            .padding(.bottom, 11)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .frame(height: 1)
+                    .foregroundStyle(.gray.opacity(0.2)),
+                alignment: .bottom
+            )
 
             HStack {
                 Text("Tipo de Contagem:")
@@ -123,8 +140,8 @@ struct AddItem: View {
                         
                     } label: {
                         let diffInDays = Calendar.current.dateComponents([.day], from: dataInicio, to: dataFim).day ?? 0
-                        if diffInDays > 0 {
-                            if diffInDays == 1 {
+                        if diffInDays > -1 && dataInicio != dataFim {
+                            if diffInDays == 0 {
                                 Text("Amanhã")
                             } else {
                                 Text("\(diffInDays + 1) dias")
@@ -181,9 +198,11 @@ struct AddItem: View {
                             TextField("Contador", value: $peso, formatter: numberFormatter, onCommit: {
                                 unidades = 0
                             })
+                            .foregroundStyle(.purpleItens)
                                 .textFieldStyle(.roundedBorder)
                                 .keyboardType(.decimalPad)
                             Text("kg")
+                                .foregroundStyle(.purpleItens)
                         }
                         Text(errorMessage)
                             .foregroundStyle(.red)
@@ -222,7 +241,7 @@ struct AddItem: View {
                         }
                         .padding(.horizontal, 15)
                         .background(RoundedRectangle(cornerRadius: 8)
-                            .fill(.gray.opacity(0.12)))
+                            .fill(.gray.opacity(0.18)))
 
                     }
                 }
@@ -240,8 +259,9 @@ struct AddItem: View {
         }
         .padding()
         .sheet(isPresented: $isEmojiPickerShowing) {
-            EmojiPickerView(selected: $emoji)
+            EmojiPickerView(selected: $emoji, showingEmojiPicker: $isEmojiPickerShowing)
         }
+        
     }
 }
 
