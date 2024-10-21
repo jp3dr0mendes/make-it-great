@@ -14,13 +14,25 @@ class GridCollectionControllerView: UICollectionViewController, UISearchResultsU
     
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = searchController.searchBar.text ?? ""
-               filteredData = searchText.isEmpty ? data : data.filter { $0.localizedCaseInsensitiveContains(searchText) }
-               collectionView.reloadData()
+        if searchText.isEmpty {
+                filteredData = data
+            } else {
+                filteredData = data_name.enumerated().compactMap { index, name in
+                    return name.localizedCaseInsensitiveContains(searchText) ? data[index] : nil
+                }
+            }
+            
+            collectionView.reloadData()
+//
+//               filteredData = searchText.isEmpty ? data : data.filter { $0.localizedCaseInsensitiveContains(searchText) }
+//               collectionView.reloadData()
+    
     }
     
     let searchController = UISearchController(searchResultsController: nil)
     
     var data = ["🍏", "🍎", "🍐", "🍊", "🍋", "🍋‍🟩", "🍌", "🍉", "🍇", "🍓", "🫐", "🍈", "🍒", "🍑", "🥭", "🍍", "🥥", "🥝", "🍅", "🍆", "🥑", "🫛", "🥦", "🥬", "🥔", "🍠", "🫚"]
+    var data_name = ["maçã verde", "maçã", "pêra", "laranja", "limão siciliano", "limão", "banana", "melancia", "uva", "morango", "mirtilo", "melão", "cereja", "pêssego", "manga", "abacaxi", "coco", "kiwi", "tomate", "berinjela", "abacate", "vagem", "brocólis", "alface", "batata", "batata doce", "gengibre"]
         var filteredData: [String] = []
     
     @Binding var selected: String
@@ -72,7 +84,7 @@ class GridCollectionControllerView: UICollectionViewController, UISearchResultsU
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-        cell.backgroundColor = .lightGray
+        //cell.backgroundColor = .lightGray
         
         cell.contentView.subviews.forEach { $0.removeFromSuperview() }
         
