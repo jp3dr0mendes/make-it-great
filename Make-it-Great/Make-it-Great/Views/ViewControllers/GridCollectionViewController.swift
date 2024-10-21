@@ -20,13 +20,15 @@ class GridCollectionControllerView: UICollectionViewController, UISearchResultsU
     
     let searchController = UISearchController(searchResultsController: nil)
     
-        var data = ["Fruits", "Banana", "Cherry", "Date", "Fig", "Grape"]
+    var data = ["🍏", "🍎", "🍐", "🍊", "🍋", "🍋‍🟩", "🍌", "🍉", "🍇", "🍓", "🫐", "🍈", "🍒", "🍑", "🥭", "🍍", "🥥", "🥝", "🍅", "🍆", "🥑", "🫛", "🥦", "🥬", "🥔", "🍠", "🫚"]
         var filteredData: [String] = []
     
     @Binding var selected: String
+    @Binding var showingEmojiPicker: Bool
     
-    init(selected: Binding<String>) {
+    init(selected: Binding<String>, showingEmojiPicker: Binding<Bool>) {
         self._selected = selected
+        self._showingEmojiPicker = showingEmojiPicker
         super.init(collectionViewLayout: .init())
     }
     
@@ -38,7 +40,7 @@ class GridCollectionControllerView: UICollectionViewController, UISearchResultsU
         super.viewDidLoad()
         
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 100, height: 50)
+        layout.itemSize = CGSize(width: 100, height: 80)
         layout.minimumLineSpacing = 16
         layout.minimumInteritemSpacing = 16
         layout.scrollDirection = .vertical
@@ -80,20 +82,23 @@ class GridCollectionControllerView: UICollectionViewController, UISearchResultsU
         image.image = UIImage(named: imageName)
         image.contentMode = .scaleAspectFit
         
-        cell.contentView.addSubview(image)
+        //cell.contentView.addSubview(image)
         
         let label = UILabel(frame: cell.contentView.bounds)
         label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 40)
         label.text = searchController.isActive ? filteredData[indexPath.row] : data[indexPath.row]
         label.textColor = .black
         
-        //cell.contentView.addSubview(label)
+        cell.contentView.addSubview(label)
         
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selected = "Clicou em : \(indexPath.row)"
+        selected = "\(data[indexPath.row])"
+        showingEmojiPicker = false
+        print(selected)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -103,5 +108,5 @@ class GridCollectionControllerView: UICollectionViewController, UISearchResultsU
 }
 
 #Preview {
-    UINavigationController(rootViewController: GridCollectionControllerView(selected: .constant("")))
+    UINavigationController(rootViewController: GridCollectionControllerView(selected: .constant(""), showingEmojiPicker: .constant(true)))
 }
