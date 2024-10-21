@@ -80,7 +80,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     
                     self.classification = classification_fruit
                     
-                    var detectedFood: Food = Food(nome: self.classification, storage: self.storageType, type: .Fruta, consumirAte: nil, units: 1, weight: nil)
+                    var detectedFood: Food = Food(nome: self.classification, emoji: "🍎", storage: self.storageType, type: .Fruta, consumirAte: nil, units: 1, weight: nil)
                     
                     if !self.foods.contains(where: {$0.nome == detectedFood.nome}) {
                         self.foods.append(detectedFood)
@@ -108,7 +108,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     self.classification = classification_veg
                     //aqui
                     
-                    var detectedFood: Food = Food(nome: self.classification, storage: self.storageType, type: .Vegetal, consumirAte: nil, units: 1, weight: nil)
+                    var detectedFood: Food = Food(nome: self.classification, emoji: "🥕", storage: self.storageType, type: .Vegetal, consumirAte: nil, units: 1, weight: nil)
                     
                     if !self.foods.contains(where: {$0.nome == detectedFood.nome}) {
                         self.foods.append(detectedFood)

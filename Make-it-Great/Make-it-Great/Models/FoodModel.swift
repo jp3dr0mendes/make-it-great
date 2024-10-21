@@ -12,6 +12,7 @@ import Foundation
 class Food {
 
     var nome: String
+    var emoji: String?
     var storage: String
     var units: Int?
     var weight: Float?
@@ -19,8 +20,9 @@ class Food {
     var consumirAte: Date?
 //    var countType: String
     
-    init(nome: String, storage: StorageType, type: FoodType, consumirAte: Date?, units: Int?, weight: Float?) {
+    init(nome: String, emoji: String?, storage: StorageType, type: FoodType, consumirAte: Date?, units: Int?, weight: Float?) {
         self.nome = nome
+        self.emoji = emoji
         self.storage = ""
         self.type = ""
 //        self.countType = ""

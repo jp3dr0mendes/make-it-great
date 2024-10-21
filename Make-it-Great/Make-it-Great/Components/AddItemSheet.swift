@@ -19,10 +19,11 @@ struct AddItem: View {
     @State var nome: String = ""
     @State var emoji: String = ""
     @State var isEmojiPickerShowing = false
-    @State var dataInicio = Date()
-    @State var dataFim = Date()
+    @State var dataInicio = Calendar.current.startOfDay(for: Date())
+    @State var dataFim = Calendar.current.startOfDay(for: Date())
 //    @State var dataInicio: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
 //    @State var dataFim: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
+    @State var diffInDays: Int = 0
     @State var categoria: FoodType = .Bebida
     @State var tipoQuantidade: CountType = .Unidade
     @State var peso: Float = 0
@@ -49,9 +50,9 @@ struct AddItem: View {
                 if ((tipoQuantidade == .Peso && peso != 0) || tipoQuantidade == .Unidade && unidades > 0) {
                     switch tipoQuantidade {
                     case .Peso:
-                        context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: nil, weight: peso))
+                        context.insert(Food(nome: nome, emoji: emoji, storage: storage, type: categoria, consumirAte: dataFim, units: nil, weight: peso))
                     case .Unidade:
-                        context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: unidades, weight: nil))
+                        context.insert(Food(nome: nome, emoji: emoji, storage: storage, type: categoria, consumirAte: dataFim, units: unidades, weight: nil))
                     }
                     
                     isPresented = false
@@ -140,16 +141,16 @@ struct AddItem: View {
                         
                     } label: {
                         let diffInDays = Calendar.current.dateComponents([.day], from: dataInicio, to: dataFim).day ?? 0
-                        if diffInDays > -1 && dataInicio != dataFim {
-                            if diffInDays == 0 {
-                                Text("Amanhã")
+                        if diffInDays > 0 {
+                            if diffInDays == 1 {
+                                Text("1 dia")
                             } else {
-                                Text("\(diffInDays + 1) dias")
+                                Text("\(diffInDays) dias")
                             }
                         } else if diffInDays < 0 {
                             Text("Data inconsistente!")
                         } else {
-                            Text("Today")
+                            Text("Hoje")
                         }
                     }
                     .foregroundStyle(.purpleItens)

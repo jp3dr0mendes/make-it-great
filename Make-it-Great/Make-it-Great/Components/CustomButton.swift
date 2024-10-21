@@ -12,14 +12,17 @@ struct AddButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .background(configuration.isPressed ? Color.red : Color.gray)
-            .animation(Animation.easeIn(duration: 0.5))
+            .frame(width: 361, height: 50)
+            .background(configuration.isPressed ? Color.red : Color.gray, in: RoundedRectangle(cornerRadius: 10))
+    
+            
+            .animation(Animation.easeIn(duration: 0.2))
 //            .onLongPressGesture {
 //                withAnimation(.easeIn(duration: 0.5)) {
 //                    
 //                }
 //            }
-            .cornerRadius(8)
+            //.cornerRadius(8)
         
     }
 }
@@ -38,16 +41,26 @@ struct ButtonView: View {
         ZStack {
             Button(action: {
                 deleteAction()
+                //Acho que posso usar isso aqui para fazer as listas desaparecerem quando aperta o botao:
+//                withAnimation(.easeInOut(duration: 4)) {
+//                    
+//                }git 
+                
 //                isPresentedSheet = true
             }) {
-                Text("Remove From Food")
-                    .font(.system(size: 14))
-                    .foregroundColor(.white)
+                HStack {
+                    Image(systemName: "trash")
+                        .foregroundColor(.white)
+                    Text("Remove Selected Food")
+                        .font(.system(size: 17))
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                }
             }
 //            .disabled(true)
             .buttonStyle(AddButtonStyle())
             .disabled(selectedItems.isEmpty)
-          
+
        
             
 //            Button( action: {
@@ -72,3 +85,7 @@ struct ButtonView: View {
 //    @Previewable @State var isPresentedSheet: Bool = false
 //    ButtonView(isPresentedSheet: $isPresentedSheet)
 //}
+#Preview {
+    MainScreenView()
+        .modelContainer(for: [Food.self])
+}

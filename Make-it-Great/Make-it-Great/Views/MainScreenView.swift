@@ -12,7 +12,7 @@ struct MainScreenView: View {
     
     @Environment(\.modelContext) var context
     
-    @Query(sort: \Food.consumirAte) var foods: [Food]
+    @Query var foods: [Food]
     
     @Query(
         filter: #Predicate<Food> { food in
