@@ -18,7 +18,7 @@ struct EditItemSheet: View {
     @Binding var isPresented: Bool
     
     // Aqui, recebemos o item existente (se for edição), caso contrário, será um novo item
-    var item: Food
+    @State var item: Food
     
     @State var nome: String = ""
     @State var emoji: String = ""
@@ -137,7 +137,7 @@ struct EditItemSheet: View {
             }
             
             HStack(spacing: 20) {
-                Text("Emoji")
+                Text(item.emoji ?? "")
                 Spacer()
                 Button {
                     isEmojiPickerShowing = true

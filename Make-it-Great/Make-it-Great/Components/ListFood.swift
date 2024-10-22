@@ -21,6 +21,7 @@ struct ListFood: View {
     @Binding var selectedCategory: StorageType
     @Binding var selectedItems: Set<Food>
     @Binding var selected: Bool
+    @State var selectedFood: Food?
 
     
     @State var isPresentedSheet: Bool = false
@@ -47,7 +48,10 @@ struct ListFood: View {
                                 .foregroundColor(selectedItems.contains(comida) ? .green : .gray)
                         }
                     }/*.padding(.leading, 10)*/ //Afasta o checkbox da imagem, acho que esse padding é desnecessario
-                    Button( action: { isPresentedSheet = true }) {
+                    Button( action: {
+                        selectedFood = comida
+                        isPresentedSheet = true
+                    }) {
                         //Spacer()
                         ZStack {
                             RoundedRectangle(cornerRadius: 30)
@@ -104,7 +108,8 @@ struct ListFood: View {
                         
                     }
                     .sheet(isPresented: $isPresentedSheet) {
-                        EditItemSheet(isPresented: $isPresentedSheet, item: comida, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
+                        
+                        EditItemSheet(isPresented: $isPresentedSheet, item: selectedFood ?? Food(nome: "ssdfSF", emoji: "sdfsf", storage: .cabinet, type: .Fruta, consumirAte: nil, units: 1, weight: nil), peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
                     }
                     //vai fechar aqui
                     //.transition(.move(edge: .trailing))
