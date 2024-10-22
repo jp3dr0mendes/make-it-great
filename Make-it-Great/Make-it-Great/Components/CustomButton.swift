@@ -14,6 +14,7 @@ struct AddButtonStyle: ButtonStyle {
             .padding()
             .frame(width: 361, height: 50)
             .background(configuration.isPressed ? Color.red : Color.gray, in: RoundedRectangle(cornerRadius: 10))
+            
     
             
             .animation(Animation.easeIn(duration: 0.2))
@@ -29,7 +30,8 @@ struct AddButtonStyle: ButtonStyle {
 
 
 struct ButtonView: View {
-    @Binding var isRemoved: Bool 
+    @Binding var selectedCategory: StorageType
+    @Binding var isRemoved: Bool
     @Binding var selectedItems: Set<Food>
     
     var deleteAction: () -> Void
@@ -55,9 +57,12 @@ struct ButtonView: View {
                     Image(systemName: "trash")
                         .foregroundColor(.white)
                     Text("Remove Selected Food")
+                        .padding(EdgeInsets(top: 8, leading: 14, bottom: 8, trailing: 14))
                         .font(.system(size: 17))
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
+                        .background(RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.purpleItens, lineWidth: 1))
                 }
             }
 //            .disabled(true)

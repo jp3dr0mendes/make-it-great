@@ -114,7 +114,7 @@ struct MainScreenView: View {
                 //                    isPresentedSheet = true
                 //                }
                 if selected {
-                    ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, deleteAction: {
+                    ButtonView(selectedCategory: $selectedCategory, isRemoved: $isRemoved, selectedItems: $selectedItems, deleteAction: {
                         // Chama a função de deletar diretamente da ListFood
                         deleteSelectedItems()
                     })
