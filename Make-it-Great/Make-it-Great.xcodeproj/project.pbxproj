@@ -10,6 +10,7 @@
 		2728ABC12CAD6B8E0070E11D /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2728ABC02CAD6B8E0070E11D /* SegmentedControl.swift */; };
 		2728ABC32CAD6BD80070E11D /* MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2728ABC22CAD6BD80070E11D /* MainScreenView.swift */; };
 		2728ABC52CAD6C190070E11D /* SegmentedControlComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2728ABC42CAD6C190070E11D /* SegmentedControlComponent.swift */; };
+		2744D3962CC7E192001E46D6 /* TrashItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744D3952CC7E192001E46D6 /* TrashItemButton.swift */; };
 		274DC0712CB01626009BDC93 /* IdentifiedFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274DC0702CB01626009BDC93 /* IdentifiedFoodScreen.swift */; };
 		275041F52CBFE1F200267C04 /* AddMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275041F42CBFE1F200267C04 /* AddMenu.swift */; };
 		277903A52CAEBC0700C57A2E /* ScreenScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277903A42CAEBC0700C57A2E /* ScreenScan.swift */; };
@@ -38,6 +39,7 @@
 		2728ABC02CAD6B8E0070E11D /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		2728ABC22CAD6BD80070E11D /* MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenView.swift; sourceTree = "<group>"; };
 		2728ABC42CAD6C190070E11D /* SegmentedControlComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlComponent.swift; sourceTree = "<group>"; };
+		2744D3952CC7E192001E46D6 /* TrashItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashItemButton.swift; sourceTree = "<group>"; };
 		274DC0702CB01626009BDC93 /* IdentifiedFoodScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiedFoodScreen.swift; sourceTree = "<group>"; };
 		275041F42CBFE1F200267C04 /* AddMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMenu.swift; sourceTree = "<group>"; };
 		277903A42CAEBC0700C57A2E /* ScreenScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenScan.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				27E784FE2CBE9BC100837B8D /* CancelAndSelectAllButton.swift */,
 				275041F42CBFE1F200267C04 /* AddMenu.swift */,
 				27DB0BFA2CC1573700357162 /* EditItemSheet.swift */,
+				2744D3952CC7E192001E46D6 /* TrashItemButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				2728ABC52CAD6C190070E11D /* SegmentedControlComponent.swift in Sources */,
 				2E1D7F732CBFF33F00B8C9AE /* EmojiPickerView.swift in Sources */,
 				D8017D802CAC1D6D00DF28A0 /* AddItemSheet.swift in Sources */,
+				2744D3962CC7E192001E46D6 /* TrashItemButton.swift in Sources */,
 				D8550DC72CC143A4002D1A50 /* VegClassifier-1.mlmodel in Sources */,
 				2728ABC32CAD6BD80070E11D /* MainScreenView.swift in Sources */,
 			);
