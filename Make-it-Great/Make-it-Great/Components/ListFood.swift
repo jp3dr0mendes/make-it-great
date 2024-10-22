@@ -22,15 +22,13 @@ struct ListFood: View {
     @Binding var selectedItems: Set<Food>
     @Binding var selected: Bool
 
-    
+    @State var selectedFood: Food = Food(nome: "", emoji: "", storage: .cabinet, type: .Fruta, consumirAte: nil, units: 1, weight: 0.0)
     @State var isPresentedSheet: Bool = false
     
     var body: some View {
         
         
         VStack {
-            
-           
             ForEach(comidas) { comida in
                
 //                Divider()
@@ -47,7 +45,10 @@ struct ListFood: View {
                                 .foregroundColor(selectedItems.contains(comida) ? .green : .gray)
                         }
                     }/*.padding(.leading, 10)*/ //Afasta o checkbox da imagem, acho que esse padding é desnecessario
-                    Button( action: { isPresentedSheet = true }) {
+                    Button( action: {
+                        selectedFood = comida
+                        isPresentedSheet = true
+                    }) {
                         //Spacer()
                         ZStack {
                             RoundedRectangle(cornerRadius: 30)
@@ -75,6 +76,7 @@ struct ListFood: View {
                         //Nome da Comida e Quantidade:
                         VStack (alignment: .leading) {
                             Text(comida.nome)
+                                .foregroundStyle(.black)
                                 .font(.callout)
                                 .multilineTextAlignment(.leading)
                                 .lineLimit(1)
@@ -103,12 +105,11 @@ struct ListFood: View {
                             .foregroundColor(.gray)
                         
                     }
+                    .disabled(selected)
                     .sheet(isPresented: $isPresentedSheet) {
-                        EditItemSheet(isPresented: $isPresentedSheet, item: comida, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
+                        EditItemSheet(isPresented: $isPresentedSheet, item: selectedFood, selectedCategory: $selectedCategory, nome: selectedFood.nome , emoji: selectedFood.emoji ?? "", dataFim: selectedFood.consumirAte ?? .now, tipoQuantidade: selectedFood.units != nil ? .Unidade : .Peso, peso: selectedFood.weight ?? 0.0, unidades: selectedFood.units ?? 0)
                     }
-                    //vai fechar aqui
-                    //.transition(.move(edge: .trailing))
-                    //.animation(.easeIn(duration: 2))
+                    .presentationDetents([.fraction(0.75), .fraction(0.85)])
                     
 //                    EditItemSheet(isPresented: $isPresentedSheet, storage: $selectedCategory, item: comida, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
                 }
