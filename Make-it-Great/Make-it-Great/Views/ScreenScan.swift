@@ -37,7 +37,7 @@ struct ScreenScan: View {
                 Text(foods.last?.nome ?? "")
 
                 
-                NavigationLink(destination: IdentifiedFoodScreen(detectedFoods: $foods)) {
+                NavigationLink(destination: IdentifiedFoodScreen(detectedFoods: $foods, storage: $storageType, isPresented: $isPresentedMenu)) {
                     Text("Confirm Itens")
                         .font(.title2)
                         .padding()
