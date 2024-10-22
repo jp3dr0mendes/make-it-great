@@ -163,6 +163,7 @@ struct ListFood: View {
 //        selectedItems.removeAll()
 //    }
 
+
 //#Preview {
 //    ListFood(comida: Food(nome: "Item food visualization Named sdfads dsf asd fads dafs adf", storage: .refrigerator, type: .Bebida, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 2, weight: nil))
 //        .modelContainer(for: [Food.self])
