@@ -9,7 +9,7 @@ import SwiftData
 import Foundation
 
 @Model
-class Food {
+class Food: Hashable {
 
     var nome: String
     var emoji: String?

@@ -15,7 +15,7 @@ struct MainScreenView: View {
     @Query var foods: [Food]
     
     @Query(
-        filter: #Predicate<Food> { food in
+        filter: #Predicate<Food> { food in 
             food.storage ==  "Geladeira"
         }
     )

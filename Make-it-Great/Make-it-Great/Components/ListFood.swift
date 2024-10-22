@@ -150,32 +150,7 @@ struct ListFood: View {
         }
     }
 }
-    
-    //Funcao que é chamada quando aperta o botao para deletar os itens:
-//    func deleteSelectedItems() {
-//        for comida in selectedItems {
-//            if let index = comidas.firstIndex(of: comida) {
-//                
-//                comidas.remove(at: index)
-//                context.delete(comida)
-//            }
-//        }
-//        selectedItems.removeAll()
-//    }
 
-
-//#Preview {
-//    ListFood(comida: Food(nome: "Item food visualization Named sdfads dsf asd fads dafs adf", storage: .refrigerator, type: .Bebida, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 2, weight: nil))
-//        .modelContainer(for: [Food.self])
-//}
-//#Preview {
-//    ListFood(comida: Food, comidas: [
-//        Food(nome: "Banana", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 3, weight: nil),
-//        Food(nome: "Maçã", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 1, weight: nil)
-//    ])
-//    .modelContainer(for: [Food.self])
-//}
-//
 #Preview {
     MainScreenView()
 }
