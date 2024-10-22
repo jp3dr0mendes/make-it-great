@@ -15,7 +15,7 @@ struct MainScreenView: View {
     @Query var foods: [Food]
     
     @Query(
-        filter: #Predicate<Food> { food in
+        filter: #Predicate<Food> { food in 
             food.storage ==  "Geladeira"
         }
     )
@@ -37,6 +37,7 @@ struct MainScreenView: View {
     @State var selectedItems: Set<Food> = []
     @State private var filteredFoods: [Food] = []
     @State var selected: Bool = false
+    @State var isRemoved: Bool = false
 
 
     var body: some View {
@@ -62,7 +63,7 @@ struct MainScreenView: View {
                         updateFilteredFoods()
                     }
                 
-                
+                //Branch...
                 //Menu para adicionar via Scan e Manualmente:
                 HStack {
                     
@@ -97,8 +98,15 @@ struct MainScreenView: View {
                 //                }
                 ScrollView {
                     VStack {
+                        
                         // Passando diretamente filteredFoods para ListFood
                         ListFood(comidas: $filteredFoods, selectedCategory: $selectedCategory, selectedItems: $selectedItems, selected: $selected)
+                            //.transition(.slide)
+                            //.transition(.move(edge: .trailing))
+                            //.animation(.easeIn(duration: 2), value: selectedItems)
+                            //.transition(.move(edge: .trailing))
+                            .animation(.easeIn(duration: 0.4))
+                  
                     }
                 }
                 
@@ -106,7 +114,7 @@ struct MainScreenView: View {
                 //                    isPresentedSheet = true
                 //                }
                 if selected {
-                    ButtonView(selectedItems: $selectedItems, deleteAction: {
+                    ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, deleteAction: {
                         // Chama a função de deletar diretamente da ListFood
                         deleteSelectedItems()
                     })
@@ -144,9 +152,11 @@ struct MainScreenView: View {
     
     private func deleteSelectedItems() {
             // Remove os itens selecionados do contexto
+        withAnimation {
             for comida in selectedItems {
                 context.delete(comida)
             }
+        }
         
         
             //Salva o contexto após deletar

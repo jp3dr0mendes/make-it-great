@@ -29,7 +29,7 @@ struct AddButtonStyle: ButtonStyle {
 
 
 struct ButtonView: View {
-    
+    @Binding var isRemoved: Bool 
     @Binding var selectedItems: Set<Food>
     
     var deleteAction: () -> Void
@@ -40,6 +40,9 @@ struct ButtonView: View {
     var body: some View {
         ZStack {
             Button(action: {
+                withAnimation {
+                    isRemoved = true
+                }
                 deleteAction()
                 //Acho que posso usar isso aqui para fazer as listas desaparecerem quando aperta o botao:
 //                withAnimation(.easeInOut(duration: 4)) {
