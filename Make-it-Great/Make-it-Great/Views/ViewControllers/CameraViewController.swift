@@ -200,9 +200,20 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         
         //Começa a capturar:
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         DispatchQueue.global().async {
-            captureSession.startRunning()
-            print("aqui")
+            self.captureSession?.startRunning()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        DispatchQueue.global().async {
+            self.captureSession?.stopRunning()
         }
     }
     
