@@ -36,14 +36,14 @@ struct OnboardingView: View {
                         Spacer()
 
                         Button(action: {
-                            if currentPage < 2 { // Supondo que temos 3 telas
+                            if currentPage < 3 { // Supondo que temos 3 telas
                                 currentPage += 1
                             } else {
                                 isOnboardingActive = false
                             }
-                        }) {
-                            Text(currentPage < 2 ? "Próximo" : "Finalizar")
-                        }
+                        }, label: {
+                            Text(currentPage < 3 ? "Próximo" : "Finalizar")
+                        })
                         .padding()
 
                         Spacer()
@@ -104,6 +104,8 @@ struct PageView: View {
                     .multilineTextAlignment(.center)
                     .padding()
             }
+        case 3:
+            OnboardingScreen4()
         default:
             Text("Tela final.")
         }

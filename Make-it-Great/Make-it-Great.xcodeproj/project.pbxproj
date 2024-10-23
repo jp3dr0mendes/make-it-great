@@ -26,6 +26,7 @@
 		27E784FF2CBE9BC100837B8D /* CancelAndSelectAllButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E784FE2CBE9BC100837B8D /* CancelAndSelectAllButton.swift */; };
 		2E1D7F6F2CBFF05F00B8C9AE /* GridCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D7F6E2CBFF05F00B8C9AE /* GridCollectionViewController.swift */; };
 		2E1D7F732CBFF33F00B8C9AE /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D7F722CBFF33F00B8C9AE /* EmojiPickerView.swift */; };
+		874230662CC929D50090738D /* ButtonTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874230652CC929D50090738D /* ButtonTemplate.swift */; };
 		D8017D7D2CAC175100DF28A0 /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D7C2CAC175100DF28A0 /* FoodModel.swift */; };
 		D8017D802CAC1D6D00DF28A0 /* AddItemSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */; };
 		D8017D822CAC261100DF28A0 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8017D812CAC261100DF28A0 /* Enums.swift */; };
@@ -61,6 +62,7 @@
 		27F1E26B2CAEE14F00D9DE88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2E1D7F6E2CBFF05F00B8C9AE /* GridCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewController.swift; sourceTree = "<group>"; };
 		2E1D7F722CBFF33F00B8C9AE /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
+		874230652CC929D50090738D /* ButtonTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTemplate.swift; sourceTree = "<group>"; };
 		D8017D7C2CAC175100DF28A0 /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
 		D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemSheet.swift; sourceTree = "<group>"; };
 		D8017D812CAC261100DF28A0 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				275041F42CBFE1F200267C04 /* AddMenu.swift */,
 				27DB0BFA2CC1573700357162 /* EditItemSheet.swift */,
 				2744D3952CC7E192001E46D6 /* TrashItemButton.swift */,
+				874230652CC929D50090738D /* ButtonTemplate.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8E010A72CAAF06D00B3DD9F /* ContentView.swift in Sources */,
+				874230662CC929D50090738D /* ButtonTemplate.swift in Sources */,
 				D8017D842CAD8A4500DF28A0 /* ListFood.swift in Sources */,
 				27DB0BFB2CC1573700357162 /* EditItemSheet.swift in Sources */,
 				277903A52CAEBC0700C57A2E /* ScreenScan.swift in Sources */,

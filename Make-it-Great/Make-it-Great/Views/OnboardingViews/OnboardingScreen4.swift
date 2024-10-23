@@ -9,16 +9,18 @@ import SwiftUI
 
 struct OnboardingScreen4: View {
     var body: some View {
-        Image("welcome_image") // Imagem para a tela 1
-            .resizable()
-            .scaledToFit()
-            .frame(height: 200)
-        Text("Tela 1: Bem-vindo!")
-            .font(.largeTitle)
-            .padding()
-        Text("Explore nosso aplicativo e descubra suas funcionalidades.")
-            .multilineTextAlignment(.center)
-            .padding()
+        VStack{
+            Text("Vamos ajudar você a aproveitar o máximo de seus alimentos!")
+                .font(.largeTitle)
+                .foregroundStyle(.purpleItens)
+                .bold()
+                .multilineTextAlignment(.center)
+            Image("AppleCarrotRun")
+                .resizable()
+                .scaledToFit()
+                .padding()
+            
+        }
     }
 }
 
