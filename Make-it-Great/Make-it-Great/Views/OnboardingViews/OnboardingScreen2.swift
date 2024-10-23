@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OnboardingScreen2: View {
     var body: some View {
-        VStack (alignment: .center) {
+        VStack {
             Spacer()
             Image("ConfusedApple") // Imagem para a tela 1
                 .resizable()

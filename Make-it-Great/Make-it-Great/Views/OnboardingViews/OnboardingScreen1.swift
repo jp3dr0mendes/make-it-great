@@ -29,8 +29,8 @@ struct OnboardingScreen1: View {
                // .padding()
                 .foregroundColor(.purpleItens)
             
-            Text("Seus alimentos com")
-                .font(.title2)
+            Text("Seus alimentos com:")
+                .font(.largeTitle)
                 .multilineTextAlignment(.center)
                 .bold()
              //   .padding()
