@@ -50,7 +50,7 @@ struct MainScreenView: View {
                 HStack {
                     Text("Meus Itens")
                         .foregroundStyle(.purpleItens)
-                        .font(.system(.title2))
+                        .font(.system(.title))
                         .fontDesign(.rounded)
                     
                     Spacer()
@@ -101,7 +101,6 @@ struct MainScreenView: View {
                                 CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
                                 
                             } else {
-                                
                                 AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, storageType: $selectedCategory)
                             }
                         }
@@ -122,7 +121,7 @@ struct MainScreenView: View {
                     ScrollView {
                         VStack {
                             // Passando diretamente filteredFoods para ListFood
-                            ListFood(comidas: $filteredFoods, selectedCategory: $selectedCategory, selectedItems: $selectedItems, selected: $selected)
+                            ListFood(comidas: $filteredFoods, selectedCategory: $selectedCategory, selectedItems: $selectedItems, selected: $selected, scanList: .constant(false))
                             //.transition(.slide)
                             //.transition(.move(edge: .trailing))
                             //.animation(.easeIn(duration: 2), value: selectedItems)

@@ -30,24 +30,35 @@ struct IdentifiedFoodScreen: View {
     var body: some View {
         
         NavigationView{
-            VStack {
-                Text("Identified Food")
-                
-                ListFood(comidas: $detectedFoods, selectedCategory: $storage, selectedItems: $selectedItems, selected: $isPresented)
+            VStack(spacing: 20) {
+                HStack {
+                    Text("Comidas identificadas")
+                        .foregroundStyle(.purpleItens)
+                        .font(.system(.title))
+                        .fontDesign(.rounded)
+                    Spacer()
+                }
+                ListFood(comidas: $detectedFoods, selectedCategory: $storage, selectedItems: $selectedItems, selected: $isPresented, scanList: .constant(true))
+                Spacer()
 
                 NavigationLink(destination: MainScreenView()) {
                     Button("Add Foods"){
                         addFood(comidas: detectedFoods)
                     }
-                    
-                    .font(.title2)
-                    .padding()
-                    .background(Color.green)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(storage == .refrigerator ? .brownFruits : .greenVegetables)
+                    .font(.system(size: 17))
+                    .fontWeight(.semibold)
                     .foregroundColor(.white)
                     .cornerRadius(10)
                 }
+                
             }
+            .padding()
+            .navigationBarBackButtonHidden(true)
         }
+    
     }
 }
 

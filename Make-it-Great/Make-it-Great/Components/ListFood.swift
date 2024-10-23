@@ -21,6 +21,7 @@ struct ListFood: View {
     @Binding var selectedCategory: StorageType
     @Binding var selectedItems: Set<Food>
     @Binding var selected: Bool
+    @Binding var scanList: Bool
 
     @State var selectedFood: Food = Food(nome: "", emoji: "", storage: .cabinet, type: .Fruta, consumirAte: nil, units: 1, weight: 0.0)
     @State var isPresentedSheet: Bool = false
@@ -42,7 +43,7 @@ struct ListFood: View {
                             Image(systemName: selectedItems.contains(comida) ? "checkmark.circle.fill" : "poweroff" )
                                 .resizable()
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(selectedItems.contains(comida) ? .green : .gray)
+                                .foregroundColor(selectedItems.contains(comida) ? .purpleItens : .gray)
                         }
                     }/*.padding(.leading, 10)*/ //Afasta o checkbox da imagem, acho que esse padding é desnecessario
                     Button( action: {
@@ -98,11 +99,22 @@ struct ListFood: View {
                         }//.padding(.leading, 10)
                         
                         
-                        Spacer(minLength: 10) //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
+                        Spacer() //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
                         Text(calculoDias(dataFim: comida.consumirAte ?? Date()))
                             .font(.caption)
                             .multilineTextAlignment(.trailing)
                             .foregroundColor(.gray)
+                        
+                        if scanList {
+                            Button {
+                                deleteScanList(comida: comida)
+                            } label: {
+                                Image(systemName: "trash")
+                            
+                            }
+                                .padding(.leading, 5)
+                                .padding(.trailing, 16)
+                        }
                         
                     }
                     .disabled(selected)
@@ -149,6 +161,12 @@ struct ListFood: View {
         } else {
             selectedItems.insert(comida)
         }
+    }
+    
+    private func deleteScanList(comida: Food) {
+            if let index = comidas.firstIndex(where: { $0 == comida }) {
+                    comidas.remove(at: index)
+            }
     }
 }
 
