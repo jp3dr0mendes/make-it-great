@@ -16,19 +16,21 @@ struct MainScreenView: View {
     
     @Query(
         filter: #Predicate<Food> { food in 
-            food.storage ==  "Geladeira"
+            food.type ==  "Fruta"
         }
     )
     var foodGeladeira: [Food]
     
     @Query(
         filter: #Predicate<Food> { food in
-            food.storage ==  "Armário"
+            food.type ==  "Vegetal"
         }
     )
     var foodArmario: [Food]
     
+    
     @State private var selectedCategory: StorageType = .refrigerator
+    @State private var selectedFood: FoodType = .Fruta
     @State var isPresentedSheet: Bool = false
     @State var isPresentedMenu: Bool = false
 //    @State var isAnimating: Bool = false
@@ -57,8 +59,8 @@ struct MainScreenView: View {
                 }
                 
                 
-                SegmentedControlComponent(selectedCategory: $selectedCategory)
-                    .onChange(of: selectedCategory) {
+                SegmentedControlComponent(selectedCategory: $selectedFood)
+                    .onChange(of: selectedFood) {
                         // Atualiza a lista filtrada de acordo com a categoria selecionada:
                         updateFilteredFoods()
                     }
@@ -76,11 +78,11 @@ struct MainScreenView: View {
                     }
                     .foregroundStyle(.purpleItens)
                     Spacer()
-                    if selectedCategory == .refrigerator {
+                    if selectedFood == .Fruta {
                         Image("EmptyFruits")
                             .resizable()
                             .scaledToFit()
-                    } else if selectedCategory == .cabinet {
+                    } else if selectedFood == .Vegetal {
                         Image("EmptyVegetables")
                             .resizable()
                             .scaledToFit()
@@ -167,12 +169,12 @@ struct MainScreenView: View {
     
     private func updateFilteredFoods() {
             // Atualiza a lista filtrada com base na categoria selecionada
-            switch selectedCategory {
-            case .refrigerator:
-                filteredFoods = foodGeladeira
-            case .cabinet:
-                filteredFoods = foodArmario
-            }
+        switch selectedFood {
+        case .Fruta:
+            filteredFoods = foodGeladeira
+        case .Vegetal:
+            filteredFoods = foodArmario
+        }
         }
     
     private func deleteSelectedItems() {
