@@ -30,7 +30,7 @@ struct OnboardingScreen1: View {
                 .foregroundColor(.purpleItens)
             
             Text("Seus alimentos com:")
-                .font(.title2)
+                .font(.largeTitle)
                 .multilineTextAlignment(.center)
                 .bold()
                 .padding()
