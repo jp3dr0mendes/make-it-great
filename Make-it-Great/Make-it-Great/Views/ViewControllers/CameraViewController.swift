@@ -156,6 +156,19 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Solicitar permissão de acesso à câmera
+        checkPermissions { error in
+                if let error = error {
+                    // Lide com o erro (ex.: mostrar um alerta)
+                    print(error.localizedDescription)
+                } else {
+                    // Permissões garantidas e câmera configurada corretamente
+                    print("Câmera configurada com sucesso!")
+                }
+            }
+    }
+    
+    func configureCameraSession() {
         
         //Configuração da sessao da camera...
         captureSession = AVCaptureSession()
@@ -230,6 +243,70 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         
 //        imageClassifier(image: previewLayer?.frame)
+    }
+    
+    private func checkPermissions(completion: @escaping (Error?) -> ()) {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .notDetermined:
+            // O usuário ainda não foi solicitado, então pedimos permissão
+            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+                if granted {
+                    // Permissão concedida, configurar a câmera
+                    DispatchQueue.main.async {
+                        self?.configureCameraSession()
+                    }
+                } else {
+                    // Permissão negada, lidar com o caso de negação
+                    DispatchQueue.main.async {
+                        completion(NSError(domain: "CameraAccess", code: 1, userInfo: [NSLocalizedDescriptionKey: "Permissão de acesso à câmera foi negada."]))
+                    }
+                }
+            }
+        case .restricted:
+            // O acesso à câmera está restrito (ex.: controles parentais)
+            DispatchQueue.main.async {
+                completion(NSError(domain: "CameraAccess", code: 2, userInfo: [NSLocalizedDescriptionKey: "O acesso à câmera está restrito."]))
+            }
+        case .denied:
+            // O usuário negou anteriormente o acesso à câmera
+            DispatchQueue.main.async {
+                    self.showCameraAccessDeniedAlert()
+                    completion(NSError(domain: "CameraAccess", code: 3, userInfo: [NSLocalizedDescriptionKey: "Permissão de acesso à câmera foi negada anteriormente."]))
+                }
+        case .authorized:
+            // O acesso já foi autorizado, configurar a câmera
+            DispatchQueue.main.async {
+                self.configureCameraSession()
+            }
+        @unknown default:
+            // Lidar com futuros casos que não são conhecidos na versão atual
+            DispatchQueue.main.async {
+                completion(NSError(domain: "CameraAccess", code: 4, userInfo: [NSLocalizedDescriptionKey: "Status desconhecido para permissão de câmera."]))
+            }
+        }
+    }
+    
+    func showCameraAccessDeniedAlert() {
+        let alert = UIAlertController(
+            title: "Permissão de Câmera Negada",
+            message: "O acesso à câmera foi negado. Por favor, permita o acesso à câmera nas configurações para continuar usando essa funcionalidade.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "Abrir Configurações", style: .default) { _ in
+            // Abre as configurações do app
+            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(settingsURL) {
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+        })
+        
+        // Apresenta o alerta
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
 
