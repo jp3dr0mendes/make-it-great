@@ -11,14 +11,13 @@ struct TrashItemButton: View {
     var body: some View {
         
         HStack {
-            Spacer()
             Button {
                 //Deleta alguma coisa
             } label: {
                 Image(systemName: "trash")
             
             }
-        }.padding()
+        }
     }
 }
 
