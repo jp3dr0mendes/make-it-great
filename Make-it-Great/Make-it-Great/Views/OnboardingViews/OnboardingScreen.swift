@@ -63,9 +63,10 @@ struct OnboardingView: View {
                 }
             } else {
                 // Aqui você pode adicionar a tela principal do seu aplicativo
-                Text("Tela Principal")
-                    .font(.largeTitle)
-                    .padding()
+//                Text("Tela Principal")
+//                    .font(.largeTitle)
+//                    .padding()
+                MainScreenView()
             }
         }
     }
