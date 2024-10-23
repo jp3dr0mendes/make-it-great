@@ -64,17 +64,7 @@ struct MainScreenView: View {
                     }
                 
                 if filteredFoods.isEmpty {
-                    HStack {
-                        ZStack {
-                            if showingButton {
-                                
-                                CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
-                                
-                            } else {
                                 AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, storageType: $selectedCategory)
-                            }
-                        }
-                    }
                     VStack {
                         Text("Você não tem itens adicionados ainda!")
                             .lineLimit(3)
@@ -149,6 +139,7 @@ struct MainScreenView: View {
                             // Chama a função de deletar diretamente da ListFood
                             deleteSelectedItems()
                             showingButton = false
+                            selected = false
                         })
                     }
                 }
