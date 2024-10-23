@@ -44,7 +44,7 @@ struct MainScreenView: View {
         
         NavigationStack{
             
-
+            
             VStack(spacing: 20) {
                 
                 HStack {
@@ -63,62 +63,103 @@ struct MainScreenView: View {
                         updateFilteredFoods()
                     }
                 
-                //Branch...
-                //Menu para adicionar via Scan e Manualmente:
-                HStack {
-                    
-                    //Ztack para desenhar botoes na mesma linha
-                    ZStack {
-                        
-                        SelectButton(showingButton: $showingButton, selected: $selected)
-                            .opacity(showingButton ? 0 : 1)
-                        
-                        if showingButton {
-                            
-                            CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
-                            
-                        } else {
-                            
-                            AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, storageType: $selectedCategory)
+                if filteredFoods.isEmpty {
+                    HStack {
+                        ZStack {
+                            if showingButton {
+                                
+                                CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
+                                
+                            } else {
+                                AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, storageType: $selectedCategory)
+                            }
                         }
                     }
-                    
-                    //Spacer()
-                    
-                }
-                
-                //Lista personalizada de comidas a ScroolView torna a ListFood uma lista scrolável
-                //                ScrollView {
-                //                    VStack {
-                //                        // Usar o estado filtrado na lista
-                //                        ForEach(filteredFoods, id: \.self) { food in
-                //                            ListFood(comidas: $filteredFoods, selectedItems: $selectedItems)
-                //                        }
-                //                    }
-                //                }
-                ScrollView {
                     VStack {
+                        Text("Você não tem itens adicionados ainda!")
+                            .lineLimit(3)
+                            .font(.title)
+                            .fontDesign(.rounded)
+                        Text("Vamos lá!")
+                            .font(.title)
+                            .fontDesign(.rounded)
+                    }
+                    .foregroundStyle(.purpleItens)
+                    Spacer()
+                    if selectedCategory == .refrigerator {
+                        Image("EmptyFruits")
+                            .resizable()
+                            .scaledToFit()
+                    } else if selectedCategory == .cabinet {
+                        Image("EmptyVegetables")
+                            .resizable()
+                            .scaledToFit()
+                    }
+                } else {
+                    //Branch...
+                    //Menu para adicionar via Scan e Manualmente:
+                    HStack {
                         
-                        // Passando diretamente filteredFoods para ListFood
-                        ListFood(comidas: $filteredFoods, selectedCategory: $selectedCategory, selectedItems: $selectedItems, selected: $selected)
+                        //Ztack para desenhar botoes na mesma linha
+                        ZStack {
+                            
+                            SelectButton(showingButton: $showingButton, selected: $selected)
+                                .opacity(showingButton ? 0 : 1)
+                            
+                            if showingButton {
+                                
+                                CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
+                                
+                            } else {
+                                
+                                AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, storageType: $selectedCategory)
+                            }
+                        }
+                        
+                        //Spacer()
+                        
+                    }
+                    
+                    //Lista personalizada de comidas a ScroolView torna a ListFood uma lista scrolável
+                    //                ScrollView {
+                    //                    VStack {
+                    //                        // Usar o estado filtrado na lista
+                    //                        ForEach(filteredFoods, id: \.self) { food in
+                    //                            ListFood(comidas: $filteredFoods, selectedItems: $selectedItems)
+                    //                        }
+                    //                    }
+                    //                }
+                    ScrollView {
+                        VStack {
+                            // Passando diretamente filteredFoods para ListFood
+                            ListFood(comidas: $filteredFoods, selectedCategory: $selectedCategory, selectedItems: $selectedItems, selected: $selected)
                             //.transition(.slide)
                             //.transition(.move(edge: .trailing))
                             //.animation(.easeIn(duration: 2), value: selectedItems)
                             //.transition(.move(edge: .trailing))
-                            .animation(.easeIn(duration: 0.4))
-                  
+                                .animation(.easeIn(duration: 0.4))
+                        }
+                    }
+                    
+                    //                Button("Adicionar Item"){
+                    //                    isPresentedSheet = true
+                    //                }
+                    if selected {
+                        ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, deleteAction: {
+                            // Chama a função de deletar diretamente da ListFood
+                            deleteSelectedItems()
+                            showingButton = false
+                        })
                     }
                 }
-                
-                //                Button("Adicionar Item"){
-                //                    isPresentedSheet = true
-                //                }
-                if selected {
-                    ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, deleteAction: {
-                        // Chama a função de deletar diretamente da ListFood
-                        deleteSelectedItems()
-                    })
-                }
+                    
+                //            .onAppear {
+                //                // Inicializa a lista filtrada ao aparecer
+                //                updateFilteredFoods()
+                //            }
+                //            .onChange(of: context) {
+                //                updateFilteredFoods()
+                //            }
             }
             .sheet(isPresented: $isPresentedSheet, content: {
                 AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
@@ -130,13 +171,6 @@ struct MainScreenView: View {
                 updateFilteredFoods() // Atualiza quando a lista de alimentos mudar
             }
             .padding()
-//            .onAppear {
-//                // Inicializa a lista filtrada ao aparecer
-//                updateFilteredFoods()
-//            }
-//            .onChange(of: context) {
-//                updateFilteredFoods()
-//            }
         }
     }
     
