@@ -16,56 +16,45 @@ struct OnboardingView: View {
     var body: some View {
         ZStack {
             if isOnboardingActive {
-
                 VStack {
-                    Spacer()
-                    PageView(currentPage: $currentPage)
+                        PageView(currentPage: $currentPage)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(Color.white)
-                        .edgesIgnoringSafeArea(.all)
-
-                    HStack {
-                        
-                        Button(action: {
-                            if currentPage > 0 {
-                                currentPage -= 1
-                            }
-                        }) {
-                            Text("Anterior")
+//                        .edgesIgnoringSafeArea(.all)
+                    Button(action: {
+                        if currentPage > 0 {
+                            currentPage -= 1
                         }
-                        .padding()
-                        .opacity(currentPage == 0 ? 0 : 1) // Oculta o botão se estiver na primeira tela
+                    }) {
+                        Text("Anterior")
+                    }
 
-                        Spacer()
-
-                        Button(action: {
-                            if currentPage < 3 { // Supondo que temos 3 telas
-                                currentPage += 1
-                            } else {
+                        VStack{
+                            Button(action: {
+                                if currentPage < 3 { // Supondo que temos 3 telas
+                                    currentPage += 1
+                                } else {
+                                    isOnboardingActive = false
+                                }
+                            }, label: {
+                                Text(currentPage < 3 ? "Próximo" : "Finalizar")
+                            })
+                            .frame(maxWidth: .infinity, minHeight: 50)
+                            .background(.purpleItens)
+                            .foregroundStyle(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .fontWeight(.semibold)
+                            Button(action: {
                                 isOnboardingActive = false
+                            }) {
+                                Text("Pular")
+                                .foregroundStyle(.black)
+                                .fontWeight(.semibold)
                             }
-                        }, label: {
-                            Text(currentPage < 3 ? "Próximo" : "Finalizar")
-                        })
-                        .padding()
-
-                        Spacer()
-
-                        Button(action: {
-                            isOnboardingActive = false
-                        }) {
-                            Text("Pular")
-                                .foregroundColor(.red)
                         }
-                        .padding()
                     }
                     .padding()
-                }
             } else {
-                // Aqui você pode adicionar a tela principal do seu aplicativo
-//                Text("Tela Principal")
-//                    .font(.largeTitle)
-//                    .padding()
                 MainScreenView()
             }
         }

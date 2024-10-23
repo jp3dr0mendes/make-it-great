@@ -10,7 +10,7 @@ import SwiftUI
 struct OnboardingScreen1: View {
     var body: some View {
         
-        VStack {
+        VStack(spacing: 20) {
             
             Text("Organize")
                 .font(.largeTitle)
@@ -20,35 +20,36 @@ struct OnboardingScreen1: View {
             Text("Controle")
                 .font(.largeTitle)
                 .bold()
-                .padding()
+               // .padding()
                 .foregroundColor(.purpleItens)
             
             Text("Aproveite")
                 .font(.largeTitle)
                 .bold()
-                .padding()
+               // .padding()
                 .foregroundColor(.purpleItens)
             
-            Text("Seus alimentos com:")
+            Text("Seus alimentos com")
                 .font(.title2)
                 .multilineTextAlignment(.center)
                 .bold()
-                .padding()
+             //   .padding()
                 .foregroundColor(.purpleItens)
-            
+                .padding(.bottom)
+//            Spacer()
+//            padding(.bottom)
             Text("FreshConserve")
                 .font(.largeTitle)
                 .bold()
                 .foregroundColor(.black)
-            
-//            Text("Explore nosso aplicativo e descubra suas funcionalidades.")
-//                .multilineTextAlignment(.center)
-//                .padding()
+//            Spacer()
+        
             Image("AppIconOnboarding") // Imagem para a tela 1
                 .resizable()
-                .scaledToFit()
+                .scaledToFill()
                 .frame(maxWidth: .infinity)
         }
+        .padding()
     }
 }
 
