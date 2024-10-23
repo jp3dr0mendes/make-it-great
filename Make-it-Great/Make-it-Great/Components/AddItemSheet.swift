@@ -24,7 +24,7 @@ struct AddItem: View {
     //    @State var dataInicio: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     //    @State var dataFim: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     @State var diffInDays: Int = 0
-    @State var categoria: FoodType = .Bebida
+    @State var categoria: FoodType = .Fruta
     @State var tipoQuantidade: CountType = .Unidade
     @State var peso: Float = 0
     @State var unidades: Int = 0

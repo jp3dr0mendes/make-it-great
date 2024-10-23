@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SegmentedControlComponent: View {
-    @Binding var selectedCategory: StorageType
+    @Binding var selectedCategory: FoodType
     /*@State private var selectedCategory: TaskCategory = .refrigerator*/ // Define a categoria inicial
 
     var body: some View {
@@ -17,7 +17,7 @@ struct SegmentedControlComponent: View {
             //                .font(.headline)
             HStack(spacing: 20) {
                 //Picker(selection: $selectedCategory, label: Text("Category")) {
-                ForEach(StorageType.allCases) { category in
+                ForEach(FoodType.allCases) { category in
                         VStack(spacing: 4) {
                             Image(category.image)
                                 .resizable()
@@ -59,5 +59,5 @@ struct SegmentedControlComponent: View {
 //}
 //#Preview {
 //    
-//    TaskView(selectedCategory: TaskCategory.refrigerator)
+//    SegmentedControlComponent(selectedCategory: .Fruta)
 //}

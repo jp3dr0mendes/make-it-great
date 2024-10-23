@@ -66,16 +66,6 @@ class Food: Hashable {
                 return "Fruta"
             case .Vegetal:
                 return "Vegetal"
-            case .Carne:
-                return "Carne"
-            case .Tempero:
-                return "Tempero"
-            case .Laticinio:
-                return "Laticínio"
-            case .Massa:
-                return "Massa"
-            case .Bebida:
-                return "Bebidas"
             }
         }
         
