@@ -75,16 +75,8 @@ struct PageView: View {
         switch currentPage {
         case 0:
             VStack {
-                Image("welcome_image") // Imagem para a tela 1
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                Text("Tela 1: Bem-vindo!")
-                    .font(.largeTitle)
-                    .padding()
-                Text("Explore nosso aplicativo e descubra suas funcionalidades.")
-                    .multilineTextAlignment(.center)
-                    .padding()
+                OnboardingScreen1()
+                    
             }
         case 1:
             VStack {
