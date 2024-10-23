@@ -22,15 +22,15 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     @Binding var classification: String
     @Binding var foods: [Food]
-    @Binding var storageType: StorageType
+    @Binding var foodType: FoodType
     
     @State var object: String = ""
     
     
-    init(classification: Binding<String>, foods: Binding<[Food]>, storage: Binding<StorageType>) {
+    init(classification: Binding<String>, foods: Binding<[Food]>, food: Binding<FoodType>) {
         self._classification = classification
         self._foods = foods
-        self._storageType = storage
+        self._foodType = food
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -80,7 +80,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     
                     self.classification = classification_fruit
                     
-                    var detectedFood: Food = Food(nome: self.classification, emoji: "🍎", storage: self.storageType, type: .Fruta, consumirAte: nil, units: 1, weight: nil)
+                    var detectedFood: Food = Food(nome: self.classification, emoji: "🍎", storage: .refrigerator, type: .Fruta, consumirAte: nil, units: 1, weight: nil)
                     
                     if !self.foods.contains(where: {$0.nome == detectedFood.nome}) {
                         self.foods.append(detectedFood)
@@ -108,7 +108,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     self.classification = classification_veg
                     //aqui
                     
-                    var detectedFood: Food = Food(nome: self.classification, emoji: "🥕", storage: self.storageType, type: .Vegetal, consumirAte: nil, units: 1, weight: nil)
+                    var detectedFood: Food = Food(nome: self.classification, emoji: "🥕", storage: .cabinet, type: .Vegetal, consumirAte: nil, units: 1, weight: nil)
                     
                     if !self.foods.contains(where: {$0.nome == detectedFood.nome}) {
                         self.foods.append(detectedFood)
@@ -314,10 +314,10 @@ struct CameraView: UIViewControllerRepresentable {
     
     @Binding var classification: String
     @Binding var foods: [Food]
-    @Binding var storage: StorageType
+    @Binding var food: FoodType
     
     func makeUIViewController(context: Context) -> CameraViewController{
-        return CameraViewController(classification: $classification, foods: $foods, storage: $storage)
+        return CameraViewController(classification: $classification, foods: $foods, food: $food)
     }
     
     func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {

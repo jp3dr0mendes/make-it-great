@@ -29,7 +29,7 @@ struct MainScreenView: View {
     var foodArmario: [Food]
     
     
-    @State private var selectedCategory: StorageType = .refrigerator
+    //@State private var selectedCategory: StorageType = .refrigerator
     @State private var selectedFood: FoodType = .Fruta
     @State var isPresentedSheet: Bool = false
     @State var isPresentedMenu: Bool = false
@@ -58,7 +58,6 @@ struct MainScreenView: View {
                     Spacer()
                 }
                 
-                
                 SegmentedControlComponent(selectedCategory: $selectedFood)
                     .onChange(of: selectedFood) {
                         // Atualiza a lista filtrada de acordo com a categoria selecionada:
@@ -66,7 +65,7 @@ struct MainScreenView: View {
                     }
                 
                 if filteredFoods.isEmpty {
-                                AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, storageType: $selectedCategory)
+                                AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
                     VStack {
                         Text("Você não tem itens adicionados ainda!")
                             .lineLimit(3)
@@ -103,7 +102,7 @@ struct MainScreenView: View {
                                 CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
                                 
                             } else {
-                                AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, storageType: $selectedCategory)
+                                AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
                             }
                         }
                         
@@ -123,7 +122,7 @@ struct MainScreenView: View {
                     ScrollView {
                         VStack {
                             // Passando diretamente filteredFoods para ListFood
-                            ListFood(comidas: $filteredFoods, selectedCategory: $selectedCategory, selectedItems: $selectedItems, selected: $selected, scanList: .constant(false))
+                            ListFood(comidas: $filteredFoods, selectedCategory: $selectedFood, selectedItems: $selectedItems, selected: $selected, scanList: .constant(false))
                             //.transition(.slide)
                             //.transition(.move(edge: .trailing))
                             //.animation(.easeIn(duration: 2), value: selectedItems)
@@ -155,7 +154,7 @@ struct MainScreenView: View {
             }
             //.navigationBarBackButtonHidden(true)
             .sheet(isPresented: $isPresentedSheet, content: {
-                AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
+                AddItem(isPresented: $isPresentedSheet, food: $selectedFood)
             })
             .onAppear {
                 updateFilteredFoods() // Inicializa a lista filtrada ao aparecer

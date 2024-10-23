@@ -19,7 +19,7 @@ struct EditItemSheet: View {
     
     // Aqui, recebemos o item existente (se for edição), caso contrário, será um novo item
     @State var item: Food
-    @Binding var selectedCategory: StorageType
+    @Binding var selectedFood: FoodType
     @State var nome: String
     @State var emoji: String
     @State var isEmojiPickerShowing = false
@@ -152,10 +152,10 @@ struct EditItemSheet: View {
                             isEmojiPickerShowing = true
                         } label: {
                             if emoji == "" {
-                                if selectedCategory == .refrigerator {
+                                if selectedFood == .Fruta {
                                     Text("🍎")
                                         .font(.system(size: 40))
-                                } else if selectedCategory == .cabinet {
+                                } else if selectedFood == .Vegetal {
                                     Text("🥕")
                                         .font(.system(size: 40))
                                 }

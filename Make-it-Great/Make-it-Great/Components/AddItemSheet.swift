@@ -14,7 +14,7 @@ struct AddItem: View {
     @Environment(\.modelContext) var context
     
     @Binding var isPresented: Bool
-    @Binding var storage: StorageType
+    @Binding var food: FoodType
     
     @State var nome: String = ""
     @State var emoji: String = ""
@@ -24,7 +24,7 @@ struct AddItem: View {
     //    @State var dataInicio: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     //    @State var dataFim: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     @State var diffInDays: Int = 0
-    @State var categoria: FoodType = .Fruta
+    //@State var categoria: FoodType = .Fruta
     @State var tipoQuantidade: CountType = .Unidade
     @State var peso: Float = 0
     @State var unidades: Int = 0
@@ -53,9 +53,9 @@ struct AddItem: View {
                     if ((tipoQuantidade == .Peso && peso != 0) || tipoQuantidade == .Unidade && unidades > 0) {
                         switch tipoQuantidade {
                         case .Peso:
-                            context.insert(Food(nome: nome, emoji: emoji, storage: storage, type: categoria, consumirAte: dataFim, units: nil, weight: peso))
+                            context.insert(Food(nome: nome, emoji: emoji, storage: .refrigerator, type: food, consumirAte: dataFim, units: nil, weight: peso))
                         case .Unidade:
-                            context.insert(Food(nome: nome, emoji: emoji, storage: storage, type: categoria, consumirAte: dataFim, units: unidades, weight: nil))
+                            context.insert(Food(nome: nome, emoji: emoji, storage: .cabinet, type: food, consumirAte: dataFim, units: unidades, weight: nil))
                         }
                         
                         isPresented = false
@@ -99,10 +99,10 @@ struct AddItem: View {
                         isEmojiPickerShowing = true
                     } label: {
                         if emoji == "" {
-                            if storage == .refrigerator {
+                            if food == .Fruta {
                                 Text("🍎")
                                     .font(.system(size: 40))
-                            } else if storage == .cabinet {
+                            } else if food == .Vegetal {
                                 Text("🥕")
                                     .font(.system(size: 40))
                             }
@@ -291,7 +291,7 @@ struct AddItem: View {
     
     struct FormView_Previews: PreviewProvider {
         static var previews: some View {
-            AddItem(isPresented: .constant(true), storage: .constant(.cabinet))
+            AddItem(isPresented: .constant(true), food: .constant(.Fruta))
         }
     }
 }

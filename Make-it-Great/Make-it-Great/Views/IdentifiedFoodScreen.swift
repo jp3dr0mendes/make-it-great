@@ -11,7 +11,7 @@ import SwiftUI
 struct IdentifiedFoodScreen: View {
     
     @Binding var detectedFoods: [Food]
-    @Binding var storage: StorageType
+    @Binding var food: FoodType
     @Binding var isPresented: Bool
     @Binding var navegarAnterior: Bool
     @State var navegar: Bool = false
@@ -43,7 +43,7 @@ struct IdentifiedFoodScreen: View {
                     Spacer()
                 }
                 ScrollView {
-                    ListFood(comidas: $detectedFoods, selectedCategory: $storage, selectedItems: $selectedItems, selected: $isPresented, scanList: .constant(true))
+                    ListFood(comidas: $detectedFoods, selectedCategory: $food, selectedItems: $selectedItems, selected: $isPresented, scanList: .constant(true))
                 }
                 Spacer()
                 
@@ -55,7 +55,7 @@ struct IdentifiedFoodScreen: View {
                     Text("Adicionar comidas")
                         .frame(maxWidth: .infinity)
                         .frame(height: 50)
-                        .background(storage == .refrigerator ? .brownFruits : .greenVegetables)
+                        .background(food == .Fruta ? .brownFruits : .greenVegetables)
                         .font(.system(size: 17))
                         .fontWeight(.semibold)
                         .foregroundStyle(.white)

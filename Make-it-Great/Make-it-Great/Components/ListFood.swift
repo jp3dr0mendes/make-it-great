@@ -18,7 +18,7 @@ struct ListFood: View {
     // Lista de alimentos (agora um binding)
     @Binding var comidas: [Food]
     // Armazena alimentos selecionados (agora um binding)
-    @Binding var selectedCategory: StorageType
+    @Binding var selectedCategory: FoodType
     @Binding var selectedItems: Set<Food>
     @Binding var selected: Bool
     @Binding var scanList: Bool
@@ -53,10 +53,10 @@ struct ListFood: View {
                         //Spacer()
                         ZStack {
                             RoundedRectangle(cornerRadius: 30)
-                                .stroke(selectedCategory == .refrigerator ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1)
+                                .stroke(selectedCategory == .Vegetal ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1)
                                 .frame(width: 45, height: 45)
                             if comida.emoji == "" {
-                                Text("\(comida.storage == "Geladeira" ? "🍎" : "🥕")")
+                                Text("\(comida.type == "Fruta" ? "🍎" : "🥕")")
                                     .font(.system(size: 30))
                             } else {
                                 Text("\(comida.emoji ?? "")")
@@ -64,16 +64,6 @@ struct ListFood: View {
                             }
                         }
                         .padding(2)
-                        
-                        
-                        //                    Image("imageTest") //Preciso fazer um model para colocar a imagem certa aqui
-                        //                        .resizable()
-                        //                        .aspectRatio(contentMode: .fit)
-                        //                        .frame(width: 40, height: 40)
-                        //                        .clipShape(Circle())
-                        //                    //.foregroundColor(.yellow)
-                        //                        .overlay(Circle().stroke(selectedCategory == .refrigerator ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1))
-                        //                        .shadow(radius: 10)
                         //Nome da Comida e Quantidade:
                         VStack (alignment: .leading) {
                             Text(comida.nome)
@@ -119,7 +109,7 @@ struct ListFood: View {
                     }
                     .disabled(selected)
                     .sheet(isPresented: $isPresentedSheet) {
-                        EditItemSheet(isPresented: $isPresentedSheet, item: selectedFood, selectedCategory: $selectedCategory, nome: selectedFood.nome , emoji: selectedFood.emoji ?? "", dataFim: selectedFood.consumirAte ?? .now, tipoQuantidade: selectedFood.units != nil ? .Unidade : .Peso, peso: selectedFood.weight ?? 0.0, unidades: selectedFood.units ?? 0)
+                        EditItemSheet(isPresented: $isPresentedSheet, item: selectedFood, selectedFood: $selectedCategory, nome: selectedFood.nome , emoji: selectedFood.emoji ?? "", dataFim: selectedFood.consumirAte ?? .now, tipoQuantidade: selectedFood.units != nil ? .Unidade : .Peso, peso: selectedFood.weight ?? 0.0, unidades: selectedFood.units ?? 0)
                     }
                     .presentationDetents([.fraction(0.75), .fraction(0.85)])
                     
