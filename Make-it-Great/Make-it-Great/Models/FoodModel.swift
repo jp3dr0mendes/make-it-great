@@ -37,7 +37,7 @@ class Food: Hashable {
         if let data = consumirAte {
             self.consumirAte = data
         } else {
-            self.consumirAte = Date(timeInterval: 7*60*60*24, since: Date.now)
+            self.consumirAte = Date()
         }
         
         self.storage = checkStorage(storage: storage)
