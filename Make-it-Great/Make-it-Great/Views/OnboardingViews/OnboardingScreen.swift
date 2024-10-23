@@ -16,13 +16,16 @@ struct OnboardingView: View {
     var body: some View {
         ZStack {
             if isOnboardingActive {
+
                 VStack {
+                    Spacer()
                     PageView(currentPage: $currentPage)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(Color.white)
                         .edgesIgnoringSafeArea(.all)
 
                     HStack {
+                        
                         Button(action: {
                             if currentPage > 0 {
                                 currentPage -= 1
@@ -80,16 +83,7 @@ struct PageView: View {
             }
         case 1:
             VStack {
-                Image("how_to_use_image") // Imagem para a tela 2
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                Text("Tela 2: Como usar o aplicativo.")
-                    .font(.largeTitle)
-                    .padding()
-                Text("Aqui estão algumas dicas para você começar.")
-                    .multilineTextAlignment(.center)
-                    .padding()
+                OnboardingScreen2()
             }
         case 2:
             VStack {
