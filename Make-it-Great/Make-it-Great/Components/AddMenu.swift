@@ -15,12 +15,16 @@ struct AddMenu: View {
     @Binding var isPresentedSheet: Bool
     @Binding var storageType: StorageType
     
+    @State var navegar = false
+    
     var body: some View {
        
         HStack {
             Spacer()
             Menu {
-                NavigationLink(destination: ScreenScan(isPresentedMenu: $isPresentedMenu, storageType: $storageType)) {
+                Button {
+                    navegar = true
+                } label: {
                     Text("Scannear")
                     Image(systemName: "camera.viewfinder")
                 }
@@ -37,6 +41,9 @@ struct AddMenu: View {
             }
             //.padding(.trailing, 16)
 //                .border(.black)
+        }
+        .navigationDestination(isPresented: $navegar) {
+            ScreenScan(isPresentedMenu: $isPresentedMenu, storageType: $storageType, navegarAnterior: $navegar)
         }
         
     }

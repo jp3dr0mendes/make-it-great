@@ -153,6 +153,7 @@ struct MainScreenView: View {
                 //                updateFilteredFoods()
                 //            }
             }
+            //.navigationBarBackButtonHidden(true)
             .sheet(isPresented: $isPresentedSheet, content: {
                 AddItem(isPresented: $isPresentedSheet, storage: $selectedCategory)
             })
