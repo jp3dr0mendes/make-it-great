@@ -54,7 +54,7 @@ struct MainScreenView: View {
                         .foregroundStyle(.purpleItens)
                         .font(.system(.title))
                         .fontDesign(.rounded)
-                    
+                        .fontWeight(.bold)
                     Spacer()
                 }
                 
@@ -67,7 +67,7 @@ struct MainScreenView: View {
                 if filteredFoods.isEmpty {
                                 AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
                     VStack {
-                        Text("Você não tem itens adicionados ainda!")
+                        Text("Você não tem itens adicionados ainda.")
                             .lineLimit(3)
                             .font(.title)
                             .fontDesign(.rounded)

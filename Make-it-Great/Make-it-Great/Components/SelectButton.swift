@@ -25,7 +25,7 @@ struct SelectButton: View {
                 }
                 
             }) {
-                Text("Select")
+                Text("Selecionar")
                     .padding(EdgeInsets(top: 8, leading: 14, bottom: 8, trailing: 14))
                 //.background(Color.white)
                     .font(.system(size: 15))
