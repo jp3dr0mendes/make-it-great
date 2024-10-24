@@ -19,7 +19,7 @@ struct EditItemSheet: View {
     
     // Aqui, recebemos o item existente (se for edição), caso contrário, será um novo item
     @State var item: Food
-    @Binding var selectedCategory: StorageType
+    @Binding var selectedFood: FoodType
     @State var nome: String
     @State var emoji: String
     @State var isEmojiPickerShowing = false
@@ -57,22 +57,26 @@ struct EditItemSheet: View {
                 Spacer()
                 Button {
                     Task {
-                        item.nome = nome
-                        item.emoji = emoji
-                        item.consumirAte = dataFim
-                        
-                        switch tipoQuantidade{
-                        case .Peso:
-                            item.weight = peso
-                            item.units = nil
-                        case .Unidade:
-                            item.units = unidades
-                            item.weight = nil
+                        if (tipoQuantidade == .Peso && peso == 0) || (tipoQuantidade == .Unidade && unidades == 0) {
+                            errorMessage = "A quantidade não pode ser 0."
+                        } else {
+                            item.nome = nome
+                            item.emoji = emoji
+                            item.consumirAte = dataFim
+                            
+                            switch tipoQuantidade{
+                            case .Peso:
+                                item.weight = peso
+                                item.units = nil
+                            case .Unidade:
+                                item.units = unidades
+                                item.weight = nil
+                            }
+                            
+                            try context.save()
+                            
+                            isPresented = false
                         }
-                        
-                        try context.save()
-                        
-                        isPresented = false
                     }
                 } label: {
                     Text("Salvar")
@@ -152,10 +156,10 @@ struct EditItemSheet: View {
                             isEmojiPickerShowing = true
                         } label: {
                             if emoji == "" {
-                                if selectedCategory == .refrigerator {
+                                if selectedFood == .Fruta {
                                     Text("🍎")
                                         .font(.system(size: 40))
-                                } else if selectedCategory == .cabinet {
+                                } else if selectedFood == .Vegetal {
                                     Text("🥕")
                                         .font(.system(size: 40))
                                 }
@@ -193,56 +197,6 @@ struct EditItemSheet: View {
                         alignment: .bottom
                     )
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("Período")
-                            Spacer()
-                            Button {
-                                
-                            } label: {
-                                let diffInDays = Calendar.current.dateComponents([.day], from: dataInicio, to: dataFim).day ?? 0
-                                if diffInDays > 0 {
-                                    if diffInDays == 1 {
-                                        Text("1 dia")
-                                    } else {
-                                        Text("\(diffInDays) dias")
-                                    }
-                                } else if diffInDays < 0 {
-                                    Text("Data inconsistente!")
-                                } else {
-                                    Text("Hoje")
-                                }
-                            }
-                            .foregroundStyle(.purpleItens)
-                        }
-                        .padding(.bottom, 11)
-                        .padding(.top, 11)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .frame(height: 1)
-                                .foregroundStyle(.gray.opacity(0.2)),
-                            alignment: .bottom
-                        )
-                        DatePicker("Data de início", selection: $dataInicio, displayedComponents: .date)
-                            .padding(.bottom, 11)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .frame(height: 1)
-                                    .foregroundStyle(.gray.opacity(0.2)),
-                                alignment: .bottom
-                            )
-                        DatePicker("Data de fim", selection: $dataFim, displayedComponents: .date)
-                            .padding(.bottom, 11)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .frame(height: 1)
-                                    .foregroundStyle(.gray.opacity(0.2)),
-                                alignment: .bottom
-                            )
-                    }
-                    .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-                    
-                    
                     VStack {
                         
                         switch tipoQuantidade {
@@ -252,34 +206,40 @@ struct EditItemSheet: View {
                                     Text("Quantidade")
                                     TextField("Contador", value: $peso, formatter: numberFormatter)
                                         .textFieldStyle(.roundedBorder)
+                                        .multilineTextAlignment(.trailing)
                                         .keyboardType(.decimalPad)
+                                        .foregroundStyle(.purpleItens)
                                     Text("kg")
+                                        .foregroundStyle(.purpleItens)
                                 }
-                                Text(errorMessage)
-                                    .foregroundStyle(.red)
                             }
                         case .Unidade:
                             HStack {
                                 Text("Quantidade")
                                 TextField("Contador", value: $unidades, formatter: NumberFormatter())
                                     .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.roundedBorder)
                                     .keyboardType(.numberPad)
-                                HStack(spacing: 7) {
+                                    .padding(.trailing, 5)
+                                    .foregroundStyle(.purpleItens)
+                                HStack(spacing: 20) {
                                     Button {
                                         if unidades != 0 {
                                             unidades -= 1
                                         }
                                         peso = 0
                                     } label: {
-                                        Text("-").font(.system(size: 20))
+                                        Text("-").font(.system(size: 25))
+                                            .foregroundStyle(.purpleItens)
                                     }
-                                    Text("|").font(.system(size: 8))
+                                    Text("|").font(.system(size: 15))
                                         .foregroundStyle(.gray)
                                     Button {
                                         unidades += 1
                                         peso = 0
                                     } label: {
-                                        Text("+").font(.system(size: 20))
+                                        Text("+").font(.system(size: 25))
+                                            .foregroundStyle(.purpleItens)
                                     }
                                 }
                                 .padding(.horizontal, 15)
@@ -297,7 +257,67 @@ struct EditItemSheet: View {
                             .foregroundStyle(.gray.opacity(0.2)),
                         alignment: .bottom
                     )
-                    Spacer()
+                    
+                    // Exibição da mensagem de erro
+                    if !errorMessage.isEmpty {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .font(.subheadline)
+                            .padding(.top, 5)
+                    }
+
+                    
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Período para consumo")
+                            Spacer()
+                            let diffInDays = Calendar.current.dateComponents([.day], from: dataInicio, to: dataFim).day ?? 0
+                            if diffInDays > 0 {
+                                if diffInDays == 1 {
+                                    Text("1 dia")
+                                        .foregroundStyle(.purpleItens)
+                                } else {
+                                    Text("\(diffInDays) dias")
+                                        .foregroundStyle(.purpleItens)
+                                }
+                            } else if diffInDays < 0 {
+                                Text("Data inconsistente!")
+                                    .foregroundStyle(.purpleItens)
+                            } else {
+                                Text("Hoje")
+                                    .foregroundStyle(.purpleItens)
+                            }
+                        }
+                        .padding(.bottom, 11)
+                        .padding(.top, 11)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .frame(height: 1)
+                                .foregroundStyle(.gray.opacity(0.2)),
+                            alignment: .bottom
+                        )
+                        DatePicker("Data de início", selection: $dataInicio, displayedComponents: .date)
+                            .padding(.bottom, 11)
+                            .padding(.leading, 16)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .frame(height: 1)
+                                    .foregroundStyle(.gray.opacity(0.2)),
+                                alignment: .bottom
+                            )
+                        DatePicker("Data de fim", selection: $dataFim, displayedComponents: .date)
+                            .padding(.bottom, 11)
+                            .padding(.leading, 16)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .frame(height: 1)
+                                    .foregroundStyle(.gray.opacity(0.2)),
+                                alignment: .bottom
+                            )
+                    }
+                    
+                    
+                                        Spacer()
                 }
                 .padding()
                 .sheet(isPresented: $isEmojiPickerShowing) {
@@ -308,7 +328,6 @@ struct EditItemSheet: View {
         }
     }
 }
-
 //#Preview {
 //    @Previewable @State var isPresented: Bool = false
 //    @Previewable @State var storage: StorageType = .cabinet

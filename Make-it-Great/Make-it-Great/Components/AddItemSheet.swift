@@ -14,7 +14,7 @@ struct AddItem: View {
     @Environment(\.modelContext) var context
     
     @Binding var isPresented: Bool
-    @Binding var storage: StorageType
+    @Binding var food: FoodType
     
     @State var nome: String = ""
     @State var emoji: String = ""
@@ -24,7 +24,7 @@ struct AddItem: View {
     //    @State var dataInicio: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     //    @State var dataFim: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     @State var diffInDays: Int = 0
-    @State var categoria: FoodType = .Fruta
+    //@State var categoria: FoodType = .Fruta
     @State var tipoQuantidade: CountType = .Unidade
     @State var peso: Float = 0
     @State var unidades: Int = 0
@@ -50,17 +50,17 @@ struct AddItem: View {
                 }
                 Spacer()
                 Button {
-                    if ((tipoQuantidade == .Peso && peso != 0) || tipoQuantidade == .Unidade && unidades > 0) {
+                    if (tipoQuantidade == .Peso && peso == 0) || (tipoQuantidade == .Unidade && unidades == 0) {
+                        errorMessage = "A quantidade não pode ser 0."
+                    } else {
                         switch tipoQuantidade {
                         case .Peso:
-                            context.insert(Food(nome: nome, emoji: emoji, storage: storage, type: categoria, consumirAte: dataFim, units: nil, weight: peso))
+                            context.insert(Food(nome: nome, emoji: emoji, storage: .refrigerator, type: food, consumirAte: dataFim, units: nil, weight: peso))
                         case .Unidade:
-                            context.insert(Food(nome: nome, emoji: emoji, storage: storage, type: categoria, consumirAte: dataFim, units: unidades, weight: nil))
+                            context.insert(Food(nome: nome, emoji: emoji, storage: .cabinet, type: food, consumirAte: dataFim, units: unidades, weight: nil))
                         }
                         
                         isPresented = false
-                    } else {
-                        errorMessage = "Valor inválido!"
                     }
                 } label: {
                     Text("Adicionar")
@@ -90,80 +90,29 @@ struct AddItem: View {
                             .foregroundStyle(.gray.opacity(0.2)),
                         alignment: .bottom
                     )
-                }
-                
-                HStack(spacing: 20) {
-                    Text("Emoji")
-                    Spacer()
-                    Button {
-                        isEmojiPickerShowing = true
-                    } label: {
-                        if emoji == "" {
-                            if storage == .refrigerator {
-                                Text("🍎")
-                                    .font(.system(size: 40))
-                            } else if storage == .cabinet {
-                                Text("🥕")
-                                    .font(.system(size: 40))
-                            }
-                        } else {
-                            Text("\(emoji)")
-                                .font(.system(size: 40))
-                        }
-                    }
-                }
-                .padding(.top, 11)
-                .padding(.bottom, 11)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(height: 1)
-                        .foregroundStyle(.gray.opacity(0.2)),
-                    alignment: .bottom
-                )
-                
-                HStack {
-                    Text("Tipo de Contagem:")
-                    Spacer()
-                    Picker("Tipo de Contagem", selection: $tipoQuantidade){
-                        ForEach(CountType.allCases, id: \.self){
-                            contType in
-                            Text(verbatim: "\(contType)")
-                        }
-                    }
-                    .tint(.purpleItens)
-                }
-                .padding(.top, 11)
-                .padding(.bottom, 11)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(height: 1)
-                        .foregroundStyle(.gray.opacity(0.2)),
-                    alignment: .bottom
-                )
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text("Período")
+                    
+                    HStack(spacing: 20) {
+                        Text("Emoji")
                         Spacer()
                         Button {
-                            
+                            isEmojiPickerShowing = true
                         } label: {
-                            let diffInDays = Calendar.current.dateComponents([.day], from: dataInicio, to: dataFim).day ?? 0
-                            if diffInDays > 0 {
-                                if diffInDays == 1 {
-                                    Text("1 dia")
-                                } else {
-                                    Text("\(diffInDays) dias")
+                            if emoji == "" {
+                                if food == .Fruta {
+                                    Text("🍎")
+                                        .font(.system(size: 40))
+                                } else if food == .Vegetal {
+                                    Text("🥕")
+                                        .font(.system(size: 40))
                                 }
-                            } else if diffInDays < 0 {
-                                Text("Data inconsistente!")
                             } else {
-                                Text("Hoje")
+                                Text("\(emoji)")
+                                    .font(.system(size: 40))
                             }
                         }
-                        .foregroundStyle(.purpleItens)
                     }
-                    .padding(.bottom, 11)
                     .padding(.top, 11)
+                    .padding(.bottom, 11)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
                             .frame(height: 1)
@@ -171,10 +120,125 @@ struct AddItem: View {
                         alignment: .bottom
                     )
                     
+                    HStack {
+                        Text("Tipo de Contagem:")
+                        Spacer()
+                        Picker("Tipo de Contagem", selection: $tipoQuantidade){
+                            ForEach(CountType.allCases, id: \.self){
+                                contType in
+                                Text(verbatim: "\(contType)")
+                            }
+                        }
+                        .tint(.purpleItens)
+                    }
+                    .padding(.top, 11)
+                    .padding(.bottom, 11)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .frame(height: 1)
+                            .foregroundStyle(.gray.opacity(0.2)),
+                        alignment: .bottom
+                    )
+                    VStack {
+                        
+                        switch tipoQuantidade {
+                        case .Peso:
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text("Quantidade")
+                                    TextField("Contador", value: $peso, formatter: numberFormatter)
+                                        .textFieldStyle(.roundedBorder)
+                                        .multilineTextAlignment(.trailing)
+                                        .keyboardType(.decimalPad)
+                                        .foregroundStyle(.purpleItens)
+                                    Text("kg")
+                                        .foregroundStyle(.purpleItens)
+                                }
+                            }
+                        case .Unidade:
+                            HStack {
+                                Text("Quantidade")
+                                TextField("Contador", value: $unidades, formatter: NumberFormatter())
+                                    .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.roundedBorder)
+                                    .keyboardType(.numberPad)
+                                    .padding(.trailing, 5)
+                                    .foregroundStyle(.purpleItens)
+                                HStack(spacing: 20) {
+                                    Button {
+                                        if unidades != 0 {
+                                            unidades -= 1
+                                        }
+                                        peso = 0
+                                    } label: {
+                                        Text("-").font(.system(size: 25))
+                                            .foregroundStyle(.purpleItens)
+                                    }
+                                    Text("|").font(.system(size: 15))
+                                        .foregroundStyle(.gray)
+                                    Button {
+                                        unidades += 1
+                                        peso = 0
+                                    } label: {
+                                        Text("+").font(.system(size: 25))
+                                            .foregroundStyle(.purpleItens)
+                                    }
+                                }
+                                .padding(.horizontal, 15)
+                                .background(RoundedRectangle(cornerRadius: 8)
+                                    .fill(.gray.opacity(0.18)))
+                            }
+                        }
+                        
+                    }
+                    .padding(.top, 11)
+                    .padding(.bottom, 11)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .frame(height: 1)
+                            .foregroundStyle(.gray.opacity(0.2)),
+                        alignment: .bottom
+                    )
+                    // Exibição da mensagem de erro
+                    if !errorMessage.isEmpty {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .font(.subheadline)
+                            .padding(.top, 5)
+                    }
                     
                     VStack(alignment: .leading) {
+                        HStack {
+                            Text("Período para consumo")
+                            Spacer()
+                            let diffInDays = Calendar.current.dateComponents([.day], from: dataInicio, to: dataFim).day ?? 0
+                            if diffInDays > 0 {
+                                if diffInDays == 1 {
+                                    Text("1 dia")
+                                        .foregroundStyle(.purpleItens)
+                                } else {
+                                    Text("\(diffInDays) dias")
+                                        .foregroundStyle(.purpleItens)
+                                }
+                            } else if diffInDays < 0 {
+                                Text("Data inconsistente!")
+                                    .foregroundStyle(.purpleItens)
+                            } else {
+                                Text("Hoje")
+                                    .foregroundStyle(.purpleItens)
+                            }
+                        }
+                        .padding(.bottom, 11)
+                        .padding(.top, 11)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .frame(height: 1)
+                                .foregroundStyle(.gray.opacity(0.2)),
+                            alignment: .bottom
+                        )
                         DatePicker("Data de início", selection: $dataInicio, displayedComponents: .date)
                             .padding(.bottom, 11)
+                            .padding(.leading, 16)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
                                     .frame(height: 1)
@@ -183,6 +247,7 @@ struct AddItem: View {
                             )
                         DatePicker("Data de fim", selection: $dataFim, displayedComponents: .date)
                             .padding(.bottom, 11)
+                            .padding(.leading, 16)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
                                     .frame(height: 1)
@@ -190,98 +255,28 @@ struct AddItem: View {
                                 alignment: .bottom
                             )
                     }
-                    .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-                }
-                
-                
-                //            TextField("Contador", value: $count, formatter: NumberFormatter())
-                //                            .textFieldStyle(.roundedBorder)
-                
-                VStack {
-                    switch tipoQuantidade {
-                    case .Peso:
-                        VStack(alignment: .leading) {
-                            HStack{
-                                Text("Quantidade")
-                                TextField("Contador", value: $peso, formatter: numberFormatter, onCommit: {
-                                    unidades = 0
-                                })
-                                .foregroundStyle(.purpleItens)
-                                .textFieldStyle(.roundedBorder)
-                                .keyboardType(.decimalPad)
-                                Text("kg")
-                                    .foregroundStyle(.purpleItens)
-                            }
-                            Text(errorMessage)
-                                .foregroundStyle(.red)
-                        }
-                    case .Unidade:
-                        HStack{
-                            Text("Quantidade")
-                            TextField("Contador", value: $unidades, formatter: NumberFormatter())
-                                .multilineTextAlignment(.trailing)
-                            //.textFieldStyle(.roundedBorder)
-                                .keyboardType(.numberPad)
-                            //.disabled(unidades == 0)
-                                .foregroundStyle(Color(.purpleItens))
-                            HStack(spacing: 7) {
-                                Button {
-                                    if unidades != 0 {
-                                        unidades -= 1
-                                    }
-                                    peso = 0
-                                } label: {
-                                    Text("-")
-                                        .font(.system(size: 20))
-                                }
-                                .foregroundStyle(Color(.purpleItens))
-                                Text("|")
-                                    .font(.system(size: 8))
-                                    .foregroundStyle(.gray)
-                                Button {
-                                    unidades += 1
-                                    peso = 0
-                                } label : {
-                                    Text("+")
-                                        .font(.system(size: 20))
-                                }
-                                .foregroundStyle(Color(.purpleItens))
-                            }
-                            .padding(.horizontal, 15)
-                            .background(RoundedRectangle(cornerRadius: 8)
-                                .fill(.gray.opacity(0.18)))
-                            
-                        }
-                    }
                     
+                    
+                    Spacer()
+                    
+                    //            HStack{
+                    //                Text("Categoria")
+                    //                Picker("Categoria", selection: $categoria){
+                    //                    ForEach(FoodType.allCases, id: \.self) {
+                    //                        food in
+                    //                        Text(verbatim: "\(food)")
+                    //                    }
+                    //                }
+                    //            }
                 }
-                .padding(.top, 11)
-                .padding(.bottom, 11)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(height: 1)
-                        .foregroundStyle(.gray.opacity(0.2)),
-                    alignment: .bottom
-                )
-                Spacer()
                 
-                //            HStack{
-                //                Text("Categoria")
-                //                Picker("Categoria", selection: $categoria){
-                //                    ForEach(FoodType.allCases, id: \.self) {
-                //                        food in
-                //                        Text(verbatim: "\(food)")
-                //                    }
-                //                }
-                //            }
+                .padding()
+                .sheet(isPresented: $isEmojiPickerShowing) {
+                    EmojiPickerView(selected: $emoji, showingEmojiPicker: $isEmojiPickerShowing)
+                }
+                .presentationDetents([.fraction(0.75), .fraction(0.85)])
+                
             }
-            
-            .padding()
-            .sheet(isPresented: $isEmojiPickerShowing) {
-                EmojiPickerView(selected: $emoji, showingEmojiPicker: $isEmojiPickerShowing)
-            }
-            .presentationDetents([.fraction(0.75), .fraction(0.85)])
-            
         }
     }
     
@@ -291,7 +286,7 @@ struct AddItem: View {
     
     struct FormView_Previews: PreviewProvider {
         static var previews: some View {
-            AddItem(isPresented: .constant(true), storage: .constant(.cabinet))
+            AddItem(isPresented: .constant(true), food: .constant(.Fruta))
         }
     }
 }

@@ -11,7 +11,7 @@ import AVFoundation
 struct ScreenScan: View {
     
     @Binding var isPresentedMenu: Bool
-    @Binding var storageType: StorageType
+    @Binding var foodType: FoodType
     @Binding var navegarAnterior: Bool
     @State var navegar: Bool = false
     
@@ -32,7 +32,7 @@ struct ScreenScan: View {
             
             
             //Aqui Chama a camera que foi convertida para SwiftUI
-            CameraView(classification: $classification, foods: $foods,storage: $storageType)
+            CameraView(classification: $classification, foods: $foods,food: $foodType)
                 .edgesIgnoringSafeArea(.all)
                 .border(.blue)
             
@@ -56,7 +56,7 @@ struct ScreenScan: View {
                     .font(.system(size: 17))
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
-                    .background(storageType == .refrigerator ? .brownFruits : .greenVegetables)
+                    .background(foodType == .Fruta ? .brownFruits : .greenVegetables)
                     .cornerRadius(10)
             }
             .padding(EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16))
@@ -64,7 +64,7 @@ struct ScreenScan: View {
         .background(Color.black.opacity(0.9))
         .navigationTitle("")
         .navigationDestination(isPresented: $navegar) {
-            IdentifiedFoodScreen(detectedFoods: $foods, storage: $storageType, isPresented: $isPresentedMenu, navegarAnterior: $navegar)
+            IdentifiedFoodScreen(detectedFoods: $foods, food: $foodType, isPresented: $isPresentedMenu, navegarAnterior: $navegar)
         }
         .onChange(of: navegar) { oldValue, newValue in
             if newValue == false {
