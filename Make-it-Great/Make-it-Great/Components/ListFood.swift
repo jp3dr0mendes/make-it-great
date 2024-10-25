@@ -21,7 +21,7 @@ struct ListFood: View {
     @Binding var selectedCategory: StorageType
     @Binding var selectedItems: Set<Food>
     @Binding var selected: Bool
-    
+    @State var selectedFood: Food? = nil
     @State var isPresentedSheet: Bool = false
     
     var body: some View {
@@ -45,7 +45,9 @@ struct ListFood: View {
                                 .foregroundColor(selectedItems.contains(comida) ? .green : .gray)
                         }
                     }/*.padding(.leading, 10)*/ //Afasta o checkbox da imagem, acho que esse padding é desnecessario
-                    Button( action: { isPresentedSheet = true }) {
+                    Button( action: { isPresentedSheet = true
+                        selectedFood = comida
+                    }) {
                         //Spacer()
                         ZStack {
                             RoundedRectangle(cornerRadius: 30)
@@ -73,6 +75,7 @@ struct ListFood: View {
                         //Nome da Comida e Quantidade:
                         VStack (alignment: .leading) {
                             Text(comida.nome)
+                                .foregroundStyle(.black)
                                 .font(.callout)
                                 .multilineTextAlignment(.leading)
                                 .lineLimit(1)
@@ -101,9 +104,11 @@ struct ListFood: View {
                             .foregroundColor(.gray)
                         
                     }
+                    .disabled(selected)
                     .sheet(isPresented: $isPresentedSheet) {
-                        EditItemSheet(isPresented: $isPresentedSheet, item: comida, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
+                        EditItemSheet(isPresented: $isPresentedSheet, item: selectedFood, selectedCategory: $selectedCategory, nome: comida.nome, emoji: comida.emoji ?? "", dataFim: comida.consumirAte ?? Date(), tipoQuantidade: comida.units != 0 ? .Unidade : .Peso, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
                     }
+                    .presentationDetents([.fraction(0.75), .fraction(0.85)])
                     
 //                    EditItemSheet(isPresented: $isPresentedSheet, storage: $selectedCategory, item: comida, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
                 }
