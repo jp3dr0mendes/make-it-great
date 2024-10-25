@@ -21,7 +21,7 @@ struct ListFood: View {
     @Binding var selectedCategory: StorageType
     @Binding var selectedItems: Set<Food>
     @Binding var selected: Bool
-    @State var selectedFood: Food = Food(nome: "", emoji: "", storage: .cabinet, type: .Fruta, consumirAte: nil, units: 1, weight: 0.1)
+    @State var selectedFood: Food = Food(nome: "", emoji: "", storage: .cabinet, type: .Fruta, consumirAte: nil, units: 1, weight: 0.0)
     @State var isPresentedSheet: Bool = false
     
     var body: some View {
@@ -105,7 +105,7 @@ struct ListFood: View {
                     }
                     .disabled(selected)
                     .sheet(isPresented: $isPresentedSheet) {
-                        EditItemSheet(isPresented: $isPresentedSheet, item: selectedFood, selectedCategory: $selectedCategory, nome: selectedFood.nome , emoji: selectedFood.emoji ?? "", dataFim: selectedFood.consumirAte ?? .now, tipoQuantidade: selectedFood.units != 0 ? .Unidade : .Peso, peso: selectedFood.weight ?? 0.0, unidades: selectedFood.units ?? 0)
+                        EditItemSheet(isPresented: $isPresentedSheet, item: selectedFood, selectedCategory: $selectedCategory, nome: selectedFood.nome , emoji: selectedFood.emoji ?? "", dataFim: selectedFood.consumirAte ?? .now, tipoQuantidade: selectedFood.units != nil ? .Unidade : .Peso, peso: selectedFood.weight ?? 0.0, unidades: selectedFood.units ?? 0)
                     }
                     .presentationDetents([.fraction(0.75), .fraction(0.85)])
                     
