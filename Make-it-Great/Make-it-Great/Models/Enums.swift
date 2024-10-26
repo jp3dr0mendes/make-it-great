@@ -59,3 +59,13 @@ enum CountType: CaseIterable {
     case Peso
     case Unidade
 }
+
+enum NotificationType: CaseIterable {
+    case inTarget
+    case outTarget
+}
+
+enum SecondaryNotificationType: CaseIterable {
+    case specific
+    case generic
+}
