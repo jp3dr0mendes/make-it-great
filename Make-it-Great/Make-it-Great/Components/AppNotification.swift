@@ -14,10 +14,10 @@ import SwiftData
 class AppNotification: UIViewController {
     
     @Binding var dataFim: Date
-    @Binding var identifier: PersistentIdentifier
+    @Binding var identifier: Date
     @Binding var item: Food
     
-    init(dataFim: Binding <Date>, identifier: Binding <PersistentIdentifier>, item: Binding <Food>) {
+    init(dataFim: Binding <Date>, identifier: Binding <Date>, item: Binding <Food>) {
         self._dataFim = dataFim
         self._identifier = identifier
         self._item = item
@@ -204,8 +204,8 @@ class AppNotification: UIViewController {
     
     func updateNotification(for food: Food, foods: [Food]) {
         let calendar = Calendar.current
-        let dayBefore = calendar.date(byAdding: .day, value: -1, to: food.consumirAte)!
-        let dayAfter = calendar.date(byAdding: .day, value: +1, to: food.consumirAte)!
+        let dayBefore = calendar.date(byAdding: .day, value: -1, to: food.consumirAte!)!
+        let dayAfter = calendar.date(byAdding: .day, value: +1, to: food.consumirAte!)!
         
         var types: [Bool] = []
         var foodDayBeforeIn: [Food] = []
@@ -214,15 +214,15 @@ class AppNotification: UIViewController {
         
         for comida in foods {
             if comida != food {
-                if calendar.isDate(comida.consumirAte, inSameDayAs: dayBefore) {
+                if calendar.isDate(comida.consumirAte!, inSameDayAs: dayBefore) {
                     foodDayBeforeIn.append(comida)
-                } else if calendar.isDate(comida.consumirAte, inSameDayAs: food.consumirAte) {
+                } else if calendar.isDate(comida.consumirAte!, inSameDayAs: food.consumirAte!) {
                     foodDayBeforeIn.append(comida)
                     foodSameDayIn.append(comida)
                     foodDayAfterOut.append(comida)
-                } else if calendar.isDate(comida.consumirAte, inSameDayAs: dayAfter) {
+                } else if calendar.isDate(comida.consumirAte!, inSameDayAs: dayAfter) {
                     foodSameDayIn.append(comida)
-                } else if comida.consumirAte < food.consumirAte {
+                } else if comida.consumirAte! < food.consumirAte! {
                     foodDayAfterOut.append(comida)
                 }
             }
@@ -241,14 +241,14 @@ class AppNotification: UIViewController {
                 }
             }
             
-            self.checkIfItsMultipleNotification(for: food.consumirAte) { types in
+            self.checkIfItsMultipleNotification(for: food.consumirAte!) { types in
                 if types[0] == true {
                     if types[1] == true {
-                        self.removeNotification(for: food.consumirAte, type: "IN")
+                        self.removeNotification(for: food.consumirAte!, type: "IN")
                     } else {
                         if foodSameDayIn.count == 1 {
-                            self.removeNotification(for: food.consumirAte, type: "IN")
-                            self.dispatchNotification(for: food.consumirAte, identifier: "\(food.consumirAte)_IN", title: "Aviso", message: "O alimento \(foodSameDayIn[0].nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
+                            self.removeNotification(for: food.consumirAte!, type: "IN")
+                            self.dispatchNotification(for: food.consumirAte!, identifier: "\(food.consumirAte)_IN", title: "Aviso", message: "O alimento \(foodSameDayIn[0].nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
                         }
                     }
                 }

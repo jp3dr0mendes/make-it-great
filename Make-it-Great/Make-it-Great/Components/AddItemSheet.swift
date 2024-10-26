@@ -55,11 +55,12 @@ struct AddItem: View {
                     } else {
                         switch tipoQuantidade {
                         case .Peso:
+                            let appNotification = AppNotification(dataFim: $dataFim, identifier: $dataFim, item: .constant(Food(nome: nome, emoji: emoji, storage: .cabinet, type: food, consumirAte: dataFim, units: nil, weight: peso)))
                             context.insert(Food(nome: nome, emoji: emoji, storage: .refrigerator, type: food, consumirAte: dataFim, units: nil, weight: peso))
                         case .Unidade:
+                            let appNotification = AppNotification(dataFim: $dataFim, identifier: $dataFim, item: .constant(Food(nome: nome, emoji: emoji, storage: .cabinet, type: food, consumirAte: dataFim, units: unidades, weight: nil)))
                             context.insert(Food(nome: nome, emoji: emoji, storage: .cabinet, type: food, consumirAte: dataFim, units: unidades, weight: nil))
                         }
-                        
                         isPresented = false
                     }
                 } label: {
