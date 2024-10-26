@@ -9,19 +9,24 @@ import SwiftData
 import Foundation
 
 @Model
-class Food{
+class Food: Hashable {
+
     var nome: String
+    var emoji: String?
     var storage: String
     var units: Int?
     var weight: Float?
     var type: String
-    var consumirAte: Date
+    var consumirAte: Date?
+//    var countType: String
     
-    init(nome: String, storage: StorageType, type: FoodType, consumirAte: Date, units: Int?, weight: Float?) {
+    init(nome: String, emoji: String?, storage: StorageType, type: FoodType, consumirAte: Date?, units: Int?, weight: Float?) {
         self.nome = nome
+        self.emoji = emoji
         self.storage = ""
         self.type = ""
-        self.consumirAte = consumirAte
+//        self.countType = ""
+        
         
         if let peso = weight{
             self.weight = peso
@@ -29,8 +34,15 @@ class Food{
             self.units = unidades
         }
         
+        if let data = consumirAte {
+            self.consumirAte = data
+        } else {
+            self.consumirAte = Date()
+        }
+        
         self.storage = checkStorage(storage: storage)
         self.type = checkFoodType(foodType: type)
+//        self.countType = checkUnityType(unit: countType)
     }
     
     private func checkStorage(storage: StorageType) -> String{
@@ -54,19 +66,22 @@ class Food{
                 return "Fruta"
             case .Vegetal:
                 return "Vegetal"
-            case .Carne:
-                return "Carne"
-            case .Tempero:
-                return "Tempero"
-            case .Laticinio:
-                return "Laticínio"
-            case .Massa:
-                return "Massa"
-            case .Bebida:
-                return "Bebidas"
             }
         }
         
         return food
+    }
+    
+    private func checkUnityType(unit: CountType) -> String {
+        var count: String {
+            switch unit {
+            case .Peso:
+                return "Peso"
+            case .Unidade:
+                return "Unidade"
+            }
+        }
+        
+        return count
     }
 }

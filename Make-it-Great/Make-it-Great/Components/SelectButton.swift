@@ -1,0 +1,52 @@
+//
+//  SelectButton.swift
+//  Make-it-Great
+//
+//  Created by Daniel Barros on 15/10/24.
+//
+
+import SwiftUI
+
+struct SelectButton: View {
+    
+    @Binding var showingButton: Bool
+    @Binding var selected: Bool
+    
+    var body: some View {
+        
+        HStack {
+            
+            Button(action: {
+                
+                withAnimation {
+                    showingButton.toggle()
+                    selected.toggle()
+                    //print("toggle")
+                }
+                
+            }) {
+                Text("Selecionar")
+                    .padding(EdgeInsets(top: 8, leading: 14, bottom: 8, trailing: 14))
+                //.background(Color.white)
+                    .font(.system(size: 15))
+                    .foregroundColor(.purpleItens)
+                    .background(RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.purpleItens, lineWidth: 1))
+            }
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 10)
+//                    .stroke(Color.purpleItens, lineWidth: 1)
+//                    .frame(width: 72, height: 36)
+//            )
+            Spacer()
+        }//.padding(.leading, 16)
+        
+    }
+}
+
+
+//#Preview {
+//    @Previewable @State var showignButton: Bool = false
+//    @Previewable @State var selected: Bool = false
+//    SelectButton(showingButton: $showignButton, selected: $selected)
+//}

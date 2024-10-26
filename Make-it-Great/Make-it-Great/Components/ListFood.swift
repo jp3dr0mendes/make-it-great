@@ -10,19 +10,28 @@ import SwiftData
 
 struct ListFood: View {
     @Environment(\.modelContext) var context
-//    var comida: Food
+    //    var comida: Food
     //Lista de alimentos:
-    @State var comidas: [Food]
+    //    @State var comidas: [Food]
     //Armazena alimetos selecionados:
-    @State var selectedItems: Set<Food> = []
+    //    @State var selectedItems: Set<Food> = []
+    // Lista de alimentos (agora um binding)
+    @Binding var comidas: [Food]
+    // Armazena alimentos selecionados (agora um binding)
+    @Binding var selectedCategory: FoodType
+    @Binding var selectedItems: Set<Food>
+    @Binding var selected: Bool
+    @Binding var scanList: Bool
+
+    @State var selectedFood: Food = Food(nome: "", emoji: "", storage: .cabinet, type: .Fruta, consumirAte: nil, units: 1, weight: 0.0)
+    @State var isPresentedSheet: Bool = false
     
     var body: some View {
         
         
         VStack {
-            
-           
             ForEach(comidas) { comida in
+               
 //                Divider()
                 HStack {
                     
@@ -30,56 +39,109 @@ struct ListFood: View {
                     Button (action: {
                         toggleSelection(of: comida)
                     }) {
-                        Image(systemName: selectedItems.contains(comida) ? "checkmark.circle.fill" : "poweroff" )
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(selectedItems.contains(comida) ? .green : .gray)
+                        if selected == true {
+                            Image(systemName: selectedItems.contains(comida) ? "checkmark.circle.fill" : "poweroff" )
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .foregroundColor(selectedItems.contains(comida) ? .purpleItens : .gray)
+                        }
                     }/*.padding(.leading, 10)*/ //Afasta o checkbox da imagem, acho que esse padding é desnecessario
-                    
-                    //Spacer()
-                    
-                    Image("imageTest") //Preciso fazer um model para colocar a imagem certa aqui
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                    //.foregroundColor(.yellow)
-                        .overlay(Circle().stroke(Color.blue, lineWidth: 1))
-                        .shadow(radius: 10)
-                    
-                    //Nome da Comida e Quantidade:
-                    VStack (alignment: .leading) {
-                        Text(comida.nome)
-                            .font(.callout)
-                            .multilineTextAlignment(.leading)
-                            .lineLimit(1)
-                            .truncationMode(.tail)
+                    Button( action: {
+                        selectedFood = comida
+                        isPresentedSheet = true
+                    }) {
+                        //Spacer()
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke(selectedCategory == .Vegetal ? Color(.brownFruits) : Color(.greenVegetables), lineWidth: 1)
+                                .frame(width: 45, height: 45)
+                            if comida.emoji == "" {
+                                Text("\(comida.type == "Fruta" ? "🍎" : "🥕")")
+                                    .font(.system(size: 30))
+                            } else {
+                                Text("\(comida.emoji ?? "")")
+                                    .font(.system(size: 30))
+                            }
+                        }
+                        .padding(2)
+                        //Nome da Comida e Quantidade:
+                        VStack (alignment: .leading) {
+                            Text(comida.nome)
+                                .foregroundStyle(.black)
+                                .font(.callout)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(1)
+                                .truncationMode(.tail)
+                            if comida.units != nil {
+                                Text("\(comida.units ?? 0)x")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            } else {
+                                Text("\(String(format: "%.2f", comida.weight ?? 0.0))kg")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            //Preciso colocar a lógica de deletar
+                            //                        Button("Apagar"){
+                            //                            context.delete(comida)
+                            //                        }
+                            
+                        }//.padding(.leading, 10)
                         
-                        Text("1x")
-                            .font(.subheadline)
+                        
+                        Spacer() //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
+                        Text(calculoDias(dataFim: comida.consumirAte ?? Date()))
+                            .font(.caption)
+                            .multilineTextAlignment(.trailing)
                             .foregroundColor(.gray)
-                        //Preciso colocar a lógica de deletar
-//                        Button("Apagar"){
-//                            context.delete(comida)
-//                        }
                         
-                    }.padding(.leading, 10)
+                        if scanList {
+                            Button {
+                                deleteScanList(comida: comida)
+                            } label: {
+                                Image(systemName: "trash")
+                            
+                            }
+                                .padding(.leading, 5)
+                                .padding(.trailing, 16)
+                        }
+                        
+                    }
+                    .disabled(selected)
+                    .sheet(isPresented: $isPresentedSheet) {
+                        EditItemSheet(isPresented: $isPresentedSheet, item: selectedFood, selectedFood: $selectedCategory, nome: selectedFood.nome , emoji: selectedFood.emoji ?? "", dataFim: selectedFood.consumirAte ?? .now, tipoQuantidade: selectedFood.units != nil ? .Unidade : .Peso, peso: selectedFood.weight ?? 0.0, unidades: selectedFood.units ?? 0)
+                    }
+                    .presentationDetents([.fraction(0.75), .fraction(0.85)])
                     
-                    
-                    Spacer(minLength: 10) //Esse Spacer afasta o nome da comida e os dias alguns pixels, não sei se é tão necessário.
-                    
-                    Text("30 dias para o consumo")
-                        .font(.caption)
-                        .multilineTextAlignment(.trailing)
-                        .foregroundColor(.gray)
-                        .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
-                    //Spacer()
+//                    EditItemSheet(isPresented: $isPresentedSheet, storage: $selectedCategory, item: comida, peso: comida.weight ?? 0.0, unidades: comida.units ?? 0)
                 }
-                .padding(.leading, 10)
-                
-                Divider() //Linha horizontal que divide os elementos
+                // .padding(.trailing, 10) //Esse pading afasta o 30 dias... da extremidade direita
+                //Spacer()
             }
+            //.padding(.leading, 10)
             
+            Divider() //Linha horizontal que divide os elementos
+        }
+        
+    }
+    
+    private func calculoDias(dataFim: Date) -> String {
+        let dataInicio = Calendar.current.startOfDay(for: Date())
+        let dataDeFim = Calendar.current.startOfDay(for: dataFim)
+        var diffInDays: Int = 0
+        let diff = Calendar.current.dateComponents([.day], from: dataInicio, to: dataDeFim).day ?? 0
+        if diff > 0 {
+            if diff == 1 {
+                return "1 dia para consumo"
+            } else {
+                diffInDays = diff
+                return "\(diffInDays) dias para consumo"
+            }
+        } else if diff == 0 {
+            diffInDays = diff
+            return "Consumir hoje"
+        } else {
+            return "Fora do prazo para consumo"
         }
     }
     
@@ -91,20 +153,13 @@ struct ListFood: View {
         }
     }
     
+    private func deleteScanList(comida: Food) {
+            if let index = comidas.firstIndex(where: { $0 == comida }) {
+                    comidas.remove(at: index)
+            }
+    }
 }
 
-//#Preview {
-//    ListFood(comida: Food(nome: "Item food visualization Named sdfads dsf asd fads dafs adf", storage: .refrigerator, type: .Bebida, consumirAte: Date(timeInterval: 7*60*60*24, since: Date.now), units: 2, weight: nil))
-//        .modelContainer(for: [Food.self])
-//}
-//#Preview {
-//    ListFood(comida: Food, comidas: [
-//        Food(nome: "Banana", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 3, weight: nil),
-//        Food(nome: "Maçã", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 1, weight: nil)
-//    ])
-//    .modelContainer(for: [Food.self])
-//}
-
 #Preview {
-    ListFood(comidas: [Food(nome: "Banana", storage: .refrigerator, type: .Fruta, consumirAte: Date(), units: 3, weight: nil)])
+    MainScreenView()
 }

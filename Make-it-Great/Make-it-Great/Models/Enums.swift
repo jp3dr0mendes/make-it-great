@@ -44,15 +44,40 @@ enum StorageType: String, CaseIterable, Identifiable {
     }
 }
 
-enum FoodType: CaseIterable {
+enum FoodType: String, CaseIterable, Identifiable {
     case Fruta
     case Vegetal
-    case Carne
-    case Tempero
-    case Laticinio
-    case Massa
-    case Bebida
     //add mais categorias
+    
+    var id: String { self.rawValue }
+    
+    var color: Color {
+        switch self {
+        case .Fruta:
+            return Color("BrownFruits")
+        case .Vegetal:
+            return Color("GreenVegetables")
+        }
+    }
+    
+    var image: String {
+        switch self {
+        case .Fruta:
+            return "Fruits"
+        case .Vegetal:
+            return "Vegetables"
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .Fruta:
+            return "Frutas"
+        case .Vegetal:
+            return "Hortaliças"
+       
+        }
+    }
 }
 
 enum CountType: CaseIterable {
