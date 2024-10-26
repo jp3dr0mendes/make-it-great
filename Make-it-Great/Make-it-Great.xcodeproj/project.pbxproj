@@ -21,6 +21,7 @@
 		277903A52CAEBC0700C57A2E /* ScreenScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277903A42CAEBC0700C57A2E /* ScreenScan.swift */; };
 		277903AA2CAEC27400C57A2E /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277903A92CAEC27400C57A2E /* CameraViewController.swift */; };
 		2779D08D2CB422E500742DA7 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2779D08C2CB422E500742DA7 /* CustomButton.swift */; };
+		2EA318E62CBE88D2006FE193 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA318E52CBE88D2006FE193 /* AppNotification.swift */; };
 		27DB0BFB2CC1573700357162 /* EditItemSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DB0BFA2CC1573700357162 /* EditItemSheet.swift */; };
 		27E784FD2CBE931800837B8D /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E784FC2CBE931800837B8D /* SelectButton.swift */; };
 		27E784FF2CBE9BC100837B8D /* CancelAndSelectAllButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E784FE2CBE9BC100837B8D /* CancelAndSelectAllButton.swift */; };
@@ -60,6 +61,7 @@
 		27E784FC2CBE931800837B8D /* SelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButton.swift; sourceTree = "<group>"; };
 		27E784FE2CBE9BC100837B8D /* CancelAndSelectAllButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelAndSelectAllButton.swift; sourceTree = "<group>"; };
 		27F1E26B2CAEE14F00D9DE88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2EA318E52CBE88D2006FE193 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		2E1D7F6E2CBFF05F00B8C9AE /* GridCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewController.swift; sourceTree = "<group>"; };
 		2E1D7F722CBFF33F00B8C9AE /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
 		874230652CC929D50090738D /* ButtonTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTemplate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				D8017D7F2CAC1D6D00DF28A0 /* AddItemSheet.swift */,
 				D8017D832CAD8A4500DF28A0 /* ListFood.swift */,
 				2779D08C2CB422E500742DA7 /* CustomButton.swift */,
+				2EA318E52CBE88D2006FE193 /* AppNotification.swift */,
 				27E784FC2CBE931800837B8D /* SelectButton.swift */,
 				27E784FE2CBE9BC100837B8D /* CancelAndSelectAllButton.swift */,
 				275041F42CBFE1F200267C04 /* AddMenu.swift */,
@@ -266,6 +269,7 @@
 				D8E010A72CAAF06D00B3DD9F /* ContentView.swift in Sources */,
 				874230662CC929D50090738D /* ButtonTemplate.swift in Sources */,
 				D8017D842CAD8A4500DF28A0 /* ListFood.swift in Sources */,
+				2EA318E62CBE88D2006FE193 /* AppNotification.swift in Sources */,
 				27DB0BFB2CC1573700357162 /* EditItemSheet.swift in Sources */,
 				277903A52CAEBC0700C57A2E /* ScreenScan.swift in Sources */,
 				2744D3A12CC91E99001E46D6 /* OnboardingScreen3.swift in Sources */,
