@@ -11,27 +11,24 @@ import UserNotifications
 import SwiftUI
 import SwiftData
 
-class AppNotification: UIViewController {
+class AppNotification {
     
     @Binding var dataFim: Date
     @Binding var identifier: Date
     @Binding var item: Food
-    
-    init(dataFim: Binding <Date>, identifier: Binding <Date>, item: Binding <Food>) {
+    @Binding var items: [Food]
+    init(dataFim: Binding <Date>, identifier: Binding <Date>, item: Binding <Food>, items: Binding <[Food]>) {
         self._dataFim = dataFim
         self._identifier = identifier
         self._item = item
-        
-        super.init(nibName: nil, bundle: nil)
+        self._items = items
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    func createNotification() {
         checkForPermission { isAuthorized in
             if isAuthorized {
                 self.scheduleNotificationBeforeExpire(for: self.dataFim, item: self.item)
@@ -39,8 +36,6 @@ class AppNotification: UIViewController {
                 print("Notificações não permitidas.")
             }
         }
-        
-        
     }
     
     func checkForPermission(completion: @escaping (Bool) -> Void) {
@@ -73,14 +68,18 @@ class AppNotification: UIViewController {
         
         if type == .inTarget {
             content.categoryIdentifier = "inTarget"
+            print("inTarget")
         } else {
             content.categoryIdentifier = "outTarget"
+            print("outTarget")
         }
         
         if secondaryType == .specific {
             content.categoryIdentifier = content.categoryIdentifier + ", specific"
+            print("specific")
         } else {
             content.categoryIdentifier = content.categoryIdentifier + ", generic"
+            print("specific")
         }
         
         var triggerDate = Calendar.current.dateComponents([.year, .month, .day], from: date)
@@ -103,109 +102,119 @@ class AppNotification: UIViewController {
         let oneDayBefore = Calendar.current.date(byAdding: .day, value: -1, to: targetDate)!
         let dayAfter = Calendar.current.date(byAdding: .day, value: 1, to: targetDate)!
         
-        checkIfItsMultipleNotification(for: oneDayBefore) { types in
+        var foodDayAfterOut: [Food] = []
+        
+        for comida in items {
+            if comida != item {
+                if comida.consumirAte! <= item.consumirAte! {
+                    foodDayAfterOut.append(comida)
+                }
+            }
+        }
+        
+        
+        checkIfItsMultipleNotification(for: oneDayBefore, foods: self.items) { types in
             if types[0] == true {
-                self.dispatchNotification(for: oneDayBefore, identifier: "\(oneDayBefore)_IN", title: "Aviso", message: "Há alimentos perto do prazo de consumo armazenados 😳", type: .inTarget, secondaryType: .generic)
+                if types[1] == true {
+                    self.dispatchNotification(for: oneDayBefore, identifier: "\(oneDayBefore)_IN", title: "Aviso", message: "Há alimentos perto do prazo de consumo armazenados 😳", type: .inTarget, secondaryType: .generic)
+                }
             } else {
                 self.dispatchNotification(for: oneDayBefore, identifier: "\(oneDayBefore)_IN", title: "Aviso", message: "O alimento \(item.nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
             }
             
-            self.checkIfItsMultipleNotification(for: targetDate) { types in
+            self.checkIfItsMultipleNotification(for: targetDate, foods: self.items) { types in
                 if types[0] == true {
-                    self.dispatchNotification(for: targetDate, identifier: "\(targetDate)_IN", title: "Aviso", message: "Há alimentos perto do prazo de consumo armazenados 😳", type: .inTarget, secondaryType: .generic)
+                    if types[1] == true {
+                        self.dispatchNotification(for: targetDate, identifier: "\(targetDate)_IN", title: "Aviso", message: "Há alimentos perto do prazo de consumo armazenados 😳", type: .inTarget, secondaryType: .generic)
+                    }
                 } else {
                     self.dispatchNotification(for: targetDate, identifier: "\(targetDate)_IN", title: "Aviso", message: "O alimento \(item.nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
                 }
                 
-                self.checkIfItsMultipleNotification(for: dayAfter) { types in
+                self.checkIfItsMultipleNotification(for: dayAfter, foods: self.items) { types in
                     if types[2] == true {
-                        self.dispatchNotification(for: dayAfter, identifier: "\(dayAfter)_OUT", title: "Aviso", message: "Há alimentos fora do prazo de consumo armazenados 😱", type: .outTarget, secondaryType: .generic)
+                        if types[3] == true && foodDayAfterOut.count == 1 {
+                            self.dispatchNotification(for: dayAfter, identifier: "\(dayAfter)_OUT", title: "Aviso", message: "Há alimentos fora do prazo de consumo armazenados 😱", type: .outTarget, secondaryType: .generic)
+                        }
                     } else {
                         self.dispatchNotification(for: dayAfter, identifier: "\(dayAfter)_OUT", title: "Aviso", message: "O alimento \(item.nome) está fora do prazo de consumo definido 😱", type: .outTarget, secondaryType: .specific)
                     }
                 }
             }
         }
-        
-//        types = checkIfItsMultipleNotification(for: oneDayBefore)
-//        
-//        if types[0] == true {
-//                dispatchNotification(for: oneDayBefore, identifier: notificationIDOneDay, title: "Aviso", message: "Há alimentos perto do prazo de consumo armazenados 😳", type: .inTarget, secondaryType: .generic)
-//        } else {
-//            dispatchNotification(for: oneDayBefore, identifier: notificationIDOneDay, title: "Aviso", message: "O alimento \(item.nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
-//        }
-//        
-//        types = checkIfItsMultipleNotification(for: targetDate)
-//        
-//        if types[0] == true {
-//            dispatchNotification(for: targetDate, identifier: notificationIDSameDay, title: "Aviso", message: "Há alimentos perto do prazo de consumo armazenados 😳", type: .inTarget, secondaryType: .generic)
-//        } else {
-//            dispatchNotification(for: targetDate, identifier: notificationIDSameDay, title: "Aviso", message: "O alimento \(item.nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
-//        }
-//        
-//        types = checkIfItsMultipleNotification(for: dayAfter)
-//        
-//        if types[2] == true {
-//            dispatchNotification(for: dayAfter, identifier: notificationOutOfTarget, title: "Aviso", message: "Há alimentos fora do prazo de consumo armazenados 😱", type: .outTarget, secondaryType: .generic)
-//        } else {
-//            dispatchNotification(for: dayAfter, identifier: notificationOutOfTarget, title: "Aviso", message: "O alimento \(item.nome) está fora do prazo de consumo definido 😱", type: .outTarget, secondaryType: .specific)
-//        }
     }
     
-//    func checkIfItHasNotification(for targetDate: Date) -> Bool {
-//        var existingNotification: UNNotificationRequest?
-//        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-//            for request in requests {
-//                if let trigger = request.trigger as? UNCalendarNotificationTrigger {
-//                    let triggerDate = trigger.dateComponents
-//                    if triggerDate.year == Calendar.current.component(.year, from: targetDate),
-//                       triggerDate.month == Calendar.current.component(.month, from: targetDate),
-//                       triggerDate.day == Calendar.current.component(.day, from: targetDate) {
-//                        existingNotification = request
-//                    }
-//                }
-//            }
-//        }
-//        return existingNotification != nil ? true : false
-//    }
-    
-    func checkIfItsMultipleNotification (for targetDate: Date, completion: @escaping ([Bool]) -> Void) {
+    func checkIfItsMultipleNotification (for targetDate: Date, foods: [Food], completion: @escaping ([Bool]) -> Void) {
         var inTargetType: [Bool] = [false, false] // dentro do prazo e se a notif é especifica ou generica
         var outTargetType: [Bool] = [false, false]
         
+       
+        var foodDayAfterOut: [Food] = []
+        
+        for comida in items {
+            if comida != item {
+                if comida.consumirAte! < item.consumirAte! {
+                    foodDayAfterOut.append(comida)
+                }
+            }
+        }
+        
         
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            var foundInTarget = false
+            var foundOutTarget = false
             for request in requests {
                 if let trigger = request.trigger as? UNCalendarNotificationTrigger {
                     let triggerDate = trigger.dateComponents
                     if triggerDate.year == Calendar.current.component(.year, from: targetDate),
                        triggerDate.month == Calendar.current.component(.month, from: targetDate),
                        triggerDate.day == Calendar.current.component(.day, from: targetDate) {
-                        if request.content.categoryIdentifier.contains("inTarget") {
+                        if request.content.categoryIdentifier.contains("inTarget"){
+                            foundInTarget = true
                             inTargetType = [true, false]
+                            print("check inTarget")
                             if request.content.categoryIdentifier.contains("specific") {
                                 inTargetType = [true, true]
+                                print("check inTarget specific")
                             }
                         }
                         if request.content.categoryIdentifier.contains("outTarget") {
+                            foundOutTarget = true
                             outTargetType = [true, false]
+                            print("check outTarget")
                             if request.content.categoryIdentifier.contains("specific") {
                                 outTargetType = [true, true]
+                                print("check outTarget specific")
                             }
                         }
                     }
                 }
             }
+            if !foundInTarget {
+                //if targetDate != self.item.consumirAte {
+                    inTargetType = [false, false]
+               // }
+            }
+            if !foundOutTarget{
+                    outTargetType = [false, false]
+            }
+            if !foodDayAfterOut.isEmpty {
+                if foodDayAfterOut.count == 1 {
+                    outTargetType = [true, true]
+                } else {
+                    outTargetType = [true, false]
+                }
+            }
+            print(inTargetType + outTargetType)
+            completion(inTargetType + outTargetType)
         }
-        
-        completion(inTargetType + outTargetType)
-
     }
     
-    func updateNotification(for food: Food, foods: [Food]) {
+    
+    func updateNotification(for foods: [Food]) {
         let calendar = Calendar.current
-        let dayBefore = calendar.date(byAdding: .day, value: -1, to: food.consumirAte!)!
-        let dayAfter = calendar.date(byAdding: .day, value: +1, to: food.consumirAte!)!
+        let dayBefore = calendar.date(byAdding: .day, value: -1, to: item.consumirAte!)!
+        let dayAfter = calendar.date(byAdding: .day, value: +1, to: item.consumirAte!)!
         
         var types: [Bool] = []
         var foodDayBeforeIn: [Food] = []
@@ -213,22 +222,22 @@ class AppNotification: UIViewController {
         var foodDayAfterOut: [Food] = []
         
         for comida in foods {
-            if comida != food {
+            if comida != item {
                 if calendar.isDate(comida.consumirAte!, inSameDayAs: dayBefore) {
                     foodDayBeforeIn.append(comida)
-                } else if calendar.isDate(comida.consumirAte!, inSameDayAs: food.consumirAte!) {
+                } else if calendar.isDate(comida.consumirAte!, inSameDayAs: item.consumirAte!) {
                     foodDayBeforeIn.append(comida)
                     foodSameDayIn.append(comida)
                     foodDayAfterOut.append(comida)
                 } else if calendar.isDate(comida.consumirAte!, inSameDayAs: dayAfter) {
                     foodSameDayIn.append(comida)
-                } else if comida.consumirAte! < food.consumirAte! {
+                } else if comida.consumirAte! < item.consumirAte! {
                     foodDayAfterOut.append(comida)
                 }
             }
         }
         
-        checkIfItsMultipleNotification(for: dayBefore) { types in
+        checkIfItsMultipleNotification(for: dayBefore, foods: foods) { types in
             
             if types[0] == true {
                 if types[1] == true {
@@ -241,19 +250,19 @@ class AppNotification: UIViewController {
                 }
             }
             
-            self.checkIfItsMultipleNotification(for: food.consumirAte!) { types in
+            self.checkIfItsMultipleNotification(for: self.item.consumirAte!, foods: foods) { types in
                 if types[0] == true {
                     if types[1] == true {
-                        self.removeNotification(for: food.consumirAte!, type: "IN")
+                        self.removeNotification(for: self.item.consumirAte!, type: "IN")
                     } else {
                         if foodSameDayIn.count == 1 {
-                            self.removeNotification(for: food.consumirAte!, type: "IN")
-                            self.dispatchNotification(for: food.consumirAte!, identifier: "\(food.consumirAte)_IN", title: "Aviso", message: "O alimento \(foodSameDayIn[0].nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
+                            self.removeNotification(for: self.item.consumirAte!, type: "IN")
+                            self.dispatchNotification(for: self.item.consumirAte!, identifier: "\(self.item.consumirAte)_IN", title: "Aviso", message: "O alimento \(foodSameDayIn[0].nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
                         }
                     }
                 }
                 
-                self.checkIfItsMultipleNotification(for: dayAfter) { types in
+                self.checkIfItsMultipleNotification(for: dayAfter, foods: foods) { types in
                     if types[2] == true {
                         if types[3] == true {
                             self.removeNotification(for: dayAfter, type: "OUT")

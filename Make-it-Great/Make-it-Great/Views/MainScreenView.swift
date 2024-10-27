@@ -28,6 +28,7 @@ struct MainScreenView: View {
     )
     var foodArmario: [Food]
     
+    @State var combinedFoods: [Food] = []
     
     //@State private var selectedCategory: StorageType = .refrigerator
     @State private var selectedFood: FoodType = .Fruta
@@ -154,12 +155,16 @@ struct MainScreenView: View {
             }
             //.navigationBarBackButtonHidden(true)
             .sheet(isPresented: $isPresentedSheet, content: {
-                AddItem(isPresented: $isPresentedSheet, food: $selectedFood)
+                AddItem(isPresented: $isPresentedSheet, food: $selectedFood, comidas: $combinedFoods)
             })
             .onAppear {
+//                removePendingNotifications()
+                updateCombinedFoods()
                 updateFilteredFoods() // Inicializa a lista filtrada ao aparecer
             }
             .onChange(of: foods) {
+                printPendingNotifications()
+                updateCombinedFoods()
                 updateFilteredFoods() // Atualiza quando a lista de alimentos mudar
             }
             .padding()
@@ -196,8 +201,38 @@ struct MainScreenView: View {
         updateFilteredFoods() // Atualiza a lista filtrada após a deleção
         
         }
+    private func updateCombinedFoods() {
+            combinedFoods = foodGeladeira + foodArmario
+        }
+    
+    func printPendingNotifications() {
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            for request in requests {
+                print("Identifier: \(request.identifier)")
+                print("Title: \(request.content.title)")
+                print("Body: \(request.content.body)")
+                
+                if let trigger = request.trigger as? UNCalendarNotificationTrigger {
+                    if let triggerDate = trigger.nextTriggerDate() {
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                        print("Scheduled for: \(dateFormatter.string(from: triggerDate))")
+                    }
+                }
+                print("--------------------")
+            }
+        }
+        print("feios")
+    }
+        func removePendingNotifications() {
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                    print("--------------------")
+                }
+            }
 
-}
+
+
 
 
 

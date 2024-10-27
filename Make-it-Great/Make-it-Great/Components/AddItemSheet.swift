@@ -29,6 +29,7 @@ struct AddItem: View {
     @State var peso: Float = 0
     @State var unidades: Int = 0
     @State var errorMessage: String = ""
+    @Binding var comidas: [Food]
     //    @State var contagem: CountType = .Unit
     let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -55,10 +56,12 @@ struct AddItem: View {
                     } else {
                         switch tipoQuantidade {
                         case .Peso:
-                            let appNotification = AppNotification(dataFim: $dataFim, identifier: $dataFim, item: .constant(Food(nome: nome, emoji: emoji, storage: .cabinet, type: food, consumirAte: dataFim, units: nil, weight: peso)))
+                            let appNotification = AppNotification(dataFim: $dataFim, identifier: $dataFim, item: .constant(Food(nome: nome, emoji: emoji, storage: .cabinet, type: food, consumirAte: dataFim, units: nil, weight: peso)), items: $comidas)
+                            appNotification.createNotification()
                             context.insert(Food(nome: nome, emoji: emoji, storage: .refrigerator, type: food, consumirAte: dataFim, units: nil, weight: peso))
                         case .Unidade:
-                            let appNotification = AppNotification(dataFim: $dataFim, identifier: $dataFim, item: .constant(Food(nome: nome, emoji: emoji, storage: .cabinet, type: food, consumirAte: dataFim, units: unidades, weight: nil)))
+                            let appNotification = AppNotification(dataFim: $dataFim, identifier: $dataFim, item: .constant(Food(nome: nome, emoji: emoji, storage: .cabinet, type: food, consumirAte: dataFim, units: unidades, weight: nil)), items: $comidas)
+                            appNotification.createNotification()
                             context.insert(Food(nome: nome, emoji: emoji, storage: .cabinet, type: food, consumirAte: dataFim, units: unidades, weight: nil))
                         }
                         isPresented = false
@@ -285,9 +288,9 @@ struct AddItem: View {
     //    AddItem(isPresented: true)
     //}
     
-    struct FormView_Previews: PreviewProvider {
-        static var previews: some View {
-            AddItem(isPresented: .constant(true), food: .constant(.Fruta))
-        }
-    }
+//    struct FormView_Previews: PreviewProvider {
+//        static var previews: some View {
+//            AddItem(isPresented: .constant(true), food: .constant(.Fruta))
+//        }
+//    }
 }
