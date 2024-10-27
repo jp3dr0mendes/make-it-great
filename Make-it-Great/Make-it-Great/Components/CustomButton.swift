@@ -15,8 +15,7 @@ struct AddButtonStyle: ButtonStyle {
             .frame(width: 361, height: 50)
             .background(configuration.isPressed ? Color.red : Color.gray, in: RoundedRectangle(cornerRadius: 10))
     
-            
-            .animation(Animation.easeIn(duration: 0.2))
+//            .animation(Animation.easeIn(duration: 0.2))
 //            .onLongPressGesture {
 //                withAnimation(.easeIn(duration: 0.5)) {
 //                    
@@ -31,6 +30,8 @@ struct AddButtonStyle: ButtonStyle {
 struct ButtonView: View {
     @Binding var isRemoved: Bool 
     @Binding var selectedItems: Set<Food>
+    @State private var showingConfirmation = false
+    
     
     var deleteAction: () -> Void
 //    @Binding var isPresentedSheet: Bool
@@ -38,19 +39,24 @@ struct ButtonView: View {
 //    @Binding var isAnimating: Bool
     
     var body: some View {
+        
+       
+
         ZStack {
+            
+            
             Button(action: {
-                withAnimation {
-                    isRemoved = true
-                }
-                deleteAction()
-                //Acho que posso usar isso aqui para fazer as listas desaparecerem quando aperta o botao:
-//                withAnimation(.easeInOut(duration: 4)) {
-//                    
-//                }git 
                 
-//                isPresentedSheet = true
+                showingConfirmation = true
+//                withAnimation {
+//                
+//                    isRemoved = true
+//                    
+//                }
+                //showingConfirmation = true
+                //deleteAction()
             }) {
+                
                 HStack {
                     Image(systemName: "trash")
                         .foregroundColor(.white)
@@ -58,11 +64,26 @@ struct ButtonView: View {
                         .font(.system(size: 17))
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
+                    
+                        
                 }
             }
 //            .disabled(true)
             .buttonStyle(AddButtonStyle())
             .disabled(selectedItems.isEmpty)
+            .confirmationDialog("Excluir item", isPresented: $showingConfirmation) {
+                Button("Confirmar") {
+                    deleteAction()
+                }
+                
+                Button("Cancelar", role: .cancel) {
+                    
+                }
+                
+            } message: {
+                Text("Deseja excluir os itens selecionados?")
+            }
+            
 
        
             
