@@ -40,6 +40,7 @@ struct MainScreenView: View {
     @State private var filteredFoods: [Food] = []
     @State var selected: Bool = false
     @State var isRemoved: Bool = false
+    @State var showingConfirmation = false
 
 
     var body: some View {
@@ -135,13 +136,14 @@ struct MainScreenView: View {
                     //                    isPresentedSheet = true
                     //                }
                     if selected {
-                        ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, deleteAction: {
+                        ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
                             // Chama a função de deletar diretamente da ListFood
                             deleteSelectedItems()
                             showingButton = false
                             selected = false
                         })
                     }
+                
                 }
                     
                 //            .onAppear {

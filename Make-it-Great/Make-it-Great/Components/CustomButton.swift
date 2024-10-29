@@ -31,7 +31,7 @@ struct AddButtonStyle: ButtonStyle {
 struct ButtonView: View {
     @Binding var isRemoved: Bool 
     @Binding var selectedItems: Set<Food>
-    @State private var showingConfirmation = false
+    @Binding var showingConfirmation: Bool
     
     
     var deleteAction: () -> Void
@@ -63,17 +63,29 @@ struct ButtonView: View {
             //            .disabled(true)
             .buttonStyle(AddButtonStyle())
             .disabled(selectedItems.isEmpty)
-            .overlay (
-                
-                Group {
-                    if showingConfirmation {
-                        ConfirmationDialog
-                    }
-        
-                }
-            )
+            
+//            
+//            if showingConfirmation {
+//                ConfirmationDialog
+//            }
+//            .overlay (
+//                
+//                Group {
+//                    if showingConfirmation {
+//                        ConfirmationDialog
+//                    }
+//        
+//                }
+//            )
             
         }
+        .overlay (
+            Group {
+                if showingConfirmation {
+                    ConfirmationDialog
+                }
+            }
+        )
     }
 
     private var ConfirmationDialog: some View {
@@ -102,8 +114,10 @@ struct ButtonView: View {
                 .padding()
                 .background(Color.red)
                 .cornerRadius(8)
+                .ignoresSafeArea()
                 
             }
+            
         
         }
         .padding()
@@ -111,13 +125,13 @@ struct ButtonView: View {
         .cornerRadius(12)
         .shadow(radius: 10)
        
-//        .transition(.scale) // Transição para animação de entrada/saída
-//        .frame(width: 500) // Largura do retângulo
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .transition(.scale) // Transição para animação de entrada/saída
+        .frame(width: 500) // Largura do retângulo
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
 
     }
 
-    }
+}
     
 
 //#Preview {
