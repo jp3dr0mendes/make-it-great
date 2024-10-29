@@ -79,7 +79,7 @@ struct ButtonView: View {
     private var ConfirmationDialog: some View {
         
         VStack() {
-            Spacer()
+          
             Text("Excluir itens selecionados?")
                 .font(.headline)
                 .foregroundColor(.white) // Cor personalizada do texto
@@ -104,7 +104,7 @@ struct ButtonView: View {
                 .cornerRadius(8)
                 
             }
-            Spacer()
+        
         }
         .padding()
         .background(Color.purpleItens)
