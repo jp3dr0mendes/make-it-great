@@ -24,6 +24,7 @@ struct AddButtonStyle: ButtonStyle {
             //.cornerRadius(8)
         
     }
+
 }
 
 
@@ -40,21 +41,13 @@ struct ButtonView: View {
     
     var body: some View {
         
-       
-
+        
         ZStack {
-            
             
             Button(action: {
                 
                 showingConfirmation = true
-//                withAnimation {
-//                
-//                    isRemoved = true
-//                    
-//                }
-                //showingConfirmation = true
-                //deleteAction()
+                
             }) {
                 
                 HStack {
@@ -65,45 +58,67 @@ struct ButtonView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                     
-                        
                 }
             }
-//            .disabled(true)
+            //            .disabled(true)
             .buttonStyle(AddButtonStyle())
             .disabled(selectedItems.isEmpty)
-            .confirmationDialog("Excluir item", isPresented: $showingConfirmation) {
-                Button("Confirmar") {
-                    deleteAction()
-                }
+            .overlay (
                 
-                Button("Cancelar", role: .cancel) {
-                    
+                Group {
+                    if showingConfirmation {
+                        ConfirmationDialog
+                    }
+        
                 }
-                
-            } message: {
-                Text("Deseja excluir os itens selecionados?")
-            }
-            
-
-       
-            
-//            Button( action: {
-//        
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                    withAnimation(.easeIn(duration: 0.5)) {
-//                        isPresentedSheet = true
-//                    }
-//                }
-//                
-//            }) {
-//                Text("Remove Food")
-//                    .font(.system(size: 14))
-//                    .foregroundColor(.white)
-//            }
+            )
             
         }
     }
-}
+
+    private var ConfirmationDialog: some View {
+        
+        VStack() {
+            Spacer()
+            Text("Excluir itens selecionados?")
+                .font(.headline)
+                .foregroundColor(.white) // Cor personalizada do texto
+            
+            HStack {
+                Button("Confirmar", systemImage: "checkmark") {
+                    deleteAction()
+                    showingConfirmation = false
+                }
+                .foregroundColor(.black)
+                .padding()
+                .background(Color.green)
+                .cornerRadius(8)
+//                .labelStyle(.iconOnly)
+                
+                Button("Cancelar", systemImage: "nosign") {
+                    showingConfirmation = false
+                }
+                .foregroundColor(.black)
+                .padding()
+                .background(Color.red)
+                .cornerRadius(8)
+                
+            }
+            Spacer()
+        }
+        .padding()
+        .background(Color.purpleItens)
+        .cornerRadius(12)
+        .shadow(radius: 10)
+       
+//        .transition(.scale) // Transição para animação de entrada/saída
+//        .frame(width: 500) // Largura do retângulo
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+    }
+
+    }
+    
 
 //#Preview {
 //    @Previewable @State var isPresentedSheet: Bool = false
