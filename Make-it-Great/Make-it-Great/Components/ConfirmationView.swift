@@ -25,7 +25,7 @@ struct ConfirmationView: View {
             
            
             Button("Confirmar", systemImage: "checkmark") {
-//                deleteAction()
+                deleteAction()
                 showingConfirmation = false
             }
             .frame(maxWidth: .infinity)
