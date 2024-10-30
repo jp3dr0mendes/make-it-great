@@ -31,7 +31,7 @@ struct AddButtonStyle: ButtonStyle {
 struct ButtonView: View {
     @Binding var isRemoved: Bool 
     @Binding var selectedItems: Set<Food>
-    @State private var showingConfirmation = false
+    @Binding var showingConfirmation: Bool
     
     
     var deleteAction: () -> Void
@@ -63,61 +63,34 @@ struct ButtonView: View {
             //            .disabled(true)
             .buttonStyle(AddButtonStyle())
             .disabled(selectedItems.isEmpty)
-            .overlay (
-                
-                Group {
-                    if showingConfirmation {
-                        ConfirmationDialog
-                    }
-        
-                }
-            )
+            
+//            
+//            if showingConfirmation {
+//                ConfirmationDialog
+//            }
+//            .overlay (
+//                
+//                Group {
+//                    if showingConfirmation {
+//                        ConfirmationDialog
+//                    }
+//        
+//                }
+//            )
             
         }
+//        .overlay (
+//            Group {
+//                if showingConfirmation {
+//                    ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+//                        
+//                    })
+//                }
+//            }
+//        )
     }
 
-    private var ConfirmationDialog: some View {
-        
-        VStack() {
-          
-            Text("Excluir itens selecionados?")
-                .font(.headline)
-                .foregroundColor(.white) // Cor personalizada do texto
-            
-            HStack {
-                Button("Confirmar", systemImage: "checkmark") {
-                    deleteAction()
-                    showingConfirmation = false
-                }
-                .foregroundColor(.black)
-                .padding()
-                .background(Color.green)
-                .cornerRadius(8)
-//                .labelStyle(.iconOnly)
-                
-                Button("Cancelar", systemImage: "nosign") {
-                    showingConfirmation = false
-                }
-                .foregroundColor(.black)
-                .padding()
-                .background(Color.red)
-                .cornerRadius(8)
-                
-            }
-        
-        }
-        .padding()
-        .background(Color.purpleItens)
-        .cornerRadius(12)
-        .shadow(radius: 10)
-       
-//        .transition(.scale) // Transição para animação de entrada/saída
-//        .frame(width: 500) // Largura do retângulo
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-    }
-
-    }
+}
     
 
 //#Preview {
