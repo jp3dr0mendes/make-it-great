@@ -79,56 +79,15 @@ struct ButtonView: View {
 //            )
             
         }
-        .overlay (
-            Group {
-                if showingConfirmation {
-                    ConfirmationDialog
-                }
-            }
-        )
-    }
-
-    private var ConfirmationDialog: some View {
-        
-        VStack() {
-          
-            Text("Excluir itens selecionados?")
-                .font(.headline)
-                .foregroundColor(.white) // Cor personalizada do texto
-            
-            HStack {
-                Button("Confirmar", systemImage: "checkmark") {
-                    deleteAction()
-                    showingConfirmation = false
-                }
-                .foregroundColor(.black)
-                .padding()
-                .background(Color.green)
-                .cornerRadius(8)
-//                .labelStyle(.iconOnly)
-                
-                Button("Cancelar", systemImage: "nosign") {
-                    showingConfirmation = false
-                }
-                .foregroundColor(.black)
-                .padding()
-                .background(Color.red)
-                .cornerRadius(8)
-                .ignoresSafeArea()
-                
-            }
-            
-        
-        }
-        .padding()
-        .background(Color.purpleItens)
-        .cornerRadius(12)
-        .shadow(radius: 10)
-       
-        .transition(.scale) // Transição para animação de entrada/saída
-        .frame(width: 500) // Largura do retângulo
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-
+//        .overlay (
+//            Group {
+//                if showingConfirmation {
+//                    ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+//                        
+//                    })
+//                }
+//            }
+//        )
     }
 
 }
