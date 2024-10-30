@@ -107,10 +107,12 @@ struct MainScreenView: View {
                            
                             if showingButton {
                                 
-                                CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
+                                CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods, showingConfirmation: $showingConfirmation)
                                 
                             } else {
                                 AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
+                                //Para cancelar a view de confirmacao:
+                                
                             }
                         }
                         

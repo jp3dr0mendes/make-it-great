@@ -16,6 +16,7 @@ struct CancelAndSelectAllButton: View {
     @Binding var selected: Bool
     @Binding var selectedItems: Set<Food>
     @Binding var comidas: [Food]
+    @Binding var showingConfirmation: Bool
     
     var body: some View {
         
@@ -23,6 +24,7 @@ struct CancelAndSelectAllButton: View {
         HStack {
             
             Button(action: {
+                showingConfirmation = false
                 selectAll.toggle()
                 selectedItems.removeAll()
                 
