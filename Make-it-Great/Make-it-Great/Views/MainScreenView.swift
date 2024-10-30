@@ -211,6 +211,7 @@ struct MainScreenView: View {
                 print("Identifier: \(request.identifier)")
                 print("Title: \(request.content.title)")
                 print("Body: \(request.content.body)")
+                print("Category.identifier: \(request.content.categoryIdentifier)")
                 
                 if let trigger = request.trigger as? UNCalendarNotificationTrigger {
                     if let triggerDate = trigger.nextTriggerDate() {
