@@ -69,6 +69,7 @@ struct MainScreenView: View {
                     .onChange(of: selectedFood) {
                         // Atualiza a lista filtrada de acordo com a categoria selecionada:
                         updateFilteredFoods()
+                        showingConfirmation = false
                     }
                 
                 if filteredFoods.isEmpty {
