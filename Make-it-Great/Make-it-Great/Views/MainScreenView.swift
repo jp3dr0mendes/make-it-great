@@ -192,23 +192,23 @@ struct MainScreenView: View {
                 if selected {
                     ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
                         // Chama a função de deletar diretamente da ListFood
-                        deleteSelectedItems()
+//                        deleteSelectedItems()
                         showingButton = false
                         selected = false
                     })
-                    
-                    //Botao de confirmacao para deletar:
-                    if showingConfirmation {
-                        
-                        ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
-                            deleteSelectedItems()
-                            showingButton = false
-                            selected = false
-                            
-                        })
-                    }
-                    
+
                 }
+                
+                if showingConfirmation {
+                    
+                    ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+                        deleteSelectedItems()
+                        showingButton = false
+                        selected = false
+                        
+                    })
+                }
+                
             }/*.border(Color.blue, width: 10)*/
             
         }
