@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SegmentedControlComponent: View {
+    
     @Binding var selectedCategory: FoodType
     /*@State private var selectedCategory: TaskCategory = .refrigerator*/ // Define a categoria inicial
 
@@ -50,6 +51,7 @@ struct SegmentedControlComponent: View {
                 }
         }
     }
+  
 }
 
 //struct TaskView_Previews: PreviewProvider {

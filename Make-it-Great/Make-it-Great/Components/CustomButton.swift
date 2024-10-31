@@ -32,6 +32,7 @@ struct ButtonView: View {
     @Binding var isRemoved: Bool 
     @Binding var selectedItems: Set<Food>
     @Binding var showingConfirmation: Bool
+
     
     
     var deleteAction: () -> Void
@@ -47,7 +48,7 @@ struct ButtonView: View {
             Button(action: {
                 
                 showingConfirmation = true
-                
+    
             }) {
                 
                 HStack {
