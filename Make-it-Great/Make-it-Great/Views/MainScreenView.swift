@@ -130,6 +130,17 @@ struct MainScreenView: View {
                             //.transition(.move(edge: .trailing))
                                 .animation(.easeIn(duration: 0.4))
                         }
+                        Button {
+                            printPendingNotifications()
+                        } label: {
+                            Text("Printar")
+                                .foregroundStyle(.black)
+                                
+                        }
+                        .background(RoundedRectangle(cornerRadius: 20)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 40)
+                            .foregroundStyle(Color.blue))
                     }
                     
                     //                Button("Adicionar Item"){
@@ -163,7 +174,6 @@ struct MainScreenView: View {
                 updateFilteredFoods() // Inicializa a lista filtrada ao aparecer
             }
             .onChange(of: foods) {
-                printPendingNotifications()
                 updateCombinedFoods()
                 updateFilteredFoods() // Atualiza quando a lista de alimentos mudar
             }
