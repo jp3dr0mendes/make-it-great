@@ -24,26 +24,46 @@ struct ConfirmationView: View {
                 .foregroundColor(.purpleItens) // Cor personalizada do texto
             
            
-            Button("Confirmar", systemImage: "checkmark") {
+            Button(action: {
                 deleteAction()
                 showingConfirmation = false
+            }) {
+                Label("Confirmar", systemImage: "checkmark") // Adiciona a imagem de sistema junto com o texto
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.purpleItens)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(8)
             }
-            .frame(maxWidth: .infinity)
-            .foregroundColor(.purpleItens)
-            .padding()
-            .background(Color.white)
-            .cornerRadius(8)
+            .contentShape(Rectangle()) // Expande a área clicável para o botão inteiro
+
+            
+            
 //                .labelStyle(.iconOnly)
             
-            Button("Cancelar", systemImage: "nosign") {
+//            Button("Cancelar", systemImage: "nosign") {
+//                showingConfirmation = false
+//            }
+//            .frame(maxWidth: .infinity)
+//            .padding()
+//            .foregroundColor(.black)
+////            .bold()
+//            .background(Color.white)
+//            .cornerRadius(8)
+            
+            Button(action: {
                 showingConfirmation = false
+            }) {
+                Label("Cancelar", systemImage: "nosign") // Adiciona a imagem de sistema junto com o texto
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .foregroundColor(.black)
+                    .background(Color.white)
+                    .cornerRadius(8)
             }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .foregroundColor(.black)
-//            .bold()
-            .background(Color.white)
-            .cornerRadius(8)
+            .contentShape(Rectangle())
+           
+            
             
           
             //.ignoresSafeArea()
