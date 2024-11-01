@@ -9,16 +9,15 @@ import SwiftUI
 
 struct OnboardingScreen3: View {
     var body: some View {
-        Image("welcome_image") // Imagem para a tela 1
-            .resizable()
-            .scaledToFit()
-            .frame(height: 200)
-        Text("Tela 1: Bem-vindo!")
-            .font(.largeTitle)
-            .padding()
-        Text("Explore nosso aplicativo e descubra suas funcionalidades.")
+            Image("OnboardingScanTutorial")
+                .resizable()
+                .scaledToFill()
+//                .padding(.trailing)
+            Text("Passe suas frutas e verduras na frente da câmera para armazená-las")
+            .font(.title2)
+            .fontWeight(.semibold)
             .multilineTextAlignment(.center)
-            .padding()
+            .foregroundStyle(.purpleItens)
     }
 }
 

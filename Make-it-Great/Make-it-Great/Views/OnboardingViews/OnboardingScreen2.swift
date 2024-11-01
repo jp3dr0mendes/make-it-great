@@ -9,14 +9,18 @@ import SwiftUI
 
 struct OnboardingScreen2: View {
     var body: some View {
-        VStack {
-            Spacer()
-            Image("ConfusedApple") // Imagem para a tela 1
-                .resizable()
-                .scaledToFit()
-                //.frame(height: 200)
+        GeometryReader { proxy in
+            VStack {
+                Image("OnboardingAddTutorial")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: proxy.size.height * 0.6)
+                Image("EmptyFruits")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: proxy.size.height * 0.2)
+            }
         }
-        
     }
 }
 

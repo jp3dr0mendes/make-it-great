@@ -16,11 +16,8 @@ struct Make_it_GreatApp: App {
         WindowGroup {
             if firstUse {
                 OnboardingView() //substituir para a tela de onboarding
-                
             } else {
                 MainScreenView()
-//
-                    
             }
         }
         .modelContainer(for: [Food.self])
