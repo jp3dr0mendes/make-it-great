@@ -160,29 +160,8 @@ struct MainScreenView: View {
                             
                         }
                     }/*.border(Color.black, width: 1)*/
-                    //                Button("Adicionar Item"){
-                    //                    isPresentedSheet = true
-                    //                }
-                    //                    if selected {
-                    //                        ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
-                    //                            // Chama a função de deletar diretamente da ListFood
-                    //                            deleteSelectedItems()
-                    //                            showingButton = false
-                    //                            selected = false
-                    //                        })
-                    //                    }
-                    
                 }
-                
-                //            .onAppear {
-                //                // Inicializa a lista filtrada ao aparecer
-                //                updateFilteredFoods()
-                //            }
-                //            .onChange(of: context) {
-                //                updateFilteredFoods()
-                //            }
             }
-            //.navigationBarBackButtonHidden(true)
             .sheet(isPresented: $isPresentedSheet, content: {
                 AddItem(isPresented: $isPresentedSheet, food: $selectedFood)
             })
@@ -196,47 +175,25 @@ struct MainScreenView: View {
             
         }//Fecha a navigation Stack:
         .allowsHitTesting(!showingConfirmation)
-//        .onAppear {
-//            deactivateStatus()
-//        }
-        
-        //        .border(Color.blue, width: 5)
-        //        .ignoresSafeArea(.all)
-        
-        
-        //Mostra a view para confirmar exclusão:
-        ZStack {
-            
-            ZStack {
+        ZStack(alignment: .bottom) {
                 if selected {
                     ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
                         // Chama a função de deletar diretamente da ListFood
-                        //                        deleteSelectedItems()
                         showingButton = false
                         selected = false
                     })
-                    
-                    
-                    
                 }
-                
-            }/*.border(Color.blue, width: 10)*/
-            
-            if showingConfirmation {
-                
-                ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
-                    deleteSelectedItems()
-                    showingButton = false
-                    selected = false
-                    deactivateTouch = true
-                    
-                })
+                if showingConfirmation {
+                    ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+                        deleteSelectedItems()
+                        showingButton = false
+                        selected = false
+                        deactivateTouch = true
+                        
+                    })
+                }
             }
-            
-        }
     }
-
-    
     private func updateFilteredFoods() {
         // Atualiza a lista filtrada com base na categoria selecionada
         switch selectedFood {

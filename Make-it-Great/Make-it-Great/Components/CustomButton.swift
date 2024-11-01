@@ -41,8 +41,6 @@ struct ButtonView: View {
 //    @Binding var isAnimating: Bool
     
     var body: some View {
-        
-        
         ZStack {
             
             Button(action: {
@@ -80,6 +78,7 @@ struct ButtonView: View {
 //            )
             
         }
+        .frame(maxHeight: .infinity, alignment: .bottom)
 //        .overlay (
 //            Group {
 //                if showingConfirmation {
