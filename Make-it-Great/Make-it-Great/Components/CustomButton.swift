@@ -24,13 +24,15 @@ struct AddButtonStyle: ButtonStyle {
             //.cornerRadius(8)
         
     }
+
 }
 
 
 struct ButtonView: View {
     @Binding var isRemoved: Bool 
     @Binding var selectedItems: Set<Food>
-    @State private var showingConfirmation = false
+    @Binding var showingConfirmation: Bool
+
     
     
     var deleteAction: () -> Void
@@ -40,21 +42,13 @@ struct ButtonView: View {
     
     var body: some View {
         
-       
-
+        
         ZStack {
-            
             
             Button(action: {
                 
                 showingConfirmation = true
-//                withAnimation {
-//                
-//                    isRemoved = true
-//                    
-//                }
-                //showingConfirmation = true
-                //deleteAction()
+    
             }) {
                 
                 HStack {
@@ -65,45 +59,40 @@ struct ButtonView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                     
-                        
                 }
             }
-//            .disabled(true)
+            //            .disabled(true)
             .buttonStyle(AddButtonStyle())
             .disabled(selectedItems.isEmpty)
-            .confirmationDialog("Excluir item", isPresented: $showingConfirmation) {
-                Button("Confirmar") {
-                    deleteAction()
-                }
-                
-                Button("Cancelar", role: .cancel) {
-                    
-                }
-                
-            } message: {
-                Text("Deseja excluir os itens selecionados?")
-            }
             
-
-       
-            
-//            Button( action: {
-//        
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                    withAnimation(.easeIn(duration: 0.5)) {
-//                        isPresentedSheet = true
-//                    }
-//                }
-//                
-//            }) {
-//                Text("Remove Food")
-//                    .font(.system(size: 14))
-//                    .foregroundColor(.white)
+//            
+//            if showingConfirmation {
+//                ConfirmationDialog
 //            }
+//            .overlay (
+//                
+//                Group {
+//                    if showingConfirmation {
+//                        ConfirmationDialog
+//                    }
+//        
+//                }
+//            )
             
         }
+//        .overlay (
+//            Group {
+//                if showingConfirmation {
+//                    ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+//                        
+//                    })
+//                }
+//            }
+//        )
     }
+
 }
+    
 
 //#Preview {
 //    @Previewable @State var isPresentedSheet: Bool = false

@@ -40,9 +40,17 @@ struct MainScreenView: View {
     @State private var filteredFoods: [Food] = []
     @State var selected: Bool = false
     @State var isRemoved: Bool = false
+    @State var showingConfirmation = false
+    @State var deactivateTouch = true
 
 
     var body: some View {
+        
+        //        if showingConfirmation {
+        //            ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+        //
+        //            })
+        //        }
         
         NavigationStack{
             
@@ -62,10 +70,11 @@ struct MainScreenView: View {
                     .onChange(of: selectedFood) {
                         // Atualiza a lista filtrada de acordo com a categoria selecionada:
                         updateFilteredFoods()
+                        showingConfirmation = false
                     }
                 
                 if filteredFoods.isEmpty {
-                                AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
+                    AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
                     VStack {
                         Text("Você não tem itens adicionados ainda.")
                             .lineLimit(3)
@@ -97,12 +106,15 @@ struct MainScreenView: View {
                             SelectButton(showingButton: $showingButton, selected: $selected)
                                 .opacity(showingButton ? 0 : 1)
                             
+                            
                             if showingButton {
                                 
-                                CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
+                                CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods, showingConfirmation: $showingConfirmation)
                                 
                             } else {
                                 AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
+                                //Para cancelar a view de confirmacao:
+                                
                             }
                         }
                         
@@ -119,31 +131,47 @@ struct MainScreenView: View {
                     //                        }
                     //                    }
                     //                }
-                    ScrollView {
-                        VStack {
-                            // Passando diretamente filteredFoods para ListFood
-                            ListFood(comidas: $filteredFoods, selectedCategory: $selectedFood, selectedItems: $selectedItems, selected: $selected, scanList: .constant(false))
-                            //.transition(.slide)
-                            //.transition(.move(edge: .trailing))
-                            //.animation(.easeIn(duration: 2), value: selectedItems)
-                            //.transition(.move(edge: .trailing))
-                                .animation(.easeIn(duration: 0.4))
-                        }
-                    }
                     
+                    ZStack {
+                        VStack {
+                            ScrollView {
+                                VStack {
+                                    // Passando diretamente filteredFoods para ListFood
+                                    ListFood(comidas: $filteredFoods, selectedCategory: $selectedFood, selectedItems: $selectedItems, selected: $selected, scanList: .constant(false))
+                                    //.transition(.slide)
+                                    //.transition(.move(edge: .trailing))
+                                    //.animation(.easeIn(duration: 2), value: selectedItems)
+                                    //.transition(.move(edge: .trailing))
+                                        .animation(.easeIn(duration: 0.4))
+                                }
+                            }
+                            
+                            //                            if showingConfirmation {
+                            //
+                            //                                ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+                            //                                    deleteSelectedItems()
+                            //                                    showingButton = false
+                            //                                    selected = false
+                            //
+                            //                                })
+                            //                            }
+                            
+                        }
+                    }/*.border(Color.black, width: 1)*/
                     //                Button("Adicionar Item"){
                     //                    isPresentedSheet = true
                     //                }
-                    if selected {
-                        ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, deleteAction: {
-                            // Chama a função de deletar diretamente da ListFood
-                            deleteSelectedItems()
-                            showingButton = false
-                            selected = false
-                        })
-                    }
-                }
+                    //                    if selected {
+                    //                        ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+                    //                            // Chama a função de deletar diretamente da ListFood
+                    //                            deleteSelectedItems()
+                    //                            showingButton = false
+                    //                            selected = false
+                    //                        })
+                    //                    }
                     
+                }
+                
                 //            .onAppear {
                 //                // Inicializa a lista filtrada ao aparecer
                 //                updateFilteredFoods()
@@ -163,40 +191,80 @@ struct MainScreenView: View {
                 updateFilteredFoods() // Atualiza quando a lista de alimentos mudar
             }
             .padding()
+            
+        }//Fecha a navigation Stack:
+        .allowsHitTesting(!showingConfirmation)
+//        .onAppear {
+//            deactivateStatus()
+//        }
+        
+        //        .border(Color.blue, width: 5)
+        //        .ignoresSafeArea(.all)
+        
+        
+        //Mostra a view para confirmar exclusão:
+        ZStack {
+            
+            ZStack {
+                if selected {
+                    ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+                        // Chama a função de deletar diretamente da ListFood
+                        //                        deleteSelectedItems()
+                        showingButton = false
+                        selected = false
+                    })
+                    
+                    
+                    
+                }
+                
+            }/*.border(Color.blue, width: 10)*/
+            
+            if showingConfirmation {
+                
+                ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+                    deleteSelectedItems()
+                    showingButton = false
+                    selected = false
+                    deactivateTouch = true
+                    
+                })
+            }
+            
         }
     }
+
     
     private func updateFilteredFoods() {
-            // Atualiza a lista filtrada com base na categoria selecionada
+        // Atualiza a lista filtrada com base na categoria selecionada
         switch selectedFood {
         case .Fruta:
             filteredFoods = foodGeladeira
         case .Vegetal:
             filteredFoods = foodArmario
         }
-        }
+    }
     
-    private func deleteSelectedItems() {
+        private func deleteSelectedItems() {
             // Remove os itens selecionados do contexto
-        withAnimation {
-            for comida in selectedItems {
-                context.delete(comida)
+            withAnimation {
+                for comida in selectedItems {
+                    context.delete(comida)
+                }
             }
-        }
-        
-        
+            
+            
             //Salva o contexto após deletar
-        do {
-            try context.save()
-        } catch {
-            print("Erro ao salvar o contexto")
+            do {
+                try context.save()
+            } catch {
+                print("Erro ao salvar o contexto")
+            }
+            
+            selectedItems.removeAll() // Limpa os itens selecionados
+            updateFilteredFoods() // Atualiza a lista filtrada após a deleção
+            
         }
-        
-        selectedItems.removeAll() // Limpa os itens selecionados
-        updateFilteredFoods() // Atualiza a lista filtrada após a deleção
-        
-        }
-
 }
 
 
