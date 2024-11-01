@@ -42,6 +42,8 @@ struct MainScreenView: View {
     @State var isRemoved: Bool = false
     @State var showingConfirmation = false
     @State var deactivateTouch = true
+    
+    @AppStorage("firstUse") var firstUse: Bool = false
 
 
     var body: some View {

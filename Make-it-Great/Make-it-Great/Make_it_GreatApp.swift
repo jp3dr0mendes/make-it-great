@@ -11,7 +11,8 @@ import SwiftData
 @main
 struct Make_it_GreatApp: App {
 
-    @AppStorage("firstUse") var firstUse: Bool = false // logica para checar se eh a primeira sessao do usuario
+    @AppStorage("firstUse") var firstUse: Bool = true // logica para checar se eh a primeira sessao do usuario
+    
     var body: some Scene {
         WindowGroup {
             if firstUse {

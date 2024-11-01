@@ -89,11 +89,11 @@ struct ConfirmationView: View {
     }
 }
 
-#Preview {
-    @Previewable @State var isRemoved: Bool = false
-    @Previewable @State var selectedItems: Set<Food> = []
-    @Previewable @State var showingConfirmation: Bool = false
-    ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
-        
-    })
-}
+//#Preview {
+//    @Previewable @State var isRemoved: Bool = false
+//    @Previewable @State var selectedItems: Set<Food> = []
+//    @Previewable @State var showingConfirmation: Bool = false
+//    ConfirmationView(isRemoved: $isRemoved, selectedItems: $selectedItems, showingConfirmation: $showingConfirmation, deleteAction: {
+//        
+//    })
+//}
