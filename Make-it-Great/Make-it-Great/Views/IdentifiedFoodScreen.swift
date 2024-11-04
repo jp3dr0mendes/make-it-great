@@ -10,6 +10,7 @@ import SwiftUI
 
 struct IdentifiedFoodScreen: View {
     
+    @Binding var combinedFoods: [Food]
     @Binding var detectedFoods: [Food]
     @Binding var food: FoodType
     @Binding var isPresented: Bool
@@ -24,6 +25,8 @@ struct IdentifiedFoodScreen: View {
     
     func addFood(comidas: [Food]){
         comidas.forEach{ comida in
+            let appNotification = AppNotification(dataFim: .constant(comida.consumirAte!), identifier: .constant(comida.consumirAte!), item: .constant(comida), items: $combinedFoods)
+            appNotification.createNotification()
             context.insert(comida)
             try! context.save()
         }
@@ -43,7 +46,7 @@ struct IdentifiedFoodScreen: View {
                     Spacer()
                 }
                 ScrollView {
-                    ListFood(comidas: $detectedFoods, selectedCategory: $food, selectedItems: $selectedItems, selected: $isPresented, scanList: .constant(true))
+                    ListFood(combinedFood: $combinedFoods, comidas: $detectedFoods, selectedCategory: $food, selectedItems: $selectedItems, selected: $isPresented, scanList: .constant(true))
                 }
                 Spacer()
                 

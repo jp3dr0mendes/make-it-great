@@ -40,7 +40,7 @@ class AppNotification {
             }
         }
     }
-    
+
     func checkForPermission(completion: @escaping (Bool) -> Void) {
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.getNotificationSettings { settings in
@@ -221,43 +221,161 @@ class AppNotification {
                 }
             }
         } else {
-            self.dispatchNotification(for: dayAfter, identifier: "\(dayAfter)_OUT", title: "Aviso", message: "O alimento \(item.nome) está fora do prazo de consumo definido 😱", type: .outTarget, secondaryType: .specific)
+            if genericNotificationExist == false {
+                self.dispatchNotification(for: dayAfter, identifier: "\(dayAfter)_OUT", title: "Aviso", message: "O alimento \(item.nome) está fora do prazo de consumo definido 😱", type: .outTarget, secondaryType: .specific)
+            } else {
+                if dayAfter < genericDate {
+                    self.dispatchNotification(for: dayAfter, identifier: "\(dayAfter)_OUT", title: "Aviso", message: "O alimento \(item.nome) está fora do prazo de consumo definido 😱", type: .outTarget, secondaryType: .specific)
+                }
+            }
         }
     }
     func updateNotification(for foods: [Food]) {
         let calendar = Calendar.current
         let dayBefore = calendar.date(byAdding: .day, value: -1, to: item.consumirAte!)!
         let dayAfter = calendar.date(byAdding: .day, value: +1, to: item.consumirAte!)!
+        let sameDay = calendar.date(byAdding: .day, value: 0, to: item.consumirAte!)!
+    
         
-        var dayBeforeNotification = [false, false]
-        var sameDayNotification = [false, false]
-        var nextDayNotification = [false, false]
+        var nextDayNotificationSpecific = false
+        var nextDayNotificationGeneric = false
+        var specificDate: Date?
+        var genericDate: Date?
         
+        var foodDayBeforeIn: [Food] = []
+        var foodSameDayIn: [Food] = []
+        var foodDayAfterOut: [Food] = []
+        var foodDatesAfterOut: [Date] = []
+        
+        for comida in foods {
+            if comida != item {
+                if calendar.isDate(comida.consumirAte!, inSameDayAs: dayBefore) {
+                    foodDayBeforeIn.append(comida)
+                } else if calendar.isDate(comida.consumirAte!, inSameDayAs: item.consumirAte!) {
+                    foodDayBeforeIn.append(comida)
+                    foodSameDayIn.append(comida)
+                    foodDayAfterOut.append(comida)
+                    foodDatesAfterOut.append(dayAfter)
+                } else if calendar.isDate(comida.consumirAte!, inSameDayAs: dayAfter) {
+                    foodSameDayIn.append(comida)
+                    foodDayAfterOut.append(comida)
+                    foodDatesAfterOut.append(calendar.date(byAdding: .day, value: +1, to: comida.consumirAte!)!)
+                } else if comida.consumirAte! < item.consumirAte! {
+                    foodDayAfterOut.append(comida)
+                    foodDatesAfterOut.append(calendar.date(byAdding: .day, value: +1, to: comida.consumirAte!)!)
+                } else if comida.consumirAte! > dayAfter {
+                    foodDayAfterOut.append(comida)
+                    foodDatesAfterOut.append(calendar.date(byAdding: .day, value: +1, to: comida.consumirAte!)!)
+                }
+            }
+        }
+        foodDatesAfterOut.sort(by: { $0 < $1 })
+        foodDayAfterOut.sort(by: { $0.consumirAte! < $1.consumirAte! })
+        checkDayInNotification(for: dayBefore) { types in
+            self.checkAndRemoveIn(types: types, data: dayBefore, foodDay: foodDayBeforeIn)
+        }
+            
+        checkDayInNotification(for: sameDay) { types in
+            self.checkAndRemoveIn(types: types, data: sameDay, foodDay: foodSameDayIn)
+        }
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            
             for request in requests {
                 if let trigger = request.trigger as? UNCalendarNotificationTrigger {
-                    let triggerDate = trigger.dateComponents
-                    if triggerDate.year == Calendar.current.component(.year, from: dayBefore),
-                       triggerDate.month == Calendar.current.component(.month, from: dayBefore),
-                       triggerDate.day == Calendar.current.component(.day, from: dayBefore) {
-                        dayBeforeNotification = [true, false]
+                    var triggerDate = trigger.dateComponents
+                    triggerDate.hour = 3
+                    triggerDate.minute = 0
+                    triggerDate.second = 0
+                    triggerDate.timeZone = TimeZone(secondsFromGMT: 0)
+                    print(Calendar.current.date(from: triggerDate)!)
+                    if request.content.categoryIdentifier.contains("outTarget") {
                         if request.content.categoryIdentifier.contains("specific") {
-                            dayBeforeNotification = [true, true]
+                            nextDayNotificationSpecific = true
+                            
+                            specificDate = Calendar.current.date(from: triggerDate)!
                         }
-                    }
-                    if triggerDate.year == Calendar.current.component(.year, from: self.item.consumirAte!),
-                       triggerDate.month == Calendar.current.component(.month, from: self.item.consumirAte!),
-                       triggerDate.day == Calendar.current.component(.day, from: self.item.consumirAte!) {
-                        sameDayNotification = [true, false]
-                        if request.content.categoryIdentifier.contains("specific") {
-                            sameDayNotification = [true, true]
+                        if request.content.categoryIdentifier.contains("generic") {
+                            nextDayNotificationGeneric = true
+                            genericDate = Calendar.current.date(from: triggerDate)!
+                        }
+                        if nextDayNotificationGeneric && nextDayNotificationSpecific {
+                            break // Interrompe o loop se ambas notificações já forem encontradas
                         }
                     }
                 }
             }
-            
-            for request in requests {
-                
+            self.outNotificationUpdate(nextDayNotificationGeneric: nextDayNotificationGeneric, foodDatesAfterOut: foodDatesAfterOut, foodDayAfterOut: foodDayAfterOut, dayAfter: dayAfter, nextDayNotificationSpecific: nextDayNotificationSpecific, specificDate: specificDate ?? Date(), genericDate: genericDate ?? Date())
+        }
+    }
+    
+    func outNotificationUpdate(nextDayNotificationGeneric: Bool, foodDatesAfterOut: [Date], foodDayAfterOut: [Food], dayAfter: Date, nextDayNotificationSpecific: Bool, specificDate: Date, genericDate: Date) {
+        if nextDayNotificationSpecific == true {
+            if specificDate == dayAfter {
+                self.removeNotification(for: dayAfter, type: "OUT")
+                if foodDatesAfterOut.count > 1 {
+                    if foodDatesAfterOut[0] != foodDatesAfterOut[1] {
+                        self.dispatchNotification(for: foodDatesAfterOut[0], identifier: "\(foodDatesAfterOut[0])_OUT", title: "Aviso", message: "O alimento \(foodDayAfterOut[0].nome) está fora do prazo de consumo definido 😱", type: .outTarget, secondaryType: .specific)
+                    }
+                } else if foodDatesAfterOut.count == 1 {
+                    self.removeNotification(for: genericDate, type: "OUT")
+                    self.dispatchNotification(for: foodDatesAfterOut[0], identifier: "\(foodDatesAfterOut[0])_OUT", title: "Aviso", message: "O alimento \(foodDayAfterOut[0].nome) está fora do prazo de consumo definido 😱", type: .outTarget, secondaryType: .specific)
+                }
+            } else if specificDate < dayAfter {
+                if nextDayNotificationGeneric == true {
+                    if genericDate == dayAfter {
+                        if let firstDifferent = foodDatesAfterOut.first(where: { $0 != foodDatesAfterOut[0] }) ?? foodDatesAfterOut.first {
+                                self.removeNotification(for: dayAfter, type: "OUT")
+                                self.dispatchNotification(for: firstDifferent, identifier: "\(firstDifferent)_OUT", title: "Aviso", message: "Há alimentos fora do prazo de consumo armazenados 😱", type: .outTarget, secondaryType: .generic)
+                            if foodDatesAfterOut.count != 1 {
+                                if let firstDifferent = foodDatesAfterOut.first(where: {$0 != foodDatesAfterOut[0]}) {
+                                    self.dispatchNotification(for: firstDifferent, identifier: "\(firstDifferent)_OUT", title: "Aviso", message: "Há alimentos fora do prazo de consumo armazenados 😱", type: .outTarget, secondaryType: .generic)
+                                }
+                            }
+                        } else {
+                            self.removeNotification(for: genericDate, type: "OUT")
+                        }
+                    }
+                }
+            }
+        } else {
+            if nextDayNotificationGeneric == true {
+                if genericDate == dayAfter {
+                    if let firstDifferent = foodDatesAfterOut.first {
+                        let ocurred = foodDatesAfterOut.filter { $0 == foodDatesAfterOut.first }.count
+                        if ocurred == 1 {
+                            self.removeNotification(for: dayAfter, type: "OUT")
+                            self.dispatchNotification(for: firstDifferent, identifier: "\(firstDifferent)_OUT", title: "Aviso", message: "O alimento \(foodDayAfterOut[0].nome) está fora do prazo de consumo definido 😱", type: .outTarget, secondaryType: .specific)
+                            if foodDatesAfterOut.count != 1 {
+                                if let firstDifferent = foodDatesAfterOut.first(where: {$0 != foodDatesAfterOut[0]}) {
+                                    self.dispatchNotification(for: firstDifferent, identifier: "\(firstDifferent)_OUT", title: "Aviso", message: "Há alimentos fora do prazo de consumo armazenados 😱", type: .outTarget, secondaryType: .generic)
+                                }
+                            }
+                        } else {
+                            self.removeNotification(for: dayAfter, type: "OUT")
+                            self.dispatchNotification(for: firstDifferent, identifier: "\(firstDifferent)_OUT", title: "Aviso", message: "Há alimentos fora do prazo de consumo armazenados 😱", type: .outTarget, secondaryType: .generic)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func checkAndRemoveIn(types: [Bool], data: Date,foodDay: [Food]) {
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
+        var components = calendar.dateComponents([.year, .month, .day], from: data)
+            components.hour = 3
+            components.minute = 0
+            components.second = 0
+        print(calendar.date(from: components)!)
+        if types[0] == true {
+            if types[1] == true {
+                self.removeNotification(for: calendar.date(from: components)!, type: "IN")
+            } else {
+                if foodDay.count == 1 {
+                    self.removeNotification(for: calendar.date(from: components)!, type: "IN")
+                    self.dispatchNotification(for: calendar.date(from: components)!, identifier: "\(calendar.date(from: components)!)_IN", title: "Aviso", message: "O alimento \(foodDay[0].nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
+                }
             }
         }
     }
@@ -265,293 +383,6 @@ class AppNotification {
     func removeNotification(for itemID: Date, type: String) {
         
         let notification = "\(itemID)_\(type)"
-        print("ELIMINANDO \(notification)")
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notification])
     }
 }
-
-
-//import Foundation
-//import UIKit
-//import UserNotifications
-//import SwiftUI
-//import SwiftData
-//
-//class AppNotification {
-//    
-//    @Binding var dataFim: Date
-//    @Binding var identifier: Date
-//    @Binding var item: Food
-//    @Binding var items: [Food]
-//    init(dataFim: Binding <Date>, identifier: Binding <Date>, item: Binding <Food>, items: Binding <[Food]>) {
-//        self._dataFim = dataFim
-//        self._identifier = identifier
-//        self._item = item
-//        self._items = items
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//    
-//    func createNotification() {
-//        checkForPermission { isAuthorized in
-//            if isAuthorized {
-//                self.scheduleNotificationBeforeExpire(for: self.dataFim, item: self.item)
-//            } else {
-//                print("Notificações não permitidas.")
-//            }
-//        }
-//    }
-//    
-//    func checkForPermission(completion: @escaping (Bool) -> Void) {
-//        let notificationCenter = UNUserNotificationCenter.current()
-//        notificationCenter.getNotificationSettings { settings in
-//            switch settings.authorizationStatus {
-//            case .authorized:
-//                completion(true)
-//            case .denied:
-//                completion(false)
-//            case .notDetermined:
-//                notificationCenter.requestAuthorization(options: [.alert, .sound]) { didAllow, error in
-//                    if let error = error {
-//                        print("Erro ao solicitar permissão para notificações: \(error.localizedDescription)")
-//                        completion(false)
-//                    } else {
-//                        completion(didAllow)
-//                    }
-//                }
-//            default:
-//                completion(false)
-//            }
-//        }
-//    }
-//    
-//    func dispatchNotification(for date: Date, identifier: String, title: String, message: String, type: NotificationType, secondaryType: SecondaryNotificationType) {
-//        let content = UNMutableNotificationContent()
-//        content.title = title
-//        content.body = message
-//        
-//        if type == .inTarget {
-//            content.categoryIdentifier = "inTarget"
-//            print("inTarget")
-//        } else {
-//            content.categoryIdentifier = "outTarget"
-//            print("outTarget")
-//        }
-//        
-//        if secondaryType == .specific {
-//            content.categoryIdentifier = content.categoryIdentifier + ", specific"
-//            print("specific")
-//        } else {
-//            content.categoryIdentifier = content.categoryIdentifier + ", generic"
-//            print("specific")
-//        }
-//        
-//        var triggerDate = Calendar.current.dateComponents([.year, .month, .day], from: date)
-//        triggerDate.hour = 12
-//        triggerDate.minute = 0
-//        triggerDate.second = 0
-//        
-//        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: type == .inTarget ? UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false) : UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true))
-//        UNUserNotificationCenter.current().add(request) { error in
-//            if let error = error {
-//                print("Error scheduling notification: \(error)")
-//            } else {
-//                print("Notification scheduled for \(date)")
-//            }
-//        }
-//    }
-//    
-//    func scheduleNotificationBeforeExpire(for targetDate: Date, item: Food) {
-//        
-//        let oneDayBefore = Calendar.current.date(byAdding: .day, value: -1, to: targetDate)!
-//        let dayAfter = Calendar.current.date(byAdding: .day, value: 1, to: targetDate)!
-//        
-//        var foodDayAfterOut: [Food] = []
-//        
-//        for comida in items {
-//            if comida != item {
-//                if comida.consumirAte! <= item.consumirAte! {
-//                    foodDayAfterOut.append(comida)
-//                }
-//            }
-//        }
-//        
-//        
-//        checkIfItsMultipleNotification(for: oneDayBefore, foods: self.items) { types in
-//            if types[0] == true {
-//                if types[1] == true {
-//                    self.dispatchNotification(for: oneDayBefore, identifier: "\(oneDayBefore)_IN", title: "Aviso", message: "Há alimentos perto do prazo de consumo armazenados 😳", type: .inTarget, secondaryType: .generic)
-//                }
-//            } else {
-//                self.dispatchNotification(for: oneDayBefore, identifier: "\(oneDayBefore)_IN", title: "Aviso", message: "O alimento \(item.nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
-//            }
-//            
-//            self.checkIfItsMultipleNotification(for: targetDate, foods: self.items) { types in
-//                if types[0] == true {
-//                    if types[1] == true {
-//                        self.dispatchNotification(for: targetDate, identifier: "\(targetDate)_IN", title: "Aviso", message: "Há alimentos perto do prazo de consumo armazenados 😳", type: .inTarget, secondaryType: .generic)
-//                    }
-//                } else {
-//                    self.dispatchNotification(for: targetDate, identifier: "\(targetDate)_IN", title: "Aviso", message: "O alimento \(item.nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
-//                }
-//                
-//                self.checkIfItsMultipleNotification(for: dayAfter, foods: self.items) { types in
-//                    if types[2] == true {
-//                        if types[3] == true && foodDayAfterOut.count == 1 {
-//                            self.dispatchNotification(for: dayAfter, identifier: "\(dayAfter)_OUT", title: "Aviso", message: "Há alimentos fora do prazo de consumo armazenados 😱", type: .outTarget, secondaryType: .generic)
-//                        }
-//                    } else {
-//                        self.dispatchNotification(for: dayAfter, identifier: "\(dayAfter)_OUT", title: "Aviso", message: "O alimento \(item.nome) está fora do prazo de consumo definido 😱", type: .outTarget, secondaryType: .specific)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    
-//    func checkIfItsMultipleNotification (for targetDate: Date, foods: [Food], completion: @escaping ([Bool]) -> Void) {
-//        var inTargetType: [Bool] = [false, false] // dentro do prazo e se a notif é especifica ou generica
-//        var outTargetType: [Bool] = [false, false]
-//        
-//       
-//        var foodDayAfterOut: [Food] = []
-//        
-//        for comida in items {
-//            if comida != item {
-//                if comida.consumirAte! < item.consumirAte! {
-//                    foodDayAfterOut.append(comida)
-//                }
-//            }
-//        }
-//        
-//        
-//        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-//            var foundInTarget = false
-//            var foundOutTarget = false
-//            for request in requests {
-//                if let trigger = request.trigger as? UNCalendarNotificationTrigger {
-//                    let triggerDate = trigger.dateComponents
-//                    if triggerDate.year == Calendar.current.component(.year, from: targetDate),
-//                       triggerDate.month == Calendar.current.component(.month, from: targetDate),
-//                       triggerDate.day == Calendar.current.component(.day, from: targetDate) {
-//                        if request.content.categoryIdentifier.contains("inTarget"){
-//                            foundInTarget = true
-//                            inTargetType = [true, false]
-//                            print("check inTarget")
-//                            if request.content.categoryIdentifier.contains("specific") {
-//                                inTargetType = [true, true]
-//                                print("check inTarget specific")
-//                            }
-//                        }
-//                        if request.content.categoryIdentifier.contains("outTarget") {
-//                            foundOutTarget = true
-//                            outTargetType = [true, false]
-//                            print("check outTarget")
-//                            if request.content.categoryIdentifier.contains("specific") {
-//                                outTargetType = [true, true]
-//                                print("check outTarget specific")
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            if !foundInTarget {
-//                //if targetDate != self.item.consumirAte {
-//                    inTargetType = [false, false]
-//               // }
-//            }
-//            if !foundOutTarget{
-//                    outTargetType = [false, false]
-//            }
-//            if !foodDayAfterOut.isEmpty {
-//                if foodDayAfterOut.count == 1 {
-//                    outTargetType = [true, true]
-//                } else {
-//                    outTargetType = [true, false]
-//                }
-//            }
-//            print(inTargetType + outTargetType)
-//            completion(inTargetType + outTargetType)
-//        }
-//    }
-//    
-//    
-//    func updateNotification(for foods: [Food]) {
-//        let calendar = Calendar.current
-//        let dayBefore = calendar.date(byAdding: .day, value: -1, to: item.consumirAte!)!
-//        let dayAfter = calendar.date(byAdding: .day, value: +1, to: item.consumirAte!)!
-//        
-//        var types: [Bool] = []
-//        var foodDayBeforeIn: [Food] = []
-//        var foodSameDayIn: [Food] = []
-//        var foodDayAfterOut: [Food] = []
-//        
-//        for comida in foods {
-//            if comida != item {
-//                if calendar.isDate(comida.consumirAte!, inSameDayAs: dayBefore) {
-//                    foodDayBeforeIn.append(comida)
-//                } else if calendar.isDate(comida.consumirAte!, inSameDayAs: item.consumirAte!) {
-//                    foodDayBeforeIn.append(comida)
-//                    foodSameDayIn.append(comida)
-//                    foodDayAfterOut.append(comida)
-//                } else if calendar.isDate(comida.consumirAte!, inSameDayAs: dayAfter) {
-//                    foodSameDayIn.append(comida)
-//                } else if comida.consumirAte! < item.consumirAte! {
-//                    foodDayAfterOut.append(comida)
-//                }
-//            }
-//        }
-//        
-//        checkIfItsMultipleNotification(for: dayBefore, foods: foods) { types in
-//            
-//            if types[0] == true {
-//                if types[1] == true {
-//                    self.removeNotification(for: dayBefore, type: "IN")
-//                } else {
-//                    if foodDayBeforeIn.count == 1 {
-//                        self.removeNotification(for: dayBefore, type: "IN")
-//                        self.dispatchNotification(for: dayBefore, identifier: "\(dayBefore)_IN", title: "Aviso", message: "O alimento \(foodDayBeforeIn[0].nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
-//                    }
-//                }
-//            }
-//            
-//            self.checkIfItsMultipleNotification(for: self.item.consumirAte!, foods: foods) { types in
-//                if types[0] == true {
-//                    if types[1] == true {
-//                        self.removeNotification(for: self.item.consumirAte!, type: "IN")
-//                    } else {
-//                        if foodSameDayIn.count == 1 {
-//                            self.removeNotification(for: self.item.consumirAte!, type: "IN")
-//                            self.dispatchNotification(for: self.item.consumirAte!, identifier: "\(self.item.consumirAte)_IN", title: "Aviso", message: "O alimento \(foodSameDayIn[0].nome) está perto do prazo de consumo definido 😳", type: .inTarget, secondaryType: .specific)
-//                        }
-//                    }
-//                }
-//                
-//                self.checkIfItsMultipleNotification(for: dayAfter, foods: foods) { types in
-//                    if types[2] == true {
-//                        if types[3] == true {
-//                            self.removeNotification(for: dayAfter, type: "OUT")
-//                            
-//                        } else {
-//                            if foodDayAfterOut.count == 1 {
-//                                self.removeNotification(for: dayAfter, type: "OUT")
-//                                self.dispatchNotification(for: dayAfter, identifier: "\(dayAfter)_IN", title: "Aviso", message: "O alimento \(foodDayAfterOut[0].nome) está fora do prazo de consumo definido 😱", type: .inTarget, secondaryType: .specific)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    
-//    func removeNotification(for itemID: Date, type: String) {
-//        
-//        let notification = "\(itemID)_\(type)"
-////        let notificationIDTwoDays = "\(itemID)_twoDaysBefore"
-////        let notificationIDOneDay = "\(itemID)_oneDayBefore"
-////        let notificationIDSameDay = "\(itemID)_sameDay"
-////        
-//        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notification])
-//    }
-//}

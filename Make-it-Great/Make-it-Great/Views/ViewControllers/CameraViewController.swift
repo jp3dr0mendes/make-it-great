@@ -13,6 +13,7 @@ import UIKit
 
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 //    var image: UIImage?
+    @State var dataFim = Calendar.current.startOfDay(for: Date())
     private var captureSession: AVCaptureSession?
     private var previewLayer: AVCaptureVideoPreviewLayer?
     private var previewFrame: CVPixelBuffer?
@@ -80,7 +81,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     
                     self.classification = classification_fruit
                     
-                    var detectedFood: Food = Food(nome: self.classification, emoji: "🍎", storage: .refrigerator, type: .Fruta, consumirAte: nil, units: 1, weight: nil)
+                    var detectedFood: Food = Food(nome: self.classification, emoji: "🍎", storage: .refrigerator, type: .Fruta, consumirAte: self.dataFim, units: 1, weight: nil)
                     
                     if !self.foods.contains(where: {$0.nome == detectedFood.nome}) {
                         self.foods.append(detectedFood)
@@ -108,7 +109,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     self.classification = classification_veg
                     //aqui
                     
-                    var detectedFood: Food = Food(nome: self.classification, emoji: "🥕", storage: .cabinet, type: .Vegetal, consumirAte: nil, units: 1, weight: nil)
+                    var detectedFood: Food = Food(nome: self.classification, emoji: "🥕", storage: .cabinet, type: .Vegetal, consumirAte: self.dataFim, units: 1, weight: nil)
                     
                     if !self.foods.contains(where: {$0.nome == detectedFood.nome}) {
                         self.foods.append(detectedFood)

@@ -15,7 +15,7 @@ struct MainScreenView: View {
     @Query var foods: [Food]
     
     @Query(
-        filter: #Predicate<Food> { food in 
+        filter: #Predicate<Food> { food in
             food.type ==  "Fruta"
         }
     )
@@ -34,15 +34,15 @@ struct MainScreenView: View {
     @State private var selectedFood: FoodType = .Fruta
     @State var isPresentedSheet: Bool = false
     @State var isPresentedMenu: Bool = false
-//    @State var isAnimating: Bool = false
+    //    @State var isAnimating: Bool = false
     @State private var showingButton: Bool = false
     @State var comidas: [Food] = []
     @State var selectedItems: Set<Food> = []
     @State private var filteredFoods: [Food] = []
     @State var selected: Bool = false
     @State var isRemoved: Bool = false
-
-
+    
+    
     var body: some View {
         
         NavigationStack{
@@ -66,7 +66,7 @@ struct MainScreenView: View {
                     }
                 
                 if filteredFoods.isEmpty {
-                                AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
+                    AddMenu(combinedFood: $combinedFoods, isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
                     VStack {
                         Text("Você não tem itens adicionados ainda.")
                             .lineLimit(3)
@@ -103,7 +103,7 @@ struct MainScreenView: View {
                                 CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods)
                                 
                             } else {
-                                AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
+                                AddMenu(combinedFood: $combinedFoods, isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
                             }
                         }
                         
@@ -123,7 +123,7 @@ struct MainScreenView: View {
                     ScrollView {
                         VStack {
                             // Passando diretamente filteredFoods para ListFood
-                            ListFood(comidas: $filteredFoods, selectedCategory: $selectedFood, selectedItems: $selectedItems, selected: $selected, scanList: .constant(false))
+                            ListFood(combinedFood: $combinedFoods, comidas: $filteredFoods, selectedCategory: $selectedFood, selectedItems: $selectedItems, selected: $selected, scanList: .constant(false))
                             //.transition(.slide)
                             //.transition(.move(edge: .trailing))
                             //.animation(.easeIn(duration: 2), value: selectedItems)
@@ -135,7 +135,19 @@ struct MainScreenView: View {
                         } label: {
                             Text("Printar")
                                 .foregroundStyle(.black)
-                                
+                                .padding()
+                            
+                        }
+                        .background(RoundedRectangle(cornerRadius: 20)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 40)
+                            .foregroundStyle(Color.blue))
+                        Button {
+                            removePendingNotifications()
+                        } label: {
+                            Text("Remover")
+                                .foregroundStyle(.black)
+                                .padding()
                         }
                         .background(RoundedRectangle(cornerRadius: 20)
                             .frame(maxWidth: .infinity)
@@ -149,13 +161,15 @@ struct MainScreenView: View {
                     if selected {
                         ButtonView(isRemoved: $isRemoved, selectedItems: $selectedItems, deleteAction: {
                             // Chama a função de deletar diretamente da ListFood
-                            deleteSelectedItems()
+                            Task {
+                                 await deleteSelectedItems()
+                            }
                             showingButton = false
                             selected = false
                         })
                     }
                 }
-                    
+                
                 //            .onAppear {
                 //                // Inicializa a lista filtrada ao aparecer
                 //                updateFilteredFoods()
@@ -169,7 +183,8 @@ struct MainScreenView: View {
                 AddItem(isPresented: $isPresentedSheet, food: $selectedFood, comidas: $combinedFoods)
             })
             .onAppear {
-//                removePendingNotifications()
+                //                removePendingNotifications()
+                updateTodayNotification()
                 updateCombinedFoods()
                 updateFilteredFoods() // Inicializa a lista filtrada ao aparecer
             }
@@ -182,25 +197,31 @@ struct MainScreenView: View {
     }
     
     private func updateFilteredFoods() {
-            // Atualiza a lista filtrada com base na categoria selecionada
+        // Atualiza a lista filtrada com base na categoria selecionada
         switch selectedFood {
         case .Fruta:
             filteredFoods = foodGeladeira
         case .Vegetal:
             filteredFoods = foodArmario
         }
-        }
+    }
     
-    private func deleteSelectedItems() {
-            // Remove os itens selecionados do contexto
-        withAnimation {
+    private func deleteSelectedItems() async {
+       // withAnimation {
             for comida in selectedItems {
+                var notification = AppNotification(
+                    dataFim: .constant(comida.consumirAte ?? Date()),
+                    identifier: .constant(comida.consumirAte ?? Date()),
+                    item: .constant(comida),
+                    items: $combinedFoods)
+                
+                await notification.updateNotification(for: combinedFoods)
                 context.delete(comida)
             }
-        }
+       // }
         
         
-            //Salva o contexto após deletar
+        //Salva o contexto após deletar
         do {
             try context.save()
         } catch {
@@ -210,10 +231,10 @@ struct MainScreenView: View {
         selectedItems.removeAll() // Limpa os itens selecionados
         updateFilteredFoods() // Atualiza a lista filtrada após a deleção
         
-        }
+    }
     private func updateCombinedFoods() {
-            combinedFoods = foodGeladeira + foodArmario
-        }
+        combinedFoods = foodGeladeira + foodArmario
+    }
     
     func printPendingNotifications() {
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
@@ -235,12 +256,58 @@ struct MainScreenView: View {
         }
         print("feios")
     }
-        func removePendingNotifications() {
-            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                    print("--------------------")
+    func removePendingNotifications() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        print("--------------------")
+    }
+    
+    func updateTodayNotification() {
+        var specificNotificationExist = false
+        var genericNotificationExist = false
+        var specificDate: Date?
+        var genericDate: Date?
+        
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            for request in requests {
+                    if let trigger = request.trigger as? UNCalendarNotificationTrigger {
+                        var triggerDate = trigger.dateComponents
+                        triggerDate.hour = 3
+                        triggerDate.minute = 0
+                        triggerDate.second = 0
+                        triggerDate.timeZone = TimeZone(secondsFromGMT: 0)
+                        print(Calendar.current.date(from: triggerDate)!)
+                            if request.content.categoryIdentifier.contains("outTarget") {
+                                if request.content.categoryIdentifier.contains("specific") {
+                                    specificNotificationExist = true
+                                    
+                                    specificDate = Calendar.current.date(from: triggerDate)!
+                                }
+                                if request.content.categoryIdentifier.contains("generic") {
+                                    genericNotificationExist = true
+                                    genericDate = Calendar.current.date(from: triggerDate)!
+                                }
+                                if specificNotificationExist && genericNotificationExist {
+                                    break // Interrompe o loop se ambas notificações já forem encontradas
+                                }
+                    }
                 }
             }
+            self.removeTodayNotification(specificNotificationExist: specificNotificationExist, genericNotificationExist: genericNotificationExist, specificDate: specificDate ?? Date(), genericDate: genericDate ?? Date())
+        }
+    }
+    
+    func removeTodayNotification(specificNotificationExist: Bool, genericNotificationExist: Bool, specificDate: Date, genericDate: Date) {
+        if specificNotificationExist == true && genericNotificationExist == true {
+            if Calendar.current.startOfDay(for: Date()) >= Calendar.current.startOfDay(for: genericDate) {
+                let appNotification = AppNotification(dataFim: .constant(Date()), identifier: .constant(Date()), item: .constant(Food(nome: "", emoji: "", storage: .cabinet, type: .Fruta, consumirAte: Date(), units: 1, weight: nil)), items: $combinedFoods)
+                appNotification.removeNotification(for: specificDate, type: "OUT")
+            }
+        }
+    }
+    
+}
 
 
 

@@ -16,6 +16,7 @@ struct ListFood: View {
     //Armazena alimetos selecionados:
     //    @State var selectedItems: Set<Food> = []
     // Lista de alimentos (agora um binding)
+    @Binding var combinedFood: [Food]
     @Binding var comidas: [Food]
     // Armazena alimentos selecionados (agora um binding)
     @Binding var selectedCategory: FoodType
@@ -109,7 +110,7 @@ struct ListFood: View {
                     }
                     .disabled(selected)
                     .sheet(isPresented: $isPresentedSheet) {
-                        EditItemSheet(isPresented: $isPresentedSheet, item: selectedFood, selectedFood: $selectedCategory, nome: selectedFood.nome , emoji: selectedFood.emoji ?? "", dataFim: selectedFood.consumirAte ?? .now, tipoQuantidade: selectedFood.units != nil ? .Unidade : .Peso, peso: selectedFood.weight ?? 0.0, unidades: selectedFood.units ?? 0)
+                        EditItemSheet(isPresented: $isPresentedSheet, scanList: $scanList, item: selectedFood, selectedFood: $selectedCategory, nome: selectedFood.nome , emoji: selectedFood.emoji ?? "", dataFim: selectedFood.consumirAte ?? .now, comidas: $comidas, tipoQuantidade: selectedFood.units != nil ? .Unidade : .Peso, peso: selectedFood.weight ?? 0.0, unidades: selectedFood.units ?? 0)
                     }
                     .presentationDetents([.fraction(0.75), .fraction(0.85)])
                     

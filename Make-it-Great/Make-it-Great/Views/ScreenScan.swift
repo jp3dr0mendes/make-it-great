@@ -10,6 +10,7 @@ import AVFoundation
 
 struct ScreenScan: View {
     
+    @Binding var combinedFoods: [Food]
     @Binding var isPresentedMenu: Bool
     @Binding var foodType: FoodType
     @Binding var navegarAnterior: Bool
@@ -64,7 +65,7 @@ struct ScreenScan: View {
         .background(Color.black.opacity(0.9))
         .navigationTitle("")
         .navigationDestination(isPresented: $navegar) {
-            IdentifiedFoodScreen(detectedFoods: $foods, food: $foodType, isPresented: $isPresentedMenu, navegarAnterior: $navegar)
+            IdentifiedFoodScreen(combinedFoods: $combinedFoods, detectedFoods: $foods, food: $foodType, isPresented: $isPresentedMenu, navegarAnterior: $navegar)
         }
         .onChange(of: navegar) { oldValue, newValue in
             if newValue == false {

@@ -16,6 +16,7 @@ struct EditItemSheet: View {
     //    @Query(sort: \Food.nome) var foods: [Food]
     
     @Binding var isPresented: Bool
+    @Binding var scanList: Bool
     
     // Aqui, recebemos o item existente (se for edição), caso contrário, será um novo item
     @State var item: Food
@@ -25,6 +26,7 @@ struct EditItemSheet: View {
     @State var isEmojiPickerShowing = false
     @State var dataInicio = Calendar.current.startOfDay(for: Date())
     @State var dataFim: Date
+    @Binding var comidas: [Food]
     //    @State var dataInicio: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     //    @State var dataFim: Date = Date(timeInterval: 7*60*60*24, since: Date.now)
     
@@ -60,6 +62,12 @@ struct EditItemSheet: View {
                         if (tipoQuantidade == .Peso && peso == 0) || (tipoQuantidade == .Unidade && unidades == 0) {
                             errorMessage = "A quantidade não pode ser 0."
                         } else {
+                            if scanList == false {
+                                let appNotificationOld = AppNotification(dataFim: .constant(item.consumirAte ?? Date()), identifier: .constant(item.consumirAte ?? Date()), item: $item, items: $comidas)
+                                appNotificationOld.updateNotification(for: comidas)
+                                let appNotificationNew = AppNotification(dataFim: $dataFim, identifier: $dataFim, item: .constant(Food(nome: nome, emoji: emoji, storage: .cabinet, type: FoodType(rawValue: item.type) ?? .Fruta, consumirAte: dataFim, units: tipoQuantidade == .Unidade ? unidades : nil, weight: tipoQuantidade == .Peso ? peso : nil)), items: $comidas)
+                                appNotificationNew.createNotification()
+                            }
                             item.nome = nome
                             item.emoji = emoji
                             item.consumirAte = dataFim
@@ -72,6 +80,8 @@ struct EditItemSheet: View {
                                 item.units = unidades
                                 item.weight = nil
                             }
+                            
+                            
                             
                             try context.save()
                             

@@ -11,6 +11,7 @@ struct AddMenu: View {
     
 //    @State var isPresentedSheet: Bool = false
 //    @State var isPresentedMenu: Bool = false
+    @Binding var combinedFood: [Food]
     @Binding var isPresentedMenu: Bool
     @Binding var isPresentedSheet: Bool
     @Binding var foodType: FoodType
@@ -43,7 +44,7 @@ struct AddMenu: View {
 //                .border(.black)
         }
         .navigationDestination(isPresented: $navegar) {
-            ScreenScan(isPresentedMenu: $isPresentedMenu, foodType: $foodType, navegarAnterior: $navegar)
+            ScreenScan(combinedFoods: $combinedFood, isPresentedMenu: $isPresentedMenu, foodType: $foodType, navegarAnterior: $navegar)
         }
         
     }
