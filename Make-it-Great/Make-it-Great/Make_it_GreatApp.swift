@@ -22,6 +22,6 @@ struct Make_it_GreatApp: App {
                 MainScreenView()
             }
         }
-        .modelContainer(for: [Food.self])
+        .modelContainer(for: [Food.self,ItemModel.self])
     }
 }

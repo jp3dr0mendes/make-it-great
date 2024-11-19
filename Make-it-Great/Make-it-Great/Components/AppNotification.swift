@@ -15,9 +15,9 @@ class AppNotification: UIViewController {
     
     @Binding var dataFim: Date
     @Binding var identifier: Date
-    @Binding var item: Food
+    @Binding var item: ItemModel
     
-    init(dataFim: Binding <Date>, identifier: Binding <Date>, item: Binding <Food>) {
+    init(dataFim: Binding <Date>, identifier: Binding <Date>, item: Binding <ItemModel>) {
         self._dataFim = dataFim
         self._identifier = identifier
         self._item = item
@@ -98,7 +98,7 @@ class AppNotification: UIViewController {
         }
     }
     
-    func scheduleNotificationBeforeExpire(for targetDate: Date, item: Food) {
+    func scheduleNotificationBeforeExpire(for targetDate: Date, item: ItemModel) {
         
         let oneDayBefore = Calendar.current.date(byAdding: .day, value: -1, to: targetDate)!
         let dayAfter = Calendar.current.date(byAdding: .day, value: 1, to: targetDate)!

@@ -83,55 +83,7 @@ struct EditItemSheet: View {
                         .foregroundStyle(.purpleItens)
                 }
             }
-            // Verifica se os valores são válidos
-            //                if ((item.weight != nil && item.weight != 0) || item.units != nil && item.units > 0) {
-            //
-            //                    if let item = item {
-            //
-            //                        let newItem = Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: unidades, weight: peso)
-            //
-            //
-            //
-            //
-            //                        // Atualizar item existente
-            ////                        item.nome = nome
-            ////                        item.storage = storage
-            ////                        item.type = categoria // Atribuindo diretamente como FoodType
-            ////                        item.consumirAte = dataInicio
-            //
-            //                        switch tipoQuantidade {
-            //                        case .Peso:
-            //                            item.weight = peso
-            //                            item.units = nil
-            //                        case .Unidade:
-            //                            item.units = unidades
-            //                            item.weight = nil
-            //                        }
-            //
-            //                        // Salvar as mudanças no contexto
-            //                        do {
-            //                            context.insert(newItem)
-            //                            try context.save()
-            //                        } catch {
-            //                            print("Erro ao salvar as mudanças: \(error)")
-            //                        }
-            //                    } else {
-            //                        // Criar novo item
-            //                        switch tipoQuantidade {
-            //                        case .Peso:
-            //                            context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: nil, weight: peso))
-            //                        case .Unidade:
-            //                            context.insert(Food(nome: nome, storage: storage, type: categoria, consumirAte: dataInicio, units: unidades, weight: nil))
-            //                        }
-            //                    }
-            
-            
-            //                    isPresented = false
-            //                } else {
-            //                    errorMessage = "Valor inválido!"
-            //                }
-            //            }
-            //        }
+
             .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
             
             VStack(alignment: .leading) {

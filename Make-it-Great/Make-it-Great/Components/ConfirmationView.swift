@@ -10,7 +10,7 @@ import SwiftUI
 struct ConfirmationView: View {
     
     @Binding var isRemoved: Bool
-    @Binding var selectedItems: Set<Food>
+    @Binding var selectedItems: Set<ItemModel>
     @Binding var showingConfirmation: Bool
     
     var deleteAction: () -> Void

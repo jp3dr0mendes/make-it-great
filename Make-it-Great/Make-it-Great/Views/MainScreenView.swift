@@ -28,6 +28,8 @@ struct MainScreenView: View {
     )
     var foodArmario: [Food]
     
+    @Query var items: [ItemModel]
+    
     
     //@State private var selectedCategory: StorageType = .refrigerator
     @State private var selectedFood: FoodType = .Fruta
@@ -36,8 +38,8 @@ struct MainScreenView: View {
 //    @State var isAnimating: Bool = false
     @State private var showingButton: Bool = false
     @State var comidas: [Food] = []
-    @State var selectedItems: Set<Food> = []
-    @State private var filteredFoods: [Food] = []
+    @State var selectedItems: Set<ItemModel> = []
+    @State private var filteredFoods: [ItemModel] = []
     @State var selected: Bool = false
     @State var isRemoved: Bool = false
     @State var showingConfirmation = false
@@ -68,14 +70,14 @@ struct MainScreenView: View {
                     Spacer()
                 }
                 
-                SegmentedControlComponent(selectedCategory: $selectedFood)
-                    .onChange(of: selectedFood) {
-                        // Atualiza a lista filtrada de acordo com a categoria selecionada:
-                        updateFilteredFoods()
-                        showingConfirmation = false
-                    }
+//                SegmentedControlComponent(selectedCategory: $selectedFood)
+//                    .onChange(of: selectedFood) {
+//                        // Atualiza a lista filtrada de acordo com a categoria selecionada:
+//                        updateFilteredFoods()
+//                        showingConfirmation = false
+//                    }
                 
-                if filteredFoods.isEmpty {
+                if items.isEmpty {
                     AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
                     VStack {
                         Text("Você não tem itens adicionados ainda.")
@@ -88,15 +90,15 @@ struct MainScreenView: View {
                     }
                     .foregroundStyle(.purpleItens)
                     Spacer()
-                    if selectedFood == .Fruta {
-                        Image("EmptyFruits")
-                            .resizable()
-                            .scaledToFit()
-                    } else if selectedFood == .Vegetal {
-                        Image("EmptyVegetables")
-                            .resizable()
-                            .scaledToFit()
-                    }
+//                    if selectedFood == .Fruta {
+//                        Image("EmptyFruits")
+//                            .resizable()
+//                            .scaledToFit()
+//                    } else if selectedFood == .Vegetal {
+//                        Image("EmptyVegetables")
+//                            .resizable()
+//                            .scaledToFit()
+//                    }
                 } else {
                     //Branch...
                     //Menu para adicionar via Scan e Manualmente:
@@ -111,7 +113,7 @@ struct MainScreenView: View {
                             
                             if showingButton {
                                 
-                                CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods, showingConfirmation: $showingConfirmation)
+//                                CancelAndSelectAllButton(showingButton: $showingButton, selected: $selected, selectedItems: $selectedItems, comidas: $filteredFoods, showingConfirmation: $showingConfirmation)
                                 
                             } else {
                                 AddMenu(isPresentedMenu: $isPresentedMenu, isPresentedSheet: $isPresentedSheet, foodType: $selectedFood)
@@ -125,26 +127,26 @@ struct MainScreenView: View {
                     }
                     
                     //Lista personalizada de comidas a ScroolView torna a ListFood uma lista scrolável
-                    //                ScrollView {
-                    //                    VStack {
-                    //                        // Usar o estado filtrado na lista
-                    //                        ForEach(filteredFoods, id: \.self) { food in
-                    //                            ListFood(comidas: $filteredFoods, selectedItems: $selectedItems)
-                    //                        }
-                    //                    }
-                    //                }
+                                    ScrollView {
+                                        VStack {
+                                            // Usar o estado filtrado na lista
+                                            ForEach(items, id: \.self) { food in
+                                                ListItem(comidas: $filteredFoods, selectedItems: $selectedItems,selected: $selected, scanList: .constant(false))
+                                            }
+                                        }
+                                    }
                     
                     ZStack {
                         VStack {
                             ScrollView {
                                 VStack {
                                     // Passando diretamente filteredFoods para ListFood
-                                    ListFood(comidas: $filteredFoods, selectedCategory: $selectedFood, selectedItems: $selectedItems, selected: $selected, scanList: .constant(false))
+//                                    ListFood(comidas: $filteredFoods, selectedCategory: $selectedFood, selectedItems: $selectedItems, selected: $selected, scanList: .constant(false))
                                     //.transition(.slide)
                                     //.transition(.move(edge: .trailing))
                                     //.animation(.easeIn(duration: 2), value: selectedItems)
                                     //.transition(.move(edge: .trailing))
-                                        .animation(.easeIn(duration: 0.4))
+//                                        .animation(.easeIn(duration: 0.4))
                                 }
                             }
                             
@@ -163,14 +165,14 @@ struct MainScreenView: View {
                 }
             }
             .sheet(isPresented: $isPresentedSheet, content: {
-                AddItem(isPresented: $isPresentedSheet, food: $selectedFood)
+                AddGenericItem(isPresented: $isPresentedSheet)
             })
-            .onAppear {
-                updateFilteredFoods() // Inicializa a lista filtrada ao aparecer
-            }
-            .onChange(of: foods) {
-                updateFilteredFoods() // Atualiza quando a lista de alimentos mudar
-            }
+//            .onAppear {
+//                updateFilteredFoods() // Inicializa a lista filtrada ao aparecer
+//            }
+//            .onChange(of: foods) {
+//                updateFilteredFoods() // Atualiza quando a lista de alimentos mudar
+//            }
             .padding()
             
         }//Fecha a navigation Stack:
@@ -194,15 +196,15 @@ struct MainScreenView: View {
                 }
             }
     }
-    private func updateFilteredFoods() {
-        // Atualiza a lista filtrada com base na categoria selecionada
-        switch selectedFood {
-        case .Fruta:
-            filteredFoods = foodGeladeira
-        case .Vegetal:
-            filteredFoods = foodArmario
-        }
-    }
+//    private func updateFilteredFoods() {
+//        // Atualiza a lista filtrada com base na categoria selecionada
+//        switch selectedFood {
+//        case .Fruta:
+//            filteredFoods = foodGeladeira
+//        case .Vegetal:
+//            filteredFoods = foodArmario
+//        }
+//    }
     
         private func deleteSelectedItems() {
             // Remove os itens selecionados do contexto
@@ -221,7 +223,7 @@ struct MainScreenView: View {
             }
             
             selectedItems.removeAll() // Limpa os itens selecionados
-            updateFilteredFoods() // Atualiza a lista filtrada após a deleção
+//            updateFilteredFoods() // Atualiza a lista filtrada após a deleção
             
         }
 }

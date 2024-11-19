@@ -30,7 +30,7 @@ struct AddButtonStyle: ButtonStyle {
 
 struct ButtonView: View {
     @Binding var isRemoved: Bool 
-    @Binding var selectedItems: Set<Food>
+    @Binding var selectedItems: Set<ItemModel>
     @Binding var showingConfirmation: Bool
 
     
